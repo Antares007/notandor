@@ -1,6 +1,16 @@
 #include "oars.h"
 #include <stdio.h>
-
+N(got) {
+  Q_t gate = ο[ρ++].Q;
+  Q_t not_count = (gate >> 6) & 07;
+  Q_t and_count = (gate >> 3) & 07;
+  Q_t oor_count = (gate >> 0) & 07;
+  while (not_count)
+    σ[α++].v = ο[ρ++].v, not_count--;
+  ρ += and_count;
+  ρ += oor_count;
+  O;
+}
 N(god) {
   Q_t gate = ο[ρ++].Q;
   Q_t not_count = (gate >> 6) & 07;
@@ -10,6 +20,17 @@ N(god) {
   while (and_count)
     σ[α++].v = ο[ρ++].v, and_count--;
   ρ += oor_count;
+  O;
+}
+N(gor) {
+  Q_t gate = ο[ρ++].Q;
+  Q_t not_count = (gate >> 6) & 07;
+  Q_t and_count = (gate >> 3) & 07;
+  Q_t oor_count = (gate >> 0) & 07;
+  ρ += not_count;
+  ρ += and_count;
+  while (oor_count)
+    σ[α++].v = ο[ρ++].v, oor_count--;
   O;
 }
 N(goan) {
