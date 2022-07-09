@@ -1,53 +1,51 @@
 #include "oars.h"
 #include <stdio.h>
 N(got) {
-  Q_t gate = ο[ρ++].Q;
-  Q_t not_count = (gate >> 6) & 07;
-  Q_t and_count = (gate >> 3) & 07;
-  Q_t oor_count = (gate >> 0) & 07;
-  while (not_count)
-    σ[α++].v = ο[ρ++].v, not_count--;
-  ρ += and_count;
-  ρ += oor_count;
-  O;
+  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  for (Q_t i = 0; i < nc; i++)
+    σ[α++].v = ο[ρ++].v;
+  ρ += ac + oc;
+  if (nc)
+    O;
+  else
+    got(X);
 }
 N(god) {
-  Q_t gate = ο[ρ++].Q;
-  Q_t not_count = (gate >> 6) & 07;
-  Q_t and_count = (gate >> 3) & 07;
-  Q_t oor_count = (gate >> 0) & 07;
-  ρ += not_count;
-  while (and_count)
-    σ[α++].v = ο[ρ++].v, and_count--;
-  ρ += oor_count;
-  O;
+  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  ρ += nc;
+  for (Q_t i = 0; i < ac; i++)
+    σ[α++].v = ο[ρ++].v;
+  ρ += oc;
+  if (ac)
+    O;
+  else
+    god(X);
 }
 N(gor) {
-  Q_t gate = ο[ρ++].Q;
-  Q_t not_count = (gate >> 6) & 07;
-  Q_t and_count = (gate >> 3) & 07;
-  Q_t oor_count = (gate >> 0) & 07;
-  ρ += not_count;
-  ρ += and_count;
-  while (oor_count)
-    σ[α++].v = ο[ρ++].v, oor_count--;
-  O;
+  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  ρ += nc + ac;
+  for (Q_t i = 0; i < oc; i++)
+    σ[α++].v = ο[ρ++].v;
+  if (oc)
+    O;
+  else
+    gor(X);
 }
 N(goan) {
-  Q_t gate = σ[--α].Q;
-  Q_t not_count = gate >> 6 & 07;
-  Q_t and_count = gate >> 3 & 07;
-  Q_t oor_count = gate >> 0 & 07;
-  Q_t tot_count = not_count + and_count + oor_count;
-  while (tot_count)
-    ο[--ρ].v = σ[--α].v, tot_count--;
-  ο[--ρ].Q = gate;
+  Q_t g = σ[--α].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  for (Q_t i = 0; i < nc + ac + oc; i++)
+    ο[--ρ].v = σ[--α].v;
+  ο[--ρ].Q = g;
   O;
 }
 
-N(one    ) { A(1, god) O; }
-N(add    ) { R(Q_t, r); R(Q_t, l); A(l + r, god) O; }
-N(and    ) { A(010, goan) O; }
+N(one) { A(1, god) O; }
+N(add) {
+  R(Q_t, r);
+  R(Q_t, l);
+  A(l + r, god) O;
+}
+N(and) { A(010, goan) O; }
 
 N(not_ray) { printf("NOT\n"); }
 N(and_ray) { printf("AND %lu\n", σ[--α].Q); }
@@ -61,7 +59,8 @@ int main() {
   ο[--ρ].c = and_ray;
   ο[--ρ].c = oor_ray;
   ο[--ρ].Q = 0111;
-  A(one, one, and, add, and, one, and, add, and, one, and, add, and,
-         one, and, add, and, one, and, add, and, one, and, add, and) O;
+  A(one, one, and, add, and, one, and, add, and, one, and, add, and, one, and,
+    add, and, one, and, add, and, one, and, add, and)
+  O;
   return 5;
 }

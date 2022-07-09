@@ -5,14 +5,14 @@
         .................................................
             σ[α] M  ο[ρ]          .            M
               ↓  M    ↓           .            M
-        σ→NNNn○○ ο→○○GOAN         .            M
+        σ→NNNN○○ ο→○○gOAN         .            M
                  M                .            M
                  M                .            ο
-                 M                .   σ→NNN○○○ ο→GnGOAN
+                 M                .   σ→NNN○○○ ο→gNgOAN
                  M                .        ↑   M ↑ 
                  M                .      σ[α]  M ο[ρ]
                                   .
-                             ο[p] = 0777
+                             ο[p] = 0111
 
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
@@ -34,6 +34,7 @@ typedef struct p_t {
   };
 } p_t;
 #define OARS  p_t *ο, Q_t α, Q_t ρ, p_t *σ 
+#define X          ο,     α,     ρ,      σ 
 typedef void (*n_t)(OARS);
 
 #define N(n)    void n(OARS)
