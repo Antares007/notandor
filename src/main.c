@@ -25,13 +25,19 @@ N(goan) {
   for (Q_t i = 0; i < nc + ac + oc; i++) ο[--ρ].v = σ[--α].v;
   ο[--ρ].Q = g; O;
 }
+
 N(and ) { A(010) goan(X); }
 N(and2) { A(020) goan(X); }
 N(or4 ) { A(004) goan(X); }
+
 N(term) { god(X); }
-N(S) {
+
+N(Ba) {
   A("b", term,
-    S, "a", term, and2, or4) god(X);
+Ba, "a", term, and2, or4) god(X);
+}
+N(Bax) {
+  A(Ba, "x", term, and2) god(X);
 }
 
 N(one) { A(1, god) O; }
