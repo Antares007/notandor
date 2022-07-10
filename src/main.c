@@ -23,21 +23,39 @@ N(gor) {
 N(goan) {
   Q_t g = σ[--α].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
   for (Q_t i = 0; i < nc + ac + oc; i++) ο[--ρ].v = σ[--α].v;
-  ο[--ρ].Q = g; O;
+  ο[--ρ].Q = g;
+  O; // σ[α - 1].c(ο, α - 1, ρ, σ)
 }
 
 N(and ) { A(010) goan(X); }
 N(and2) { A(020) goan(X); }
+N(or  ) { A(001) goan(X); }
+N(or3 ) { A(003) goan(X); }
 N(or4 ) { A(004) goan(X); }
 
 N(term) { god(X); }
 
+N(bT  ) { A("b", term) O; }
+N(aT  ) { A("a", term) O; }
+N(xT  ) { A("x", term) O; }
+
+N(cT  ) { A("c", term) O; }
+N(empty) {}
+N(bε  ) { 
+  A(bT, empty, or) O;
+}
+
+N(M) {
+  A(aT,
+    aT, bT, and, or3,
+    aT, cT, and, or3, god) O;
+}
 N(Ba) {
   A("b", term,
-Ba, "a", term, and2, or4) god(X);
+Ba, "a", term, and2, or4) O;
 }
 N(Bax) {
-  A(Ba, "x", term, and2) god(X);
+  A(Ba, xT, and2) O;
 }
 
 N(one) { A(1, god) O; }
