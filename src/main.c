@@ -5,20 +5,20 @@ N(got) {
   Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
   for (Q_t i = 0; i < nc; i++) σ[α++].v = ο[ρ++].v;
   ρ += ac + oc;
-  if (nc) O; else got(X);
+  nc ? O : got(X);
 }
 N(god) {
   Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
   ρ += nc;
   for (Q_t i = 0; i < ac; i++) σ[α++].v = ο[ρ++].v;
   ρ += oc;
-  if (ac) O; else god(X);
+  ac ? O : god(X);
 }
 N(gor) {
   Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
   ρ += nc + ac;
   for (Q_t i = 0; i < oc; i++) σ[α++].v = ο[ρ++].v;
-  if (oc) O; else gor(X);
+  oc ? O : gor(X);
 }
 N(goan) {
   Q_t g = σ[--α].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
