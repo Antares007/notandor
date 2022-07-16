@@ -27,11 +27,12 @@ N(goan) {
   O; // σ[α - 1].c(ο, α - 1, ρ, σ)
 }
 
-N(and ) { A(010) goan(X); }
-N(and2) { A(020) goan(X); }
-N(or  ) { A(001) goan(X); }
-N(or3 ) { A(003) goan(X); }
-N(or4 ) { A(004) goan(X); }
+N(and ) { A(010, goan) O; }
+N(and2) { A(020, goan) O; }
+N(and3) { A(030, goan) O; }
+N(or  ) { A(001, goan) O; }
+N(or3 ) { A(003, goan) O; }
+N(or4 ) { A(004, goan) O; }
 
 N(term) { god(X); }
 
@@ -64,6 +65,9 @@ N(add) {
   R(Q_t, l);
   A(l + r, god) O;
 }
+N(addww) {
+  A(add, and, and3) O;
+}
 
 N(not_ray) { printf("NOT\n"); }
 N(and_ray) { printf("AND %lu\n", σ[--α].Q); }
@@ -77,8 +81,6 @@ int main() {
   ο[--ρ].c = and_ray;
   ο[--ρ].c = oor_ray;
   ο[--ρ].Q = 0111;
-  A(one, one, and, add, and, one, and, add, and, one, and, add, and, one, and,
-    add, and, one, and, add, and, one, and, add, and)
-  O;
+  A(one, one, addww, one, addww, one, addww, one, addww, one, addww, one, addww) O;
   return 5;
 }
