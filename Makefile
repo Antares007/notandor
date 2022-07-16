@@ -1,8 +1,8 @@
 CC|=clang
 CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector
 
-src/main: src/main.c
-	${CC}    $^ -o $@ ${CFLAGS}
+%: %.c
+	${CC}    $^ -o $@ ${CFLAGS} -luv
 
 %.o: %.c
 	${CC} -c $^ -o $@ ${CFLAGS}
