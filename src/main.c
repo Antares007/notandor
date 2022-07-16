@@ -71,6 +71,9 @@ N(addww) {
 N(addws) {
   A(add, and2) O;
 }
+N(addsw) {
+  A(add, and) O;
+}
 
 N(not_ray) { printf("NOT\n"); }
 N(and_ray) { printf("AND %lu\n", σ[--α].Q); }
@@ -84,7 +87,7 @@ int main() {
   ο[--ρ].c = and_ray;
   ο[--ρ].c = oor_ray;
   ο[--ρ].Q = 0111;
-  A(one, one, addww, one, addww, one, addww,
-         one, addww, 8, addws, one, addww) O;
+  A(2, one, addsw, one, addww, one, addww,
+         one, addww, 7, addws, one, addww) O;
   return 5;
 }
