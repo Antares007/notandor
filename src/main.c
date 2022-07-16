@@ -87,7 +87,6 @@ int main() {
   ο[--ρ].c = and_ray;
   ο[--ρ].c = oor_ray;
   ο[--ρ].Q = 0111;
-  A(2, one, addsw, one, addww, one, addww,
-         one, addww, 7, addws, one, addww) O;
+  A(2, 7, add, one, addww, 3, addws, one, addww) O;
   return 5;
 }
