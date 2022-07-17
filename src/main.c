@@ -1,4 +1,5 @@
 #include "oars.h"
+#include <uv.h>
 #include <stdio.h>
 // clang-format off
 N(got) {

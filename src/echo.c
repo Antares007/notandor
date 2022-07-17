@@ -65,11 +65,19 @@ void on_new_connection(uv_stream_t *server, int status) {
     uv_close((uv_handle_t *)client, on_close);
   }
 }
+
 //N(Main) {
 //  A(o_tcp_init,
 //    "0.0.0.0", 7000, o_tcp_bind,
 //    DEFAULT_BACKLOG, On_new_connection, o_listen) O;
+//
 //}
+//  A(op, one,
+//
+//              op, one, one, addww, cp,
+//
+//                                        addww, cp)
+//
 int main() {
   loop = uv_default_loop();
 
