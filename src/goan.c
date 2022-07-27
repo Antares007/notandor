@@ -1,28 +1,28 @@
 #include "oars.h"
 // clang-format off
 N(got) {
-  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
-  for (Q_t i = 0; i < nc; i++) σ[α++].v = ο[ρ++].v;
-  ρ += ac + oc;
+  Q_t g = ο[α++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  for (Q_t i = 0; i < nc; i++) σ[ρ++].v = ο[α++].v;
+  α += ac + oc;
   nc ? O : got(X);
 }
 N(god) {
-  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
-  ρ += nc;
-  for (Q_t i = 0; i < ac; i++) σ[α++].v = ο[ρ++].v;
-  ρ += oc;
+  Q_t g = ο[α++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  α += nc;
+  for (Q_t i = 0; i < ac; i++) σ[ρ++].v = ο[α++].v;
+  α += oc;
   ac ? O : god(X);
 }
 N(gor) {
-  Q_t g = ο[ρ++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
-  ρ += nc + ac;
-  for (Q_t i = 0; i < oc; i++) σ[α++].v = ο[ρ++].v;
+  Q_t g = ο[α++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  α += nc + ac;
+  for (Q_t i = 0; i < oc; i++) σ[ρ++].v = ο[α++].v;
   oc ? O : gor(X);
 }
 N(goan) {
-  Q_t g = σ[--α].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
-  for (Q_t i = 0; i < nc + ac + oc; i++) ο[--ρ].v = σ[--α].v;
-  ο[--ρ].Q = g;
+  Q_t g = σ[--ρ].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
+  for (Q_t i = 0; i < nc + ac + oc; i++) ο[--α].v = σ[--ρ].v;
+  ο[--α].Q = g;
   O;
 }
 

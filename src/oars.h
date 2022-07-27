@@ -3,14 +3,14 @@
                                   .
                init               .           next
         .................................................
-            σ[α] M  ο[ρ]          .            M
+            σ[ρ] M  ο[α]          .            M
               ↓  M    ↓           .            M
         σ→NNNN○○ ο→○○gOAN         .            M
                  M                .            M
                  M                .            ο
                  M                .   σ→NNN○○○ ο→gNgOAN
                  M                .        ↑   M ↑ 
-                 M                .      σ[α]  M ο[ρ]
+                 M                .      σ[ρ]  M ο[α]
                                   .
                              ο[p] = 0111
 
@@ -26,21 +26,21 @@ typedef uint8_t  B_t; typedef uint16_t W_t; typedef uint32_t D_t; typedef uint64
 typedef struct p_t {
   union {
     struct p_t *p;
-    void (*c)(struct p_t *ο, Q_t α, Q_t ρ, struct p_t *σ);
+    void (*c)(struct p_t *ο, Q_t ρ, Q_t α, struct p_t *σ);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } p_t;
-#define OARS  p_t *ο, Q_t α, Q_t ρ, p_t *σ 
-#define X          ο,     α,     ρ,      σ 
+#define OARS  p_t *ο, Q_t ρ, Q_t α, p_t *σ 
+#define X          ο,     ρ,     α,      σ 
 typedef void (*n_t)(OARS);
 
 #define N(n)    void n(OARS)
-#define A_(vs)   σ[α++].v = (void *)(vs),
-#define R(T, n) T n = (T)σ[--α].v
-#define O       σ[α - 1].c(ο, α - 1, ρ, σ)
+#define A_(vs)   σ[ρ++].v = (void *)(vs),
+#define R(T, n) T n = (T)σ[--ρ].v
+#define O       σ[ρ - 1].c(ο, ρ - 1, α, σ)
 
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
