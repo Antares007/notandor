@@ -3,6 +3,8 @@ CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-p
 
 src/echo: src/echo.c src/goan.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
+src/main: src/main.c src/goan.o
+	${CC}    $^ -o $@ ${CFLAGS} -luv
 
 %: %.c
 	${CC}    $^ -o $@ ${CFLAGS} -luv

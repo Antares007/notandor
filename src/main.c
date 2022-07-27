@@ -1,7 +1,8 @@
 #include "oars.h"
 #include <uv.h>
 #include <stdio.h>
-#include "goan.h"
+
+N(and); N(and2); N(and3); N(god);
 
 N(one)    { A(1, god) O; }
 N(add)    { R(Q_t, r); R(Q_t, l); A(l + r, god) O; }
