@@ -76,7 +76,22 @@ N(Main) {
     "0.0.0.0", 7000, o_tcp_bind,
     DEFAULT_BACKLOG, onconn, 1, soll, o_listen) O;
 }
+N(n_ray)  { printf("NOT\n"); }
+N(a_ray)  { printf("AND %lu\n", σ[--α].Q); }
+N(o_ray)  { printf("OOR\n"); }
+
+N(test)   { A(1, god) O; }
+
 int main() {
+  p_t ο[512];
+  Q_t ρ = sizeof(ο) / sizeof(*ο);
+  p_t σ[512];
+  Q_t α = 0;
+  ο[--ρ].c = n_ray;
+  ο[--ρ].c = a_ray;
+  ο[--ρ].c = o_ray;
+  ο[--ρ].Q = 0111;
+  test(X);
   loop = uv_default_loop();
 
   uv_tcp_t server;
@@ -90,6 +105,7 @@ int main() {
     return 1;
   }
   printf("run\n");
-  return uv_run(loop, UV_RUN_DEFAULT);
+  while(uv_run(loop, UV_RUN_ONCE));
+  return 0;
 }
 
