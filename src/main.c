@@ -20,8 +20,8 @@ N(test)   { A(one, S(1, 2, 3), addws) O; }
 int main() {
   p_t ο[512];
   Q_t α = sizeof(ο) / sizeof(*ο);
-  p_t σ[512];
   Q_t ρ = 0;
+  p_t σ[512];
   ο[--α].c = n_ray;
   ο[--α].c = a_ray;
   ο[--α].c = o_ray;

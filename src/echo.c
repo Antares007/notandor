@@ -76,11 +76,11 @@ N(Main) {
     "0.0.0.0", 7000, o_tcp_bind,
     DEFAULT_BACKLOG, onconn, 1, soll, o_listen) O;
 }
-N(n_ray)  { printf("NOT\n"); }
-N(a_ray)  { printf("AND %lu\n", σ[--ρ].Q); }
-N(o_ray)  { printf("OOR\n"); }
+N(n_ray)   { printf("NOT\n"); }
+N(a_ray)   { printf("AND %lu\n", σ[--ρ].Q); }
+N(o_ray)   { printf("OOR\n"); }
 
-N(test)   { A(1, god) O; }
+N(test)    { A(1, god) O; }
 
 int main() {
   p_t ο[512];
