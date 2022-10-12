@@ -47,4 +47,4 @@ typedef void (*n_t)(OAN);
 #define CAT_(a, b) a##b
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
-#define A(...) EVAL(MAP(A_, __VA_ARGS__))
+#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ο[ν-1].c(ο, α, ν-1)
