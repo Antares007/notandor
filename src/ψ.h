@@ -4,17 +4,17 @@
                               .
                init           .           next
         .............................................
-          ν      ○ ← ο        .            ○ ← ο
-          ↓     \○/           .     ν      ○
+          σ      ○ ← ο        .            ○ ← ο
+          ↓     \○/           .     σ      ○
           nnn○○○○○○○○○○○○     .     ↓     \○/
              ↑  /○\           .     nnn○○○○○○○○○○○○
-           ν[τ]  ψ ← ο[α]     .        ↑  /ψ\ ← ο[α]
-                 o            .      ν[τ]  o         
+           σ[α]  ψ ← ο[ρ]     .        ↑  /ψ\ ← ο[ρ]
+                 o            .      σ[α]  o         
                  a            .            a         
                  n            .            n
                               .
 
-            ο[α] = 0x010101               ο[α] = 0x000100
+            ο[ρ] = 0x010101               ο[ρ] = 0x000100
 
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
@@ -29,24 +29,24 @@ typedef unsigned int  D_t; typedef unsigned long  Q_t;
 typedef struct p_t {
   union {
     struct p_t *p;
-    void (*c)(struct p_t *ο, Q_t α, struct p_t *ν, Q_t τ);
+    void (*c)(struct p_t *ο, Q_t α, Q_t ρ, struct p_t *σ);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } p_t;
-#define OANT p_t *ο, Q_t α, p_t *ν, Q_t τ 
-#define C         ο,     α,      ν,     τ 
+#define OANT p_t *ο, Q_t α, Q_t ρ, p_t *σ 
+#define C         ο,     α,     ρ,      σ 
 typedef void (*n_t)(OANT);
 
 #define N(n)    void n(OANT)
-#define A_(vs)  ν[τ++].v = (void *)(vs),
-#define R(T, n) T n = (T)ν[--τ].v
+#define A_(vs)  σ[α++].v = (void *)(vs),
+#define R(T, n) T n = (T)σ[--α].v
 
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
-#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ν[τ-1].c(ο, α, ν, τ-1)
+#define A(...) EVAL(MAP(A_, __VA_ARGS__)) σ[α-1].c(ο, α-1, ρ, σ)

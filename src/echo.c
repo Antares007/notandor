@@ -77,20 +77,20 @@ N(Main) {
     DEFAULT_BACKLOG, onconn, 1, soll, o_listen);
 }
 N(n_ray)   { printf("NOT\n"); }
-N(a_ray)   { printf("AND %lu\n", ν[--τ].Q); }
+N(a_ray)   { printf("AND %lu\n", σ[--α].Q); }
 N(o_ray)   { printf("OOR\n"); }
 
 N(test)    { A(1, ano); }
 
 int main() {
   p_t ο[512];
-  Q_t α = sizeof(ο) / sizeof(*ο);
-  p_t ν[512];
-  Q_t τ = 0;
-  ο[--α].c = n_ray;
-  ο[--α].c = a_ray;
-  ο[--α].c = o_ray;
-  ο[--α].Q = 0111;
+  Q_t ρ = sizeof(ο) / sizeof(*ο);
+  p_t σ[512];
+  Q_t α = 0;
+  ο[--ρ].c = n_ray;
+  ο[--ρ].c = a_ray;
+  ο[--ρ].c = o_ray;
+  ο[--ρ].Q = 0111;
   A(test);
   loop = uv_default_loop();
 

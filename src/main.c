@@ -19,7 +19,7 @@ N(addβ) {
 N(add) { A(addβ, 010, ψ); }
 
 N(o_ray) { printf("OOR\n"); }
-N(a_ray) { printf("AND %lu\n", ν[--τ].Q); }
+N(a_ray) { printf("AND %lu\n", σ[--α].Q); }
 N(n_ray) { printf("NOT\n"); }
 
 N(pano) { printf("1\n"), ano(C); }
@@ -48,12 +48,12 @@ N(term) {
     (void)0;
 }
 N(orelse) {
-  p_t nο[512]; Q_t nα = sizeof(nο) / sizeof(*nο);
+  p_t nο[512]; Q_t nρ = sizeof(nο) / sizeof(*nο);
   p_t *rο = ο;
-  nο[--nα].c = 0;
-  nο[--nα].c = 0;
-  nο[--nα].c = 0;
-  nο[--nα].Q = 0111;
+  nο[--nρ].c = 0;
+  nο[--nρ].c = 0;
+  nο[--nρ].c = 0;
+  nο[--nρ].Q = 0111;
   ο = nο;
   (void)rο;
 }
@@ -61,7 +61,7 @@ N(S) {
   A(        "b", term,
     orelse, "a", term);
 }
-N(printrezβ) { printf("%lu", τ); }
+N(printrezβ) { printf("%lu", α); }
 N(printrez) { A(printrezβ, 010, ψ); }
 N(show_parser) { A("baaaa", 5, 0, ano, S, printrez); }
 // როდესაც კომპოზიტური ამომცნობი გამოიყენება j ინდექსისთვის,
@@ -79,13 +79,13 @@ N(show_parser) { A("baaaa", 5, 0, ano, S, printrez); }
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
   p_t ο[512];
-  Q_t α = sizeof(ο) / sizeof(*ο);
-  p_t ν[512];
-  Q_t τ = 0;
-  ο[--α].c = n_ray;
-  ο[--α].c = a_ray;
-  ο[--α].c = o_ray;
-  ο[--α].Q = 0111;
+  Q_t ρ = sizeof(ο) / sizeof(*ο);
+  p_t σ[512];
+  Q_t α = 0;
+  ο[--ρ].c = n_ray;
+  ο[--ρ].c = a_ray;
+  ο[--ρ].c = o_ray;
+  ο[--ρ].Q = 0111;
   A(ST);
   return 5;
 }
