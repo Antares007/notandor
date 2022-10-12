@@ -1,17 +1,19 @@
 #pragma once
-/*                       Notandor / არადანი
+/*                   Notandor / არადანი
 
-               init               .           next
-        .................................................
-            ο[ν] M ο[α]           .            M
-              ↓  M   ↓            .            M
-        ο→NNNN○○○○○○○ψOAN         .            M
-                 M                .            M
-                 M                .            M
-                 M                .   ο→NNN○○○○○○ψNψOAN
-                 M                .        ↑   M ↑ 
-                 M                .      ο[ν]  M ο[α]
-                                  .
+                              .
+               init           .           next
+        .............................................
+          ν      ○ ← ο        .            ○ ← ο
+          ↓     \○/           .     ν      ○
+          nnn○○○○○○○○○○○○     .     ↓     \○/
+             ↑  /○\           .     nnn○○○○○○○○○○○○
+           ν[τ]  ψ ← ο[α]     .        ↑  /ψ\ ← ο[α]
+                 o            .      ν[τ]  o         
+                 a            .            a         
+                 n            .            n
+                              .
+
             ο[α] = 0x010101               ο[α] = 0x000100
 
   The protocol of "Notandor/არადანი" gives us the power to specify
@@ -27,24 +29,24 @@ typedef unsigned int  D_t; typedef unsigned long  Q_t;
 typedef struct p_t {
   union {
     struct p_t *p;
-    void (*c)(struct p_t *ο, Q_t α, Q_t ν);
+    void (*c)(struct p_t *ο, Q_t α, struct p_t *ν, Q_t τ);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } p_t;
-#define OAN  p_t *ο, Q_t α, Q_t ν 
-#define C         ο,     α,     ν 
-typedef void (*n_t)(OAN);
+#define OANT p_t *ο, Q_t α, p_t *ν, Q_t τ 
+#define C         ο,     α,      ν,     τ 
+typedef void (*n_t)(OANT);
 
-#define N(n)    void n(OAN)
-#define A_(vs)  ο[ν++].v = (void *)(vs),
-#define R(T, n) T n = (T)ο[--ν].v
+#define N(n)    void n(OANT)
+#define A_(vs)  ν[τ++].v = (void *)(vs),
+#define R(T, n) T n = (T)ν[--τ].v
 
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
-#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ο[ν-1].c(ο, α, ν-1)
+#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ν[τ-1].c(ο, α, ν, τ-1)
