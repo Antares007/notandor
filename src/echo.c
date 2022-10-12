@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <uv.h>
-#include "oars.h"
+#include "oan.h"
 
 #define DEFAULT_PORT 7000
 #define DEFAULT_BACKLOG 128
@@ -41,7 +41,7 @@ void on_new_connection(uv_stream_t *server, int status) {
   uv_tcp_init(loop, client);
   if (uv_accept(server, (uv_stream_t *)client) == 0) { uv_read_start((uv_stream_t *)client, alloc_buffer, echo_read);
   } else { uv_close((uv_handle_t *)client, on_close); } }
-N(god); N(got); N(and);
+N(God); N(Got); N(and);
 N(o_tcp_init) {
   //
 }
@@ -65,8 +65,8 @@ N(o_listen_) {
   R(uv_tcp_t *, server);
   server->data = so;
   int r = uv_listen((uv_stream_t *)server, backlog, o_listen_cb);
-  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), A(got) O;
-  else A(server, god) O;
+  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), A(Got) O;
+  else A(server, God) O;
 }
 N(o_listen) { A(o_listen_, and) O; }
 N(onconn) { }
@@ -77,16 +77,15 @@ N(Main) {
     DEFAULT_BACKLOG, onconn, 1, soll, o_listen) O;
 }
 N(n_ray)   { printf("NOT\n"); }
-N(a_ray)   { printf("AND %lu\n", σ[--ρ].Q); }
+N(a_ray)   { printf("AND %lu\n", ο[--ν].Q); }
 N(o_ray)   { printf("OOR\n"); }
 
-N(test)    { A(1, god) O; }
+N(test)    { A(1, God) O; }
 
 int main() {
   p_t ο[512];
   Q_t α = sizeof(ο) / sizeof(*ο);
-  p_t σ[512];
-  Q_t ρ = 0;
+  Q_t ν = 0;
   ο[--α].c = n_ray;
   ο[--α].c = a_ray;
   ο[--α].c = o_ray;

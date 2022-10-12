@@ -1,9 +1,9 @@
 CC|=clang
 CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector
 
-src/echo: src/echo.c src/goan.o
+src/echo.out: src/echo.c src/oan.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
-src/main: src/main.c src/goan.o
+src/main.out: src/main.c src/oan.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
 
 %: %.c
@@ -13,6 +13,6 @@ src/main: src/main.c src/goan.o
 	${CC} -c $^ -o $@ ${CFLAGS}
 
 clean:
-	rm -f src/*.o src/main src/echo
+	rm -f **/*.o **/*.out
 
 .PHONY: clean
