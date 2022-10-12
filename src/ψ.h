@@ -35,13 +35,12 @@ typedef struct p_t {
   };
 } p_t;
 #define OAN  p_t *ο, Q_t α, Q_t ν 
-#define X         ο,     α,     ν 
+#define C         ο,     α,     ν 
 typedef void (*n_t)(OAN);
 
 #define N(n)    void n(OAN)
 #define A_(vs)  ο[ν++].v = (void *)(vs),
 #define R(T, n) T n = (T)ο[--ν].v
-#define O       ο[ν - 1].c(ο, α, ν - 1)
 
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))

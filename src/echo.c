@@ -9,7 +9,7 @@
 
 uv_loop_t *loop;
 struct sockaddr_in addr;
-
+N(ψ);
 typedef struct {
   uv_write_t req;
   uv_buf_t buf;
@@ -65,22 +65,22 @@ N(o_listen_) {
   R(uv_tcp_t *, server);
   server->data = so;
   int r = uv_listen((uv_stream_t *)server, backlog, o_listen_cb);
-  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), A(noa) O;
-  else A(server, ano) O;
+  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), noa(C);
+  else A(server) ano(C);
 }
-N(o_listen) { A(o_listen_, and) O; }
+N(o_listen) { A(o_listen_, 010) ψ(C); }
 N(onconn) { }
 N(soll) { }
 N(Main) {
   A(o_tcp_init,
     "0.0.0.0", 7000, o_tcp_bind,
-    DEFAULT_BACKLOG, onconn, 1, soll, o_listen) O;
+    DEFAULT_BACKLOG, onconn, 1, soll) o_listen(C);
 }
 N(n_ray)   { printf("NOT\n"); }
 N(a_ray)   { printf("AND %lu\n", ο[--ν].Q); }
 N(o_ray)   { printf("OOR\n"); }
 
-N(test)    { A(1, ano) O; }
+N(test)    { A(1) ano(C); }
 
 int main() {
   p_t ο[512];
@@ -90,7 +90,7 @@ int main() {
   ο[--α].c = a_ray;
   ο[--α].c = o_ray;
   ο[--α].Q = 0111;
-  test(X);
+  test(C);
   loop = uv_default_loop();
 
   uv_tcp_t server;
