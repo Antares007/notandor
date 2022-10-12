@@ -66,31 +66,32 @@ N(o_listen_) {
   server->data = so;
   int r = uv_listen((uv_stream_t *)server, backlog, o_listen_cb);
   if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), noa(C);
-  else A(server) ano(C);
+  else A(server, ano);
 }
-N(o_listen) { A(o_listen_, 010) ψ(C); }
+N(o_listen) { A(o_listen_, 010, ψ); }
 N(onconn) { }
 N(soll) { }
 N(Main) {
   A(o_tcp_init,
     "0.0.0.0", 7000, o_tcp_bind,
-    DEFAULT_BACKLOG, onconn, 1, soll) o_listen(C);
+    DEFAULT_BACKLOG, onconn, 1, soll, o_listen);
 }
 N(n_ray)   { printf("NOT\n"); }
-N(a_ray)   { printf("AND %lu\n", ο[--ν].Q); }
+N(a_ray)   { printf("AND %lu\n", ν[--τ].Q); }
 N(o_ray)   { printf("OOR\n"); }
 
-N(test)    { A(1) ano(C); }
+N(test)    { A(1, ano); }
 
 int main() {
   p_t ο[512];
   Q_t α = sizeof(ο) / sizeof(*ο);
-  Q_t ν = 0;
+  p_t ν[512];
+  Q_t τ = 0;
   ο[--α].c = n_ray;
   ο[--α].c = a_ray;
   ο[--α].c = o_ray;
   ο[--α].Q = 0111;
-  test(C);
+  A(test);
   loop = uv_default_loop();
 
   uv_tcp_t server;
