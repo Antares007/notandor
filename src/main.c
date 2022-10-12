@@ -37,6 +37,45 @@ void ATree(OANT) {
     one, one, add
   );
 }
+N(term) {
+  R(const char*,  match);
+  R(Q_t,          pos);
+  R(Q_t,          len);
+  R(const char*,  input);
+  if (pos < len && input[pos] == match[0])
+    A(input, len, pos);
+  else
+    (void)0;
+}
+N(orelse) {
+  p_t nο[512]; Q_t nα = sizeof(nο) / sizeof(*nο);
+  p_t *rο = ο;
+  nο[--nα].c = 0;
+  nο[--nα].c = 0;
+  nο[--nα].c = 0;
+  nο[--nα].Q = 0111;
+  ο = nο;
+  (void)rο;
+}
+N(S) {
+  A(        "b", term,
+    orelse, "a", term);
+}
+N(printrezβ) { printf("%lu", τ); }
+N(printrez) { A(printrezβ, 010, ψ); }
+N(show_parser) { A("baaaa", 5, 0, ano, S, printrez); }
+// როდესაც კომპოზიტური ამომცნობი გამოიყენება j ინდექსისთვის,
+// ის ვრცელდება p-ზე j-თი, შემდეგ გამოიყენება q-ზე j-თი და შემდგომში
+// აერთიანებს მიღებულ სიმრავლეს.:
+//    (p ‘orelse‘ q) j = unite (p j) (q j)
+//    e.g, assuming that the input is "ssss", then
+//    (empty ‘orelse‘ term_s) 2 => {2, 3}
+// როდესაც კომპოზიტური ამომცნობი გამოიყენება j ინდექსზე, ის ჯერ მიმართავს
+// p-ს j ინდექსისთვის, შემდეგ ის მიმართავს q თითოეული p-თი დაბრუნებული ინდექსისათვის
+// შედეგების სიმრავლეში. ის q-სთვის აბრუნებს ამ აპლიკაციების გაერთიანებას.
+//    (p ‘thenS‘ q) j = union (map q (p j))
+//    e.g., assuming that the input is "ssss", then
+//    (term_s ‘thenS‘ term_s) 1 => {3}
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
   p_t ο[512];
