@@ -29,24 +29,24 @@ typedef unsigned int  D_t; typedef unsigned long  Q_t;
 typedef struct p_t {
   union {
     struct p_t *p;
-    void (*c)(struct p_t *ο, Q_t α, struct p_t *ν, Q_t τ);
+    void (*c)(struct p_t *ο, Q_t α, Q_t ν);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } p_t;
-#define OANT p_t *ο, Q_t α, p_t *ν, Q_t τ 
-#define T         ο,     α,      ν,     τ 
+#define OANT p_t *ο, Q_t α, Q_t ν 
+#define T         ο,     α,     ν 
 typedef void (*n_t)(OANT);
 
 #define N(n)    void n(OANT)
-#define A_(vs)  ν[τ++].v = (void *)(vs),
-#define R(T, n) T n = (T)ν[--τ].v
+#define A_(vs)  ο[ν++].v = (void *)(vs),
+#define R(T, n) T n = (T)ο[--ν].v
 
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
-#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ν[τ-1].c(ο, α, ν, τ-1)
+#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ο[ν-1].c(ο, α, ν-1)

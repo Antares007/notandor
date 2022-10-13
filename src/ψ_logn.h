@@ -1,6 +1,6 @@
 #pragma once
 #include <stdio.h>
-#define LOG printf("%s(%lu)\n", __FUNCTION__, τ)
+#define LOG printf("%s(%lu)\n", __FUNCTION__, ν)
 /*
 */
 #undef N
