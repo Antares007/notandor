@@ -20,12 +20,12 @@ N(addβ) {
 N(add) { A(addβ, 010, ψ); }
 
 N(o_ray) { }
-N(a_ray) { printf("done: %lu\n", σ[--α].Q); }
+N(a_ray) { printf("done: %lu\n", ν[--τ].Q); }
 N(n_ray) { }
 
-N(pano) { printf("1\n"), ano(C); }
-N(poan) { printf("0\n"), oan(C); }
-N(pnoa) { printf("2\n"), noa(C); }
+N(pano) { printf("1\n"), ano(T); }
+N(poan) { printf("0\n"), oan(T); }
+N(pnoa) { printf("2\n"), noa(T); }
 void and(OANT) {
   // p_t nο[0x1000];
   // code, code, code, code, ..., code.
@@ -38,58 +38,61 @@ void ATree(OANT) {
     one, one, add
   );
 }
-N(cont_sigma) { σ[α-1].c(ο, α-1, ρ, σ); }
-N(ex_pith_o ) { ο[ρ+0].v = oan; ο[ρ+1].Q = α; }
-N(ex_pith_a ) { ο[ρ+0].v = ano; ο[ρ+1].Q = α; }
-N(ex_pith_n ) { ο[ρ+0].v = noa; ο[ρ+1].Q = α; }
+N(cont_sigma) { ν[τ-1].c(ο, α, ν, τ-1); }
+N(ex_pith_o ) { ο[α+0].v = oan; ο[α+1].Q = τ; }
+N(ex_pith_a ) { ο[α+0].v = ano; ο[α+1].Q = τ; }
+N(ex_pith_n ) { ο[α+0].v = noa; ο[α+1].Q = τ; }
 N(ex_pith   ) { 
-  p_t nο[512]; Q_t nρ = 512;
-  nρ -= 2;
-  nο[--nρ].v = ex_pith_o;
-  nο[--nρ].v = ex_pith_a;
-  nο[--nρ].v = ex_pith_n;
-  nο[--nρ].Q = 0111;
-  cont_sigma(nο, α, nρ, σ);
-  nο[510].c(ο, nο[511].Q, ρ, σ);
+  p_t nο[512]; Q_t nα = 512;
+  nα -= 2;
+  nο[--nα].v = ex_pith_o;
+  nο[--nα].v = ex_pith_a;
+  nο[--nα].v = ex_pith_n;
+  nο[--nα].Q = 0111;
+  cont_sigma(nο, nα, ν, τ);
+  nο[510].c(ο, α, ν, nο[511].Q);
 }
 N(termβ) {
   R(const char*,  match);
-  if (σ[2].Q < σ[1].Q && σ[0].cs[σ[2].Q] == match[0])
-    σ[2].Q++, A(ano);
+  if (ν[2].Q < ν[1].Q && ν[0].cs[ν[2].Q] == match[0])
+    ν[2].Q++, A(ano);
   else
     A(oan);
 }
 N(term    ) { A(termβ, 020, ψ); }
 N(orelse  ) {
-  p_t nο[512]; Q_t nρ = 512;
-  nρ -= 2;
-  nο[--nρ].c = ex_pith_o;
-  nο[--nρ].c = ex_pith_a;
-  nο[--nρ].c = ex_pith_n;
-  nο[--nρ].Q = 0111;
+  p_t nο[512]; Q_t nα = 512;
+  nα -= 2;
+  nο[--nα].c = ex_pith_o;
+  nο[--nα].c = ex_pith_a;
+  nο[--nα].c = ex_pith_n;
+  nο[--nα].Q = 0111;
 
-  p_t nσ[512];
-  nσ[0].v = σ[0].v;
-  nσ[1].v = σ[1].v;
-  nσ[2].v = σ[2].v;
+  p_t nν[512];
+  nν[0].v = ν[0].v;
+  nν[1].v = ν[1].v;
+  nν[2].v = ν[2].v;
 
-  σ[α-1].c(nο, α-1, nρ, σ);
-  α = nο[510].Q;
+  ν[τ-1].c(nο, nα, ν, τ-1);
+  τ = nο[510].Q;
 
   if(nο[511].Q) {
     
   } else {
-    ano(ο, α, ρ, σ);
+    ano(ο, α, ν, τ);
   }
   //ο = nο;
   //p_t *rο = ο;
   //(void)rο;
 }
 N(S) {
-  A(        "b", term,
-    orelse, "a", term);
+  A(
+            "b", term,
+    orelse, "a", term,
+    orelse, "c", term
+    );
 }
-N(printrezβ   ) { printf("%lu", σ[2].Q); }
+N(printrezβ   ) { printf("%lu", ν[2].Q); }
 N(printrez    ) { A(printrezβ, 010, ψ); }
 N(show_parser ) { A("aaaa", 5, 0, ano, S, ex_pith, printrez); }
 // როდესაც კომპოზიტური ამომცნობი გამოიყენება j ინდექსისთვის,
@@ -107,13 +110,13 @@ N(show_parser ) { A("aaaa", 5, 0, ano, S, ex_pith, printrez); }
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
   p_t ο[512];
-  Q_t ρ = sizeof(ο) / sizeof(*ο);
-  p_t σ[512];
-  Q_t α = 0;
-  ο[--ρ].c = o_ray;
-  ο[--ρ].c = a_ray;
-  ο[--ρ].c = n_ray;
-  ο[--ρ].Q = 0111;
+  Q_t α = sizeof(ο) / sizeof(*ο);
+  p_t ν[512];
+  Q_t τ = 0;
+  ο[--α].c = o_ray;
+  ο[--α].c = a_ray;
+  ο[--α].c = n_ray;
+  ο[--α].Q = 0111;
   A(show_parser);
   return 5;
 }
