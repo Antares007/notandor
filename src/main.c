@@ -1,10 +1,11 @@
 #include "ψ.h"
+#include "ψ_logn.h"
 #include <stdio.h>
 #include <uv.h>
-N(ano);
-N(noa);
-N(oan);
-N(ψ);
+void ano(OANT);
+void noa(OANT);
+void oan(OANT);
+void ψ(OANT);
 N(p1) { A(ano, 020, ψ); }
 N(p2) { A(ano, 030, ψ); }
 N(p3) { A(ano, 040, ψ); }
@@ -18,9 +19,9 @@ N(addβ) {
 }
 N(add) { A(addβ, 010, ψ); }
 
-N(o_ray) { printf("OOR\n"); }
-N(a_ray) { printf("AND %lu\n", σ[--α].Q); }
-N(n_ray) { printf("NOT\n"); }
+N(o_ray) { }
+N(a_ray) { printf("done: %lu\n", σ[--α].Q); }
+N(n_ray) { }
 
 N(pano) { printf("1\n"), ano(C); }
 N(poan) { printf("0\n"), oan(C); }
@@ -37,33 +38,60 @@ void ATree(OANT) {
     one, one, add
   );
 }
-N(term) {
-  R(const char*,  match);
-  R(Q_t,          pos);
-  R(Q_t,          len);
-  R(const char*,  input);
-  if (pos < len && input[pos] == match[0])
-    A(input, len, pos);
-  else
-    (void)0;
-}
-N(orelse) {
-  p_t nο[512]; Q_t nρ = sizeof(nο) / sizeof(*nο);
-  p_t *rο = ο;
-  nο[--nρ].c = 0;
-  nο[--nρ].c = 0;
-  nο[--nρ].c = 0;
+N(cont_sigma) { σ[α-1].c(ο, α-1, ρ, σ); }
+N(ex_pith_o ) { ο[ρ+0].v = oan; ο[ρ+1].Q = α; }
+N(ex_pith_a ) { ο[ρ+0].v = ano; ο[ρ+1].Q = α; }
+N(ex_pith_n ) { ο[ρ+0].v = noa; ο[ρ+1].Q = α; }
+N(ex_pith   ) { 
+  p_t nο[512]; Q_t nρ = 512;
+  nρ -= 2;
+  nο[--nρ].v = ex_pith_o;
+  nο[--nρ].v = ex_pith_a;
+  nο[--nρ].v = ex_pith_n;
   nο[--nρ].Q = 0111;
-  ο = nο;
-  (void)rο;
+  cont_sigma(nο, α, nρ, σ);
+  nο[510].c(ο, nο[511].Q, ρ, σ);
+}
+N(termβ) {
+  R(const char*,  match);
+  if (σ[2].Q < σ[1].Q && σ[0].cs[σ[2].Q] == match[0])
+    σ[2].Q++, A(ano);
+  else
+    A(oan);
+}
+N(term    ) { A(termβ, 020, ψ); }
+N(orelse  ) {
+  p_t nο[512]; Q_t nρ = 512;
+  nρ -= 2;
+  nο[--nρ].c = ex_pith_o;
+  nο[--nρ].c = ex_pith_a;
+  nο[--nρ].c = ex_pith_n;
+  nο[--nρ].Q = 0111;
+
+  p_t nσ[512];
+  nσ[0].v = σ[0].v;
+  nσ[1].v = σ[1].v;
+  nσ[2].v = σ[2].v;
+
+  σ[α-1].c(nο, α-1, nρ, σ);
+  α = nο[510].Q;
+
+  if(nο[511].Q) {
+    
+  } else {
+    ano(ο, α, ρ, σ);
+  }
+  //ο = nο;
+  //p_t *rο = ο;
+  //(void)rο;
 }
 N(S) {
   A(        "b", term,
     orelse, "a", term);
 }
-N(printrezβ) { printf("%lu", α); }
-N(printrez) { A(printrezβ, 010, ψ); }
-N(show_parser) { A("baaaa", 5, 0, ano, S, printrez); }
+N(printrezβ   ) { printf("%lu", σ[2].Q); }
+N(printrez    ) { A(printrezβ, 010, ψ); }
+N(show_parser ) { A("aaaa", 5, 0, ano, S, ex_pith, printrez); }
 // როდესაც კომპოზიტური ამომცნობი გამოიყენება j ინდექსისთვის,
 // ის ვრცელდება p-ზე j-თი, შემდეგ გამოიყენება q-ზე j-თი და შემდგომში
 // აერთიანებს მიღებულ სიმრავლეს.:
@@ -82,10 +110,10 @@ int main() {
   Q_t ρ = sizeof(ο) / sizeof(*ο);
   p_t σ[512];
   Q_t α = 0;
-  ο[--ρ].c = n_ray;
-  ο[--ρ].c = a_ray;
   ο[--ρ].c = o_ray;
+  ο[--ρ].c = a_ray;
+  ο[--ρ].c = n_ray;
   ο[--ρ].Q = 0111;
-  A(ST);
+  A(show_parser);
   return 5;
 }
