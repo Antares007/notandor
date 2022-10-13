@@ -65,7 +65,7 @@ N(o_listen_) {
   R(uv_tcp_t *, server);
   server->data = so;
   int r = uv_listen((uv_stream_t *)server, backlog, o_listen_cb);
-  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), noa(T);
+  if (r) fprintf(stderr, "Listen error %s\n", uv_strerror(r)), noa(Τ);
   else A(server, ano);
 }
 N(o_listen) { A(o_listen_, 010, ψ); }

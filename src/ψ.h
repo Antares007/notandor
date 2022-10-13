@@ -14,7 +14,7 @@
                  n            .            n
                               .
 
-            ο[α] = 0x010101               ο[α] = 0x000100
+            ο[α] = 0x010101           ο[α] = 0x000100
 
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
@@ -37,16 +37,16 @@ typedef struct p_t {
   };
 } p_t;
 #define OANT p_t *ο, Q_t α, Q_t ν 
-#define T         ο,     α,     ν 
+#define Τ         ο,     α,     ν 
 typedef void (*n_t)(OANT);
 
 #define N(n)    void n(OANT)
 #define A_(vs)  ο[ν++].v = (void *)(vs),
 #define R(T, n) T n = (T)ο[--ν].v
-
+#define Ο       ο[ν - 1].c(ο, α, ν - 1)
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
-#define A(...) EVAL(MAP(A_, __VA_ARGS__)) ο[ν-1].c(ο, α, ν-1)
+#define A(...) EVAL(MAP(A_, __VA_ARGS__)) Ο
