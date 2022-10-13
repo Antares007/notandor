@@ -39,19 +39,28 @@ void ATree(OANT) {
     one, one, add
   );
 }
-N(termβ) {
+N(termβ ) {
   R(const char*,  match);
-  if (ο[2].Q < ο[1].Q && ο[0].cs[ο[2].Q] == match[0]) ο[2].Q++, A(ano);
-  else A(oan); }
-N(T) { A(termβ, 020, ψ); }
-N(V) { ano(Τ); }
-N(O) { Ο; }
-N(S) { A(V, "o", T, "a", T, "n", T,
-         O, "a", T, "n", T, "o", T,
-         O, "n", T, "o", T, "a", T); }
-N(printrezβ   ) { printf("%lu", ο[2].Q); }
-N(printrez    ) { A(printrezβ, 010, ψ); }
-N(show_parser ) { A("aaaa", 5, 0, S, printrez); }
+  R(Q_t,  pos);
+  printf("%c\n", match[0]);
+  if (pos < ο[1].Q && ο[0].cs[pos] == match[0]) A(pos+1, ano);
+  else A(pos, oan); }
+N(T     ) { A(termβ, 020, ψ); }
+N(V     ) { Ο; }
+N(Oβ    ) { A(ano); }
+N(O     ) { A(ο[2].Q, Oβ, ο[2].Q, Oβ, 022, ψ); }
+N(Beg   ) { ano(Τ); }
+N(oT    ) { A(V, "o", T); }
+N(aT    ) { A(V, "a", T); }
+N(nT    ) { A(V, "n", T); }
+N(bT    ) { A(V, "b", T); }
+N(S     ) { A(V, bT, O, S, aT); }
+N(OAN   ) { A(V, oT, aT, nT,
+              O, aT, nT, oT,
+              O, nT, oT, aT); }
+N(prnβ  ) { while(ν) printf("> %lu\n", ο[--ν].Q); }
+N(prn   ) { A(prnβ, prnβ, prnβ, 0111, ψ); }
+N(SP    ) { A("baaaa", 5, 0, Beg, S, prn); }
 /*  S(3)
       T(23) T(21) T(19) O(17)
       T(16) T(14) T(12) O(10)
@@ -88,6 +97,6 @@ int main() {
   ο[--α].c = a_ray;
   ο[--α].c = n_ray;
   ο[--α].Q = 0111;
-  A(show_parser);
+  A(SP);
   return 5;
 }
