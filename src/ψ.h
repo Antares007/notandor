@@ -50,3 +50,4 @@ typedef void (*n_t)(OANT);
 #define CAT(a, b) CAT_(a, b)
 #include "evalmap.h"
 #define A(...) EVAL(MAP(A_, __VA_ARGS__)) Ο
+#define Σ 512

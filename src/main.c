@@ -2,7 +2,6 @@
 #include "ψ_logn.h"
 #include <stdio.h>
 #include <uv.h>
-#define Σ 512
 void ano(OANT);
 void noa(OANT);
 void oan(OANT);
@@ -44,7 +43,7 @@ N(termβ ) {
   R(Q_t,  pos);
   printf("%c\n", match[0]);
   if (pos < ο[1].Q && ο[0].cs[pos] == match[0]) A(pos+1, ano);
-  else A(pos, oan); }
+  else A(oan); }
 N(T     ) { A(termβ, 020, ψ); }
 N(V     ) { Ο; }
 N(Oβ    ) { A(ano); }
@@ -54,12 +53,15 @@ N(oT    ) { A(V, "o", T); }
 N(aT    ) { A(V, "a", T); }
 N(nT    ) { A(V, "n", T); }
 N(bT    ) { A(V, "b", T); }
-N(S     ) { A(V, bT, O, S, aT); }
+void S(OANT);
+N(Sa    ) { A(V, S, "a", T); }
+N(S     ) { A(V, "b", T, O, Sa); }
 N(OAN   ) { A(V, oT, aT, nT,
               O, aT, nT, oT,
               O, nT, oT, aT); }
 N(prnβ  ) { while(ν) printf("> %lu\n", ο[--ν].Q); }
 N(prn   ) { A(prnβ, prnβ, prnβ, 0111, ψ); }
+N(SP_   ) { A("ano", 3, 0, Beg, OAN, prn); }
 N(SP    ) { A("baaaa", 5, 0, Beg, S, prn); }
 /*  S(3)
       T(23) T(21) T(19) O(17)

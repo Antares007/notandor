@@ -1,4 +1,5 @@
 #include "ψ.h"
+#include "ψ_logn.h"
 // clang-format off
 N(noa) {
   Q_t g = ο[α++].Q, nc = g >> 6 & 7, ac = g >> 3 & 7, oc = g >> 0 & 7;
