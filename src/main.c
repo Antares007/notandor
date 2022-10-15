@@ -53,7 +53,9 @@ N(oT    ) { A("o", T); }
 N(aT    ) { A("a", T); }
 N(nT    ) { A("n", T); }
 N(bT    ) { A("b", T); }
+
 N(S     ) { A(V, bT, O, S, aT); }
+N(S0    ) { A(V, bT, O, S, aT); }
 N(S1    ) { A(V, bT,
               O, V, bT, O, aT, aT); }
 N(S2    ) { A(V, bT, O, V, bT, O, V, bT, O, S, aT, aT, aT); }
@@ -63,8 +65,8 @@ N(OAN   ) { A(V, "o", T, "a", T, "n", T,
               O, "n", T, "o", T, "a", T); }
 N(prnβ  ) { while(ν) printf("> %lu\n", ο[--ν].Q); }
 N(prn   ) { A(prnβ, prnβ, prnβ, 0111, ψ); }
-N(SP_   ) { A("ano",   3, 0, OAN, prn); }
-N(SP    ) { A("baaaa", 5, 0, S,   prn); }
+N(SP    ) { A("ano",   3, 0, OAN, prn); }
+N(SP_   ) { A("baaaa", 5, 0, S,   prn); }
 N(I     ) {}
 N(E     ) {
   A(  I ,
