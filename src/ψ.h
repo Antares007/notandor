@@ -13,21 +13,21 @@ typedef unsigned int  D_t; typedef unsigned long  Q_t;
 typedef struct s_t {
   union {
     struct s_t *p;
-    void (*c)(struct s_t *ο, Q_t α, Q_t ν);
+    void (*c)(struct s_t *β, struct s_t *ο, Q_t α, Q_t ν);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } s_t;
-#define OANT s_t *ο, Q_t α, Q_t ν 
-#define Τ         ο,     α,     ν 
-typedef void (*n_t)(OANT);
+#define OBAN s_t *β, s_t *ο, Q_t α, Q_t ν 
+#define Τ         β,      ο,     α,     ν 
+typedef void (*n_t)(OBAN);
 
-#define N(n)    void n(OANT)
+#define N(n)    void n(OBAN)
 #define A_(vs)  ο[ν++].v = (void *)(vs),
 #define R(T, n) T n = (T)ο[--ν].v
-#define Ο       ο[ν - 1].c(ο, α, ν - 1)
+#define Ο       ο[ν - 1].c(β, ο, α, ν - 1)
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b

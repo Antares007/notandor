@@ -2,16 +2,16 @@
 #include "ψ_logn.h"
 #include <stdio.h>
 #include <uv.h>
-void ano(OANT);
-void noa(OANT);
-void oan(OANT);
-void ψ(OANT);
+void ano(OBAN);
+void noa(OBAN);
+void oan(OBAN);
+void ψ(OBAN);
 N(p1) { A(ano, 020, ψ); }
 N(p2) { A(ano, 030, ψ); }
 N(p3) { A(ano, 040, ψ); }
 N(p4) { A(ano, 050, ψ); }
 N(oneβ) { A(1, ano); }
-N(one) { A(oneβ, 010, ψ); }
+void one(OBAN) { A(oneβ, 010, ψ); }
 N(addβ) {
   R(Q_t, r);
   R(Q_t, l);
@@ -26,12 +26,12 @@ N(n_ray) { }
 N(pano) { printf("1\n"), ano(Τ); }
 N(poan) { printf("0\n"), oan(Τ); }
 N(pnoa) { printf("2\n"), noa(Τ); }
-void and(OANT) {
+void and(OBAN) {
   // s_t nο[0x1000];
   // code, code, code, code, ..., code.
   
 }
-void ATree(OANT) {
+void ATree(OBAN) {
   A(
                    ano,
     one, one, add, and,
@@ -45,7 +45,7 @@ N(termβ ) {
   if (pos < ο[1].Q && ο[0].cs[pos] == match[0]) A(pos+1, ano);
   else A(oan); }
 N(V     ) { ano(Τ); }
-void T(OANT) { A(termβ, 020, ψ); }
+void T(OBAN) { A(termβ, 020, ψ); }
 N(Oβ    ) { A(ano); }
 N(O     ) { A(ο[2].Q, Oβ,
               ο[2].Q, Oβ, 022, ψ); }
@@ -112,7 +112,7 @@ N(E2    ) {
 //    (term_s ‘thenS‘ term_s) 1 => {3}
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
-  s_t ο[Σ];
+  s_t β[Σ], *ο = β;
   Q_t α = Σ;
   Q_t ν = 0;
   ο[--α].c = o_ray;

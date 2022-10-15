@@ -13,9 +13,9 @@
  */
 #undef N
 #define N(Name)                                                                \
-  void Name##Nar(OANT);                                                        \
-  void Name(OANT) {                                                            \
+  void Name##Nar(OBAN);                                                        \
+  void Name(OBAN) {                                                            \
     LOG;                                                                       \
     Name##Nar(Τ);                                                              \
   }                                                                            \
-  void Name##Nar(OANT)
+  void Name##Nar(OBAN)

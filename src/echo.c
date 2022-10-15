@@ -84,6 +84,7 @@ N(test)    { A(1, ano); }
 
 int main() {
   s_t ο[512];
+  Q_t β = 0;
   Q_t α = sizeof(ο) / sizeof(*ο);
   Q_t ν = 0;
   ο[--α].c = n_ray;
