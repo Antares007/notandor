@@ -27,7 +27,7 @@ N(pano) { printf("1\n"), ano(Τ); }
 N(poan) { printf("0\n"), oan(Τ); }
 N(pnoa) { printf("2\n"), noa(Τ); }
 void and(OANT) {
-  // p_t nο[0x1000];
+  // s_t nο[0x1000];
   // code, code, code, code, ..., code.
   
 }
@@ -45,7 +45,7 @@ N(termβ ) {
   if (pos < ο[1].Q && ο[0].cs[pos] == match[0]) A(pos+1, ano);
   else A(oan); }
 N(V     ) { ano(Τ); }
-N(T     ) { A(termβ, 020, ψ); }
+void T(OANT) { A(termβ, 020, ψ); }
 N(Oβ    ) { A(ano); }
 N(O     ) { A(ο[2].Q, Oβ,
               ο[2].Q, Oβ, 022, ψ); }
@@ -53,31 +53,39 @@ N(oT    ) { A("o", T); }
 N(aT    ) { A("a", T); }
 N(nT    ) { A("n", T); }
 N(bT    ) { A("b", T); }
-N(S     ) { A(V,    "b", T,
-              O, S, "a", T); }
+N(S     ) { A(V, bT, O, S, aT); }
+N(S1    ) { A(V, bT,
+              O, V, bT, O, aT, aT); }
+N(S2    ) { A(V, bT, O, V, bT, O, V, bT, O, S, aT, aT, aT); }
 // S → a | S a ==> a aa aaa ... aaaaaaa
 N(OAN   ) { A(V, "o", T, "a", T, "n", T,
               O, "a", T, "n", T, "o", T,
               O, "n", T, "o", T, "a", T); }
 N(prnβ  ) { while(ν) printf("> %lu\n", ο[--ν].Q); }
 N(prn   ) { A(prnβ, prnβ, prnβ, 0111, ψ); }
-N(SP    ) { A("ano",   3, 0, OAN, prn); }
-N(SP_   ) { A("baaaa", 5, 0, S,   prn); }
+N(SP_   ) { A("ano",   3, 0, OAN, prn); }
+N(SP    ) { A("baaaa", 5, 0, S,   prn); }
 N(I     ) {}
 N(E     ) {
-  A(  I,
-  O, "(", E, ")",
-  O,  E, "+", E,
-  O,  E, "-", E,
-  O,  E, "*", E,
-  O,  E, "/", E);
-}
-/*  S(3)
-      T(23) T(21) T(19) O(17)
-      T(16) T(14) T(12) O(10)
-      T( 9) T( 7) T( 5) V( 3)
-    termβ(4)
-    o_ray(3)
+  A(  I ,
+  O, "(", T,   E,    ")", T,
+  O,  E,      "+", T,     E,
+  O,  E,      "-", T,     E,
+  O,  E,      "*", T,     E,
+  O,  E,      "/", T,     E); }
+N(E2    ) {
+  A(     I                  );
+  A("(", T,       E2, ")", T);
+  A(     E2, "+", T,  E2    );
+  A(     E2, "-", T,  E2    );
+  A(     E2, "*", T,  E2    );
+  A(     E2, "/", T,  E2    ); }
+/*S(3)
+    T(23) T(21) T(19) O(17)
+    T(16) T(14) T(12) O(10)
+    T( 9) T( 7) T( 5) V( 3)
+  termβ(4)
+  o_ray(3)
 */
 //     Z0) inp len pos ano bterm O aterm  | .
 //
@@ -102,7 +110,7 @@ N(E     ) {
 //    (term_s ‘thenS‘ term_s) 1 => {3}
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
-  p_t ο[Σ];
+  s_t ο[Σ];
   Q_t α = Σ;
   Q_t ν = 0;
   ο[--α].c = o_ray;

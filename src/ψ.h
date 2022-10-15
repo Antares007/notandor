@@ -1,21 +1,5 @@
 #pragma once
 /*                   Notandor / არადანი
-
-                              .
-               init           .           next
-        .............................................
-          ν      ○ ← ο        .            ○ ← ο
-          ↓     \○/           .     ν      ○
-          nnn○○○○○○○○○○○○     .     ↓     \○/
-             ↑  /○\           .     nnn○○○○○○○○○○○○
-           ν[τ]  ψ ← ο[α]     .        ↑  /ψ\ ← ο[α]
-                 o            .      ν[τ]  o         
-                 a            .            a         
-                 n            .            n
-                              .
-
-            ο[α] = 0x010101           ο[α] = 0x000100
-
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
   are the only language we have from the beginning within the CPU.
@@ -26,17 +10,17 @@ typedef   signed char b_t; typedef   signed short w_t;
 typedef unsigned char B_t; typedef unsigned short W_t;
 typedef   signed int  d_t; typedef   signed long  q_t;
 typedef unsigned int  D_t; typedef unsigned long  Q_t;
-typedef struct p_t {
+typedef struct s_t {
   union {
-    struct p_t *p;
-    void (*c)(struct p_t *ο, Q_t α, Q_t ν);
+    struct s_t *p;
+    void (*c)(struct s_t *ο, Q_t α, Q_t ν);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
-} p_t;
-#define OANT p_t *ο, Q_t α, Q_t ν 
+} s_t;
+#define OANT s_t *ο, Q_t α, Q_t ν 
 #define Τ         ο,     α,     ν 
 typedef void (*n_t)(OANT);
 
