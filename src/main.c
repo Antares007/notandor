@@ -69,7 +69,7 @@ N(SP    ) { A("ano",   3, 0, OAN, prn); }
 N(SP_   ) { A("baaaa", 5, 0, S,   prn); }
 N(I     ) {}
 N(E     ) {
-  A(  I ,
+  A(  I,
   O, "(", T,   E,    ")", T,
   O,  E,      "+", T,     E,
   O,  E,      "-", T,     E,
