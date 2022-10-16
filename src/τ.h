@@ -1,5 +1,16 @@
 #pragma once
 /*                   Notandor / არადანი
+                              .                 
+            τ  ι   ν   α  σ   .          ν
+            ┗━━━━━━┳━━━━━━┛   .          ┃     
+                   ┃          .   τ  ι   ┃   α  σ
+                   ┃          .   ┗━━━━━━╋━━━━━━┛
+                   ┃          .          ┃      
+                   ┃          .          ┃
+                   ┃          .          ┃
+                   ┃          .          ┃
+                   ┻          .          ┻
+
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
   are the only language we have from the beginning within the CPU.
@@ -13,21 +24,21 @@ typedef unsigned int  D_t; typedef unsigned long  Q_t;
 typedef struct s_t {
   union {
     struct s_t *p;
-    void (*c)(struct s_t *β, struct s_t *ο, Q_t α, Q_t ν);
+    void (*c)(struct s_t*τ, Q_t ι, struct s_t*ν, Q_t α, Q_t σ);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
 } s_t;
-#define OBAN s_t *β, s_t *ο, Q_t α, Q_t ν 
-#define Τ         β,      ο,     α,     ν 
-typedef void (*n_t)(OBAN);
+#define TINAS s_t*τ, Q_t ι, s_t*ν, Q_t α, Q_t σ
+#define Τ         τ,     ι,     ν,     α,     σ
+typedef void (*n_t)(TINAS);
 
-#define N(n)    void n(OBAN)
-#define A_(vs)  ο[ν++].v = (void *)(vs),
-#define R(T, n) T n = (T)ο[--ν].v
-#define Ο       ο[ν - 1].c(β, ο, α, ν - 1)
+#define N(n)    void n(TINAS)
+#define A_(vs)  τ[ι++].v = (void *)(vs),
+#define R(T, n) T n = (T)τ[--ι].v
+#define Ο       τ[ι-1].c(τ, ι-1, ν, α, σ)
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b

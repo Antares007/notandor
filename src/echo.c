@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <uv.h>
-#include "ψ.h"
+#include "τ.h"
 
 #define DEFAULT_PORT 7000
 #define DEFAULT_BACKLOG 128
@@ -77,20 +77,21 @@ N(Main) {
     DEFAULT_BACKLOG, onconn, 1, soll, o_listen);
 }
 N(n_ray)   { printf("NOT\n"); }
-N(a_ray)   { printf("AND %lu\n", ο[--ν].Q); }
+N(a_ray)   { printf("AND %lu\n", τ[--ι].Q); }
 N(o_ray)   { printf("OOR\n"); }
 
 N(test)    { A(1, ano); }
 
 int main() {
-  s_t ο[512];
-  Q_t β = 0;
-  Q_t α = sizeof(ο) / sizeof(*ο);
-  Q_t ν = 0;
-  ο[--α].c = n_ray;
-  ο[--α].c = a_ray;
-  ο[--α].c = o_ray;
-  ο[--α].Q = 0111;
+  s_t τ[512];
+  s_t ν[512];
+  Q_t α = sizeof(τ) / sizeof(*τ);
+  Q_t σ = sizeof(τ) / sizeof(*τ);
+  Q_t ι = 0;
+  τ[--α].c = n_ray;
+  τ[--α].c = a_ray;
+  τ[--α].c = o_ray;
+  τ[--α].Q = 0111;
   A(test);
   loop = uv_default_loop();
 
