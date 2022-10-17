@@ -1,16 +1,17 @@
 #pragma once
 /*                   Notandor / არადანი
-                              .                 
-            τ  ι   ν   α  σ   .          ν
-            ┗━━━━━━┳━━━━━━┛   .          ┃     
-                   ┃          .   τ  ι   ┃   α  σ
-                   ┃          .   ┗━━━━━━╋━━━━━━┛
-                   ┃          .          ┃      
-                   ┃          .          ┃
-                   ┃          .          ┃
-                   ┃          .          ┃
-                   ┻          .          ┻
-
+                                        
+                       τ  ι   ν   α  σ     τ  ι   ν   α  σ 
+                       ┗━━━━━━┳━━━━━━┛     ┗━━━━━━┳━━━━━━┛ 
+     ┏━┳━┳━┳━┳━┳━┓            ┃           ┓       ┃       ┏    
+     ┃ ┃ ┃ ┃ ┃ ┃ ┃            ┃           ┃       ┃       ┃      
+     ┣━╋━╋━╋━╋━╋━┫            ┃           ┃       ┻       ┃      
+     ┣━╋━╋━╋━╋━╋━┫            ┃           ┣━━━━━━┫ ┣━━━━━━┫
+     ┃ ┃ ┃ ┃ ┃ ┃ ┃            ┃           ┃       ┳       ┃      
+     ┣━╋━╋━╋━╋━╋━┫            ┃           ┃       ┃       ┃      
+     ┗━┻━┻━┻━┻━┻━┛            ┻           ┛       ┃       ┗     
+                                           ┏━━━━━━┻━━━━━━┓
+  ┫ ┻ ╋ ┏ ┳ ┣ ━ 
   The protocol of "Notandor/არადანი" gives us the power to specify
   everything in the M-words. We need to do so because the M-words
   are the only language we have from the beginning within the CPU.

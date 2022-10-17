@@ -33,6 +33,7 @@ void and (TINAS) {
 void ATree(TINAS) { A(ano, one, one, add, and, one, one, add); }
 N(termβ) {
   R(const char *, match);
+//  Q_t pos = ν[
   R(Q_t, pos);
   printf("%c\n", match[0]);
   if (pos < τ[1].Q && τ[0].cs[pos] == match[0])
@@ -48,7 +49,13 @@ N(oT) { A("o", T); }
 N(aT) { A("a", T); }
 N(nT) { A("n", T); }
 N(bT) { A("b", T); }
-N(S) { A(V, bT, O, S, aT); }
+N(β) {}
+N(ο) {}
+void S(TINAS);
+N(S_) { A(β, "b", T, ο, S, "a", T, ο); }
+N(S ) { A(S_, 010, ψ); }
+N(S) { A(β,         "b", termβ, 020, ψ, 04000, ψ,
+         S, 010, ψ, "a", termβ, 020, ψ, 07000, ψ); }
 N(OAN) {
   printf("%s %lu %lu\n", ν[0].cs, ν[1].Q, ν[2].Q);
   A(
