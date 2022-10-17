@@ -37,9 +37,9 @@ typedef struct t_t {
 typedef void (*n_t)(TINAS);
 
 #define N(n)    void n(TINAS)
-#define A_(vs)  (*τ)[(*ι)++].v = (void *)(vs),
-#define R(T, n) T n = (T)(*τ)[--(*ι)].v
-#define Ο       (*ι)--, (*τ)[*ι].c(τ, ι, ν, α, σ)
+#define A_(vs)  τ[0][ι[0]++].v = (void *)(vs),
+#define R(T, n) T n = (T)τ[0][--ι[0]].v
+#define Ο       (*ι)--, τ[0][ι[0]].c(τ, ι, ν, α, σ)
 #define ALIGN(O, A) ((Q_t)(((O) + ((A) - 1)) / (A))) * (A)
 #define wordCountOf(T) ALIGN(sizeof(T), sizeof(void*))
 #define CAT_(a, b) a##b

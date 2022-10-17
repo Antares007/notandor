@@ -18,7 +18,7 @@ N(addβ) {
 N(add) { A(addβ, 010, ψ); }
 
 N(o_ray) {}
-N(a_ray) { printf("done: %lu\n", (*τ)[--(*ι)].Q); }
+N(a_ray) { printf("done: %lu\n", τ[0][--ι[0]].Q); }
 N(n_ray) {}
 
 N(two  ) { A(one, one, add); }
