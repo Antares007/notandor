@@ -5,8 +5,10 @@ src/echo.out: src/echo.c src/β.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
 src/main.out: src/main.c src/β.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
+src/main4.out: src/main4.c src/β4.o
+	${CC}    $^ -o $@ ${CFLAGS} -luv
 
-%: %.c
+%.out: %.c
 	${CC}    $^ -o $@ ${CFLAGS} -luv
 
 %.o: %.c
