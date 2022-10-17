@@ -21,17 +21,17 @@ typedef   signed char b_t; typedef   signed short w_t;
 typedef unsigned char B_t; typedef unsigned short W_t;
 typedef   signed int  d_t; typedef   signed long  q_t;
 typedef unsigned int  D_t; typedef unsigned long  Q_t;
-typedef struct s_t {
+typedef struct t_t {
   union {
-    struct s_t *p;
-    void (*c)(struct s_t*τ, Q_t ι, struct s_t*ν, Q_t α, Q_t σ);
+    struct t_t *p;
+    void (*c)(struct t_t*τ, Q_t ι, struct t_t*ν, Q_t α, Q_t σ);
     void *v;
     const char *cs;
     b_t b; w_t w; d_t d; q_t q;
     B_t B; W_t W; D_t D; Q_t Q;
   };
-} s_t;
-#define TINAS s_t*τ, Q_t ι, s_t*ν, Q_t α, Q_t σ
+} t_t;
+#define TINAS t_t*τ, Q_t ι, t_t*ν, Q_t α, Q_t σ
 #define Τ         τ,     ι,     ν,     α,     σ
 typedef void (*n_t)(TINAS);
 

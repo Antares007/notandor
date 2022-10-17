@@ -60,7 +60,7 @@ void o_listen_cb(uv_stream_t *server, int status) {
   }
 }
 N(o_listen_) {
-  R(s_t *,      so);
+  R(t_t *,      so);
   R(Q_t,        backlog);
   R(uv_tcp_t *, server);
   server->data = so;
@@ -83,8 +83,8 @@ N(o_ray)   { printf("OOR\n"); }
 N(test)    { A(1, ano); }
 
 int main() {
-  s_t τ[512];
-  s_t ν[512];
+  t_t τ[512];
+  t_t ν[512];
   Q_t α = sizeof(τ) / sizeof(*τ);
   Q_t σ = sizeof(τ) / sizeof(*τ);
   Q_t ι = 0;
