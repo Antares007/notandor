@@ -19,54 +19,59 @@ N(addβ) {
 }
 N(add) { A(addβ, 010, ψ); }
 
-N(o_ray) { }
+N(o_ray) {}
 N(a_ray) { printf("done: %lu\n", τ[--ι].Q); }
-N(n_ray) { }
+N(n_ray) {}
 
 N(pano) { printf("1\n"), ano(Τ); }
 N(poan) { printf("0\n"), oan(Τ); }
 N(pnoa) { printf("2\n"), noa(Τ); }
-void and(TINAS) {
+void and (TINAS) {
   // t_t nο[0x1000];
   // code, code, code, code, ..., code.
-  
 }
-void ATree(TINAS) {
+void ATree(TINAS) { A(ano, one, one, add, and, one, one, add); }
+N(termβ) {
+  R(const char *, match);
+  R(Q_t, pos);
+  printf("%c\n", match[0]);
+  if (pos < τ[1].Q && τ[0].cs[pos] == match[0])
+    A(pos + 1, ano);
+  else
+    A(oan);
+}
+N(V) { ano(Τ); }
+void T(TINAS) { A(termβ, 020, ψ); }
+N(Oβ) { A(ano); }
+N(O) { A(τ[2].Q, Oβ, τ[2].Q, Oβ, 022, ψ); }
+N(oT) { A("o", T); }
+N(aT) { A("a", T); }
+N(nT) { A("n", T); }
+N(bT) { A("b", T); }
+N(S) { A(V, bT, O, S, aT); }
+N(OAN) {
+  printf("%s %lu %lu\n", ν[0].cs, ν[1].Q, ν[2].Q);
   A(
-                   ano,
-    one, one, add, and,
-    one, one, add
+    V, "o", T, "a", T, "n", T,
+    O, "a", T, "n", T, "o", T,
+    O, "n", T, "o", T, "a", T
   );
 }
-N(termβ ) {
-  R(const char*,  match);
-  R(Q_t,  pos);
-  printf("%c\n", match[0]);
-  if (pos < τ[1].Q && τ[0].cs[pos] == match[0]) A(pos+1, ano);
-  else A(oan); }
-N(V     ) { ano(Τ); }
-void T(TINAS) { A(termβ, 020, ψ); }
-N(Oβ    ) { A(ano); }
-N(O     ) { A(τ[2].Q, Oβ,
-              τ[2].Q, Oβ, 022, ψ); }
-N(oT    ) { A("o", T); }
-N(aT    ) { A("a", T); }
-N(nT    ) { A("n", T); }
-N(bT    ) { A("b", T); }
-N(S     ) { A(V, bT, O, S, aT); }
-N(OAN   ) { A(V, "o", T, "a", T, "n", T,
-              O, "a", T, "n", T, "o", T,
-              O, "n", T, "o", T, "a", T); }
-N(prnβ  ) { while(ι) printf("> %lu\n", τ[--ι].Q); }
-N(prn   ) { A(prnβ, prnβ, prnβ, 0111, ψ); }
-N(SP    ) {
-
-  A("ano",   3, 0, OAN, prn);
+N(prnβ) {
+  while (ι)
+    printf("> %lu\n", τ[--ι].Q);
 }
-N(SP_   ) { A("baaaa", 5, 0, S,   prn); }
+N(prn) { A(prnβ, prnβ, prnβ, 0111, ψ); }
+N(SP) {
+  t_t in[3];
+  in[0].cs = "ano", in[1].Q = 3, in[2].Q = 1;
+  ν = in;
+  A("ano", 3, 0, OAN, prn);
+}
+N(SP_) { A("baaaa", 5, 0, S, prn); }
 N(ST) { A(ano, one, 2, p1, add, one, add, one, add); }
 int main() {
-  t_t b1[Σ], b2[Σ], *τ = b1, *ν = &b2[Σ];
+  t_t b[Σ], *τ = b, *ν = 0;
   Q_t α = Σ;
   Q_t σ = Σ;
   Q_t ι = 0;
