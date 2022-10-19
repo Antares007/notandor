@@ -1,37 +1,52 @@
 #include "bo.h"
 #include <stdio.h>
-void ano(TINAS);
-void noa(TINAS);
-void oan(TINAS);
-void ψ(TINAS);
-N(p1) { A(ano, 020, ψ); }
-N(p2) { A(ano, 030, ψ); }
-N(p3) { A(ano, 040, ψ); }
-N(p4) { A(ano, 050, ψ); }
-N(oneβ) { A(1, ano); }
-void one(TINAS) { A(oneβ, 010, ψ); }
-N(addβ) {
-  R(Q_t, r);
-  R(Q_t, l);
-  A(l + r, ano);
+void nao(OARS);
+void aon(OARS);
+void ona(OARS);
+void ψ(OARS);
+#define LOG printf("%p %lu %lu %p %s \n", ω, α, ρ, σ, __FUNCTION__)
+N(β     ) { LOG, aon(Τ); }
+N(end_2 ) { LOG, ω[α++].Q = 2; }
+N(end_1 ) { LOG, ω[α++].Q = 1; }
+N(end_0 ) { LOG, ω[α++].Q = 0; }
+N(ο     ) {
+  LOG;
+  s_t nω[512];
+  Q_t nα = 0;
+  nω[nα++].v = β;
+  while (ω[α - 1].v != β && ω[α - 1].v != ο)
+    printf("."), nω[nα++].v = ω[--α].v;
+  printf("\n");
+  ω[--ρ].v = end_0;
+  ω[--ρ].v = end_1;
+  ω[--ρ].v = end_2;
+  ω[--ρ].Q = 0111;
+  ω[α - 1].go(ω, α - 1, ρ, σ);
+  Q_t rez = ω[0].Q;
+  if (rez == 2)
+    return;
+  Q_t nρ = sizeof(nω) / sizeof(*nω);
+  nω[--nρ].v = end_0;
+  nω[--nρ].v = end_1;
+  nω[--nρ].v = end_2;
+  nω[--nρ].Q = 0111;
+  nω[nα - 1].go(nω, nα - 1, nρ, σ);
 }
-N(add) { A(addβ, 010, ψ); }
+N(term) {
+  LOG;
+  ω[α - 1].go(ω, α - 1, ρ, σ);
+}
+N(S) { A("b", term, 020, ψ, ο, S, 010, ψ, "a", term, 020, ψ, ο); }
+N(a) { LOG, A(aon, 010, ψ); }
+N(b) { LOG, A(aon, 010, ψ); }
+N(c) { LOG, A(aon, 010, ψ); }
 
-N(o_ray) {}
-N(a_ray) { printf("done: %lu\n", τ[0][--ι[0]].Q); }
-N(n_ray) {}
-
-N(two  ) { A(one, one, add); }
-N(seven) { A(ano, one, two, add, two, add, two, add); }
 int main() {
-  t_t b[Σ], *τ = b, *ν = 0;
-  Q_t α = Σ;
-  Q_t σ = Σ;
-  Q_t ι = 0;
-  τ[--α].c = o_ray;
-  τ[--α].c = a_ray;
-  τ[--α].c = n_ray;
-  τ[--α].Q = 0111;
-  seven(&τ, &ι, &ν, &α, &σ);
+  s_t ω[512];
+  Q_t α = 0;
+  Q_t ρ = sizeof(ω) / sizeof(*ω);
+  s_t σ[4];
+  ω[α++].v = β;
+  A(a, a, a, ο, b, b, ο, c, ο);
   return 0;
 }
