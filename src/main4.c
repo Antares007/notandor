@@ -1,4 +1,4 @@
-#include "τ4.h"
+#include "bo.h"
 #include <stdio.h>
 void ano(TINAS);
 void noa(TINAS);
