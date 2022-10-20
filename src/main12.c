@@ -11,6 +11,9 @@ typedef struct s_t {
                           s_t *ο₂, Q_t α₂, Q_t ρ₂,  \
                           s_t *ο₃, Q_t α₃, Q_t ρ₃,  \
                           s_t *ο₄, Q_t α₄, Q_t ρ₄)
+#define A1(b) ο[α++].v = (void*)b,
+#include "evalmap.h"
+#define A(...) EVAL(MAP(A1, __VA_ARGS__)) 
 // ψ α β ε
 #include <stdio.h>
 #define LOG printf("%lx %02lu %lu %s\n", (Q_t)ο >> 12, α, ρ, __FUNCTION__)
@@ -53,12 +56,11 @@ N(αο  ) { LOG; }
 N(βο  ) {ο[α++].v = Cβ, ρ-=4;LOG; sleep(1);  BT α--, ο[α].c(ο,α,ρ,ο₂,α₂,ρ₂,ο₃,α₃,ρ₃,ο₄,α₄,ρ₄);}
 N(εο  ) { LOG; }
 N(testW) {
-  /*
-     A(a,b,c,d)
+  /* A(a,b,c,d)
   BT A(e,f,g)
   BT A(h,i)
-  BT A(j)
-  */
+  BT A(j)*/
+  A(1, 2, 3) (void)0;
 }
 N(test);
 #define Σ 512
