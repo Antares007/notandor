@@ -1,5 +1,7 @@
 #include "bo.h"
 #include <stdio.h>
+#undef LOG
+#define LOG
 // clang-format off
 #define DestructVars(BTS) Q_t j = BTS, naoc = j >> 6 & 7, aonc = j >> 3 & 7, onac = j & 7
 #define Unroll(NC) for (Q_t i = 0; i < NC##c; i++) ω[α++].v = ω[ρ++].v
