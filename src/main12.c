@@ -1,91 +1,66 @@
-#include "oars.h"
+#include "oars_logn.h"
 // clang-format off
-N(Cε); N(Cβ); N(Cα); N(ψ);
-N(next) { A(Cβ) CC O; }
-N(αο  ) { LOG; }
-//#include<unistd.h>
-N(βο  ) { LOG, ρ[σ] -= 4, next(ο,α,ρ,σ); }
-N(ωο  ) { LOG; }
-N(p_  ) {      Q_t v = ο[σ][--α[σ]].Q; printf("%lu\n", v); A(Cβ) O; }
-N(p   ) {      A(p_, 020, ψ) O; }
-N(p1  ) { LOG; A(p_, 010, ψ) O; }
+void Cε(OARS); void Cβ(OARS); void Cα(OARS); void ψ(OARS);
+Q_t i = 0;
+N(next) { if (i++ < 10) A(Cβ) C O; }
+N(αο) {}
+N(βο) { ρ[σ] -= 4, next(ο, α, ρ, σ); }
+N(ωο) {}
+N(p_) { Q_t v = ο[σ][--α[σ]].Q; printf("%lu\n", v); A(Cβ) O; }
+N(p) { A(p_, 020, ψ) O; }
+N(p1) { A(p_, 010, ψ) O; }
 
-N(one_    ) { LOG; A(1, Cβ) O; }
-N(one     ) { LOG; A(one_, 010, ψ) O; }
+N(one_) { A(1, Cβ) O; }
+N(one) { A(one_, 010, ψ) O; }
 
-N(two_    ) { LOG; A(2, Cβ) O; }
-N(two     ) { LOG; A(two_, 010, ψ) O; }
+N(two_) { A(2, Cβ) O; }
+N(two) { A(two_, 010, ψ) O; }
 
-N(add_    ) { LOG; Q_t r = ο[σ][--α[σ]].Q; Q_t l = ο[σ][--α[σ]].Q; A(l+r, Cβ) O; }
-N(add     ) { LOG; A(add_, 010, ψ) O;}
+N(add_) { Q_t r = ο[σ][--α[σ]].Q; Q_t l = ο[σ][--α[σ]].Q; A(l + r, Cβ) O; }
+N(add) { A(add_, 010, ψ) O; }
 
-N(mamaφ   ) { LOG; A("mama", Cβ) O; }
-N(mamam_3 ) { LOG; CC CC CC A(mamaφ,  010, ψ) CC O; }
+N(mamaφ) { A("mama", Cβ) O; }
+N(mamam_3) { C C C A(mamaφ, 010, ψ) C O; }
 
-N(shvilφ  ) { LOG; A("shvil", Cβ) O; }
-N(shvils_3) { LOG; CC CC CC A(shvilφ, 010, ψ) CC O; }
+N(shvilφ) { A("shvil", Cβ) O; }
+N(shvils_3) { C C C A(shvilφ, 010, ψ) C O; }
 
-N(sakhlφ  ) { LOG; A("sakhl", Cβ) O; }
-N(sakhli_1) { LOG; CC A(sakhlφ, 010, ψ) CC CC CC O;}
+N(sakhlφ) { A("sakhl", Cβ) O; }
+N(sakhli_1) { C A(sakhlφ, 010, ψ) C C C O; }
 
-N(shenφ   ) { LOG;
-  //const char *S  = ο[--α].cs;
-  //const char *Op = ο₁[--α₁].cs;
-  //const char *Oi = ο₂[--α₂].cs;
-  //printf("%s %s %s shena\n", S, Op, Oi);
-  //A(Cβ) O;
+N(shenφ) {
+  Q_t oi = ο[σ][--α[σ]].Q;
+  Q_t op = ο[σ][--α[σ]].Q;
+  Q_t si = ο[σ][--α[σ]].Q;
+  const char *Oi = ο[oi][--α[oi]].cs;
+  const char *Op = ο[op][--α[op]].cs;
+  const char *S = ο[si][--α[si]].cs;
+  printf("%s %s %s shena\n", S, Op, Oi);
+  A(Cβ) O;
 }
-N(au_shen_a_331   ) {LOG; A(3,3,1,shenφ, 040, ψ) O;
-} // man mas is
-//N(ami_shen_a_311  ) {LOG; } // man me is
-//N(avu_shen_e_131  ) {LOG; } // me mas is
-//N(agi_shen_e_121  ) {LOG; } // me shen is
+N(ψ10) { A(010, ψ) O; }
+N(ψ40) { A(040, ψ) O; }
+N(ψ60) { A(060, ψ) O; }
+N(au_shen_a_331) { A(next, 3, 3, 1, shenφ, ψ40, ψ60) O; } // man mas is
+// N(ami_shen_a_311  ) { } // man me is
+// N(avu_shen_e_131  ) { } // me mas is
+// N(agi_shen_e_121  ) { } // me shen is
 // I   მე და ჩვენ
 // II  შენ და თქვენ
 // III ის (იგი), ისინი, მან, მას (იმას, ამას), მათ
-
 N(B) { A(Cβ) C A(Cβ) C A(Cβ) C A(Cβ) C O; }
-N(sitkva ) { LOG;
-   A(mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
-  //A(Cβ,one,one,add,one,add,one,add,one,add,one,add,one,add,p1) O;
+N(sitkva) {
+  A(B, mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
+  // A(Cβ,one,one,add,one,add,one,add,one,add,one,add,one,add,p1) O;
 }
-N(test1);
-N(test2);
 #define Σ 512
+N(NN) { A(Cβ) C O; }
 int main() {
   s_t *ο[4] = {(s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}};
-  Q_t  α[4], ρ[4], σ = 0;
-  for(Q_t i = 0; i < 4; i++) 
-    α[i] = 0,
-    ρ[i] = 150,
-    ο[i][--ρ[i]].c = αο,
-    ο[i][--ρ[i]].c = βο,
-    ο[i][--ρ[i]].c = ωο,
-    ο[i][--ρ[i]].Q = 0111;
-  A(B)O;
-  //A(sitkva) O;
-  //test1(ο,α,ρ,σ);
-  //test2(ο,α,ρ,σ);
+  Q_t α[4], ρ[4], σ = 0;
+  for (Q_t i = 0; i < 4; i++)
+    α[i] = 0, ρ[i] = 150, ο[i][--ρ[i]].c = αο, ο[i][--ρ[i]].c = βο,
+    ο[i][--ρ[i]].c = ωο, ο[i][--ρ[i]].Q = 0111;
+  A(sitkva) O;
   return 0;
-}
-#include <assert.h>
-N(test1) { LOG; 
-  A(0) C
-  A(1) C
-  A(2) C
-  A(3) C (void)0;
-  assert(ο[0][--α[0]].Q == 0);
-  assert(ο[1][--α[1]].Q == 1);
-  assert(ο[2][--α[2]].Q == 2);
-  assert(ο[3][--α[3]].Q == 3);
-}
-N(test2) { LOG; 
-  A(-1) CC
-  A(3) CC
-  A(2) CC
-  A(1) CC (void)0;
-  assert(ο[0][--α[0]].Q == -1);
-  assert(ο[4-3][--α[4-3]].Q == 1);
-  assert(ο[4-2][--α[4-2]].Q == 2);
-  assert(ο[4-1][--α[4-1]].Q == 3);
 }
