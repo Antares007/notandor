@@ -1,6 +1,6 @@
 #include "oars.h"
-//#undef LOG
-//#define LOG
+#undef LOG
+#define LOG
 N(Cε) {LOG;
   Q_t ψd = ο[ρ++].Q, εc = ψd >> 6 & 7, βc = ψd >> 3 & 7, αc = ψd & 7;
   for (Q_t i = 0; i < εc; i++) ο[α++].v = ο[ρ++].v;
