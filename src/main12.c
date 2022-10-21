@@ -1,9 +1,10 @@
 #include "oars.h"
 // clang-format off
 N(Cε); N(Cβ); N(Cα); N(ψ);
+N(next) { A(Cβ) CC O; }
 N(αο  ) { LOG; }
 //#include<unistd.h>
-N(βο  ) { LOG,ρ[σ]-=4,SCCW ((ο[σ][α[σ]-1].v == Cβ || ο[σ][α[σ]-1].v == ψ)?O:(void)0); }
+N(βο  ) { LOG, ρ[σ] -= 4, next(ο,α,ρ,σ); }
 N(ωο  ) { LOG; }
 N(p_  ) {      Q_t v = ο[σ][--α[σ]].Q; printf("%lu\n", v); A(Cβ) O; }
 N(p   ) {      A(p_, 020, ψ) O; }
@@ -19,13 +20,13 @@ N(add_    ) { LOG; Q_t r = ο[σ][--α[σ]].Q; Q_t l = ο[σ][--α[σ]].Q; A(l+r
 N(add     ) { LOG; A(add_, 010, ψ) O;}
 
 N(mamaφ   ) { LOG; A("mama", Cβ) O; }
-N(mamam_3 ) { LOG; SCCW A(mamaφ, 010, ψ) SCW O; }
+N(mamam_3 ) { LOG; CC CC CC A(mamaφ,  010, ψ) CC O; }
 
 N(shvilφ  ) { LOG; A("shvil", Cβ) O; }
-N(shvils_3) { LOG; SCCW A(shvilφ, 010, ψ) SCW O; }
+N(shvils_3) { LOG; CC CC CC A(shvilφ, 010, ψ) CC O; }
 
 N(sakhlφ  ) { LOG; A("sakhl", Cβ) O; }
-N(sakhli_1) { LOG; SCW A(sakhlφ, 010, ψ) SCCW O;}
+N(sakhli_1) { LOG; CC A(sakhlφ, 010, ψ) CC CC CC O;}
 
 N(shenφ   ) { LOG;
   //const char *S  = ο[--α].cs;
@@ -43,43 +44,64 @@ N(au_shen_a_331   ) {LOG; A(3,3,1,shenφ, 040, ψ) O;
 // II  შენ და თქვენ
 // III ის (იგი), ისინი, მან, მას (იმას, ამას), მათ
 N(sitkva ) { LOG;
-  A(Cβ, mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
+  A(Cβ) C
+  A(Cβ) C
+  A(Cβ) C
+  A(Cβ) C A(mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
   //A(Cβ,one,one,add,one,add,one,add,one,add,one,add,one,add,p1) O;
 }
 N(test1);
 N(test2);
 #define Σ 512
 int main() {
-  s_t *ο[SC] = {(s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){},
-                (s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}};
-  Q_t  α[SC],
-       ρ[SC],
-       σ = 0;
-  for(Q_t i = 0; i < SC; i++) 
+  s_t *ο[4] = {(s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}, (s_t[Σ]){}};
+  Q_t  α[4], ρ[4], σ = 0;
+  for(Q_t i = 0; i < 4; i++) 
     α[i] = 0,
     ρ[i] = 150,
+    ο[i][α[i]++].c = Cβ,
     ο[i][--ρ[i]].c = αο,
     ο[i][--ρ[i]].c = βο,
     ο[i][--ρ[i]].c = ωο,
     ο[i][--ρ[i]].Q = 0111;
-  A(sitkva) O;
+  O;
+  // ab3 00 146 3 Cβ ab3 00 150 3 βο
+  // ab4 00 146 2 Cβ ab4 00 150 2 βο
+  // ab5 00 146 1 Cβ ab5 00 150 1 βο
+  // ab6 00 146 0 Cβ ab6 00 150 0 βο
+  // 
+  // ab3 00 146 3 Cβ ab3 00 150 3 βο
+  // ab4 00 146 2 Cβ ab4 00 150 2 βο
+  // ab5 00 146 1 Cβ ab5 00 150 1 βο
+  // ab6 00 146 0 Cβ ab6 00 150 0 βο
+  // 
+  // ab3 00 146 3 Cβ ab3 00 150 3 βο
+  // ab4 00 146 2 Cβ ab4 00 150 2 βο
+  // ab5 00 146 1 Cβ ab5 00 150 1 βο
+  // ab6 00 146 0 Cβ ab6 00 150 0 βο
+  //A(sitkva) O;
   //test1(ο,α,ρ,σ);
   //test2(ο,α,ρ,σ);
   return 0;
-
 }
 #include <assert.h>
 N(test1) { LOG; 
-  A(0) SCW A(1) SCW A(2) SCW A(3) SCW (void)0;
+  A(0) C
+  A(1) C
+  A(2) C
+  A(3) C (void)0;
   assert(ο[0][--α[0]].Q == 0);
   assert(ο[1][--α[1]].Q == 1);
   assert(ο[2][--α[2]].Q == 2);
   assert(ο[3][--α[3]].Q == 3);
 }
 N(test2) { LOG; 
-  A(-1) SCCW A(3) SCCW A(2) SCCW A(1) SCCW (void)0;
+  A(-1) CC
+  A(3) CC
+  A(2) CC
+  A(1) CC (void)0;
   assert(ο[0][--α[0]].Q == -1);
-  assert(ο[SC-3][--α[SC-3]].Q == 1);
-  assert(ο[SC-2][--α[SC-2]].Q == 2);
-  assert(ο[SC-1][--α[SC-1]].Q == 3);
+  assert(ο[4-3][--α[4-3]].Q == 1);
+  assert(ο[4-2][--α[4-2]].Q == 2);
+  assert(ο[4-1][--α[4-1]].Q == 3);
 }

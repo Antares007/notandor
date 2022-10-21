@@ -14,9 +14,8 @@ typedef struct s_t {
 #include "evalmap.h"
 #define A(...) EVAL(MAP(A1, __VA_ARGS__)) 
 #define O α[σ]--, ο[σ][α[σ]].c(ο, α, ρ, σ)
-#define SC 8
-#define SCW (σ=(σ+1)%SC),
-#define SCCW (σ=(σ+SC-1)%SC),
+#define C  (σ=(σ+1)%4),
+#define CC (σ=(σ+3)%4),
 // ψ α β ε
 #include <stdio.h>
 
