@@ -43,11 +43,10 @@ N(au_shen_a_331   ) {LOG; A(3,3,1,shenφ, 040, ψ) O;
 // I   მე და ჩვენ
 // II  შენ და თქვენ
 // III ის (იგი), ისინი, მან, მას (იმას, ამას), მათ
+
+N(B) { A(Cβ) C A(Cβ) C A(Cβ) C A(Cβ) C O; }
 N(sitkva ) { LOG;
-  A(Cβ) C
-  A(Cβ) C
-  A(Cβ) C
-  A(Cβ) C A(mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
+   A(mamam_3, shvils_3, sakhli_1, au_shen_a_331) O;
   //A(Cβ,one,one,add,one,add,one,add,one,add,one,add,one,add,p1) O;
 }
 N(test1);
@@ -59,26 +58,11 @@ int main() {
   for(Q_t i = 0; i < 4; i++) 
     α[i] = 0,
     ρ[i] = 150,
-    ο[i][α[i]++].c = Cβ,
     ο[i][--ρ[i]].c = αο,
     ο[i][--ρ[i]].c = βο,
     ο[i][--ρ[i]].c = ωο,
     ο[i][--ρ[i]].Q = 0111;
-  O;
-  // ab3 00 146 3 Cβ ab3 00 150 3 βο
-  // ab4 00 146 2 Cβ ab4 00 150 2 βο
-  // ab5 00 146 1 Cβ ab5 00 150 1 βο
-  // ab6 00 146 0 Cβ ab6 00 150 0 βο
-  // 
-  // ab3 00 146 3 Cβ ab3 00 150 3 βο
-  // ab4 00 146 2 Cβ ab4 00 150 2 βο
-  // ab5 00 146 1 Cβ ab5 00 150 1 βο
-  // ab6 00 146 0 Cβ ab6 00 150 0 βο
-  // 
-  // ab3 00 146 3 Cβ ab3 00 150 3 βο
-  // ab4 00 146 2 Cβ ab4 00 150 2 βο
-  // ab5 00 146 1 Cβ ab5 00 150 1 βο
-  // ab6 00 146 0 Cβ ab6 00 150 0 βο
+  A(B)O;
   //A(sitkva) O;
   //test1(ο,α,ρ,σ);
   //test2(ο,α,ρ,σ);
