@@ -9,7 +9,8 @@ typedef struct s_t {
     void (*c)();
   };
 } s_t;
-#define OARS s_t **ο, Q_t *α, Q_t *ρ, Q_t σ
+#define OARS s_t *ο, Q_t α, s_t *ψ, s_t *σ, s_t *π, s_t *ι
+
 #define N(name) void name(s_t **ο, Q_t *α, Q_t *ρ, Q_t σ)
 #define A1(b) ο[σ][α[σ]++].v = (void*)b,
 #include "evalmap.h"
