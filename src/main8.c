@@ -4,35 +4,36 @@ typedef unsigned long Q_t;
 typedef struct s_t { union {
   Q_t Q;
   void *v;
-  void (*c)(struct s_t *ο, Q_t α, struct s_t **ρ, Q_t σ);
+  void (*c)(struct s_t *ο, Q_t α, Q_t *ρ, Q_t σ);
   const char *cs;
 }; } s_t;
-#define OARS      s_t *ο, Q_t α, s_t **ρ, Q_t σ
+#define OARS      s_t *ο, Q_t α, Q_t *ρ, Q_t σ
 #define Τ         ο, α, ρ, σ
 #define N(name)   void name(OARS)
 #define Ǎ(b)      ο[α++].v = (void *)b,
 #define A(...)    EVAL(MAP(Ǎ, __VA_ARGS__))
 #define Ř_(b)     (void *)b,
-#define Ř(r)      (*--ρ[r]).v = Ř_
+#define Ř(r)      ο[--ρ[r]].v = Ř_
 #define R(r, ...) EVAL(MAP(Ř(r), __VA_ARGS__))
 #define G         //printf("%02lu ρ%lu %s\n", α, σ, __FUNCTION__)
 #define O         ο[α - 1].c(ο, α - 1, ρ, σ)
 #include "evalmap.h"
-N(Got         ) {     Q_t ψ = (*ρ[σ]++).Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
+
+N(Got         ) {     Q_t ψ = ο[ρ[σ]++].Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
                       for (Q_t i = 0; i < notc; i++)
-                        ο[α++].v = (*ρ[σ]++).v;
+                        ο[α++].v = ο[ρ[σ]++].v;
                       ρ[σ] += andc + oorc;
                       (notc) ? O : Got(Τ); }
-N(God         ) {     Q_t ψ = (*ρ[σ]++).Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
+N(God         ) {     Q_t ψ = ο[ρ[σ]++].Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
                       ρ[σ] += notc;
                       for (Q_t i = 0; i < andc; i++)
-                        ο[α++].v = (*ρ[σ]++).v;
+                        ο[α++].v = ο[ρ[σ]++].v;
                       ρ[σ] += oorc;
                       (andc) ? O : God(Τ); }
-N(Gor         ) {     Q_t ψ = (*ρ[σ]++).Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
+N(Gor         ) {     Q_t ψ = ο[ρ[σ]++].Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
                       ρ[σ] += notc + andc;
                       for (Q_t i = 0; i < oorc; i++)
-                        ο[α++].v = (*ρ[σ]++).v;
+                        ο[α++].v = ο[ρ[σ]++].v;
                       (oorc) ? O : Gor(Τ); }
 N(mamamφ      ) { G;  A("მამა", God) O; }
 N(mamam       ) { G;  R(2, mamamφ, 010) O; }
@@ -71,32 +72,32 @@ N(ray_end_Gor ) { G;  }
 N(ray_end_God ) { G;  }
 N(ray_end_Got ) { G;  }
 #include <assert.h>
-int main(     ) {     s_t ο[9 * 150], *ρ[8];
-                      Q_t α = 0, σ = 0;
+int main(     ) {     s_t ο[9 * 150];
+                      Q_t α = 0, ρ[8], σ = 0;
                       for (Q_t i = 1; i < 8; i++) 
-                        ρ[i] = ο + (i + 1) * 150 + 150,
-                        (*--ρ[i]).v = ray_next_Gor,
-                        (*--ρ[i]).v = ray_next_God,
-                        (*--ρ[i]).v = ray_next_Got,
-                        (*--ρ[i]).Q = 0111;
-                      assert(ρ[7] == ο + sizeof(ο) / sizeof(*ο) - 4);
-                      ρ[0] = ο + 150 + 150,
-                      (*--ρ[0]).v = ray_end_Gor,
-                      (*--ρ[0]).v = ray_end_God,
-                      (*--ρ[0]).v = ray_end_Got,
-                      (*--ρ[0]).Q = 0111;
+                        ρ[i] = (i + 1) * 150 + 150,
+                        ο[--ρ[i]].v = ray_next_Gor,
+                        ο[--ρ[i]].v = ray_next_God,
+                        ο[--ρ[i]].v = ray_next_Got,
+                        ο[--ρ[i]].Q = 0111;
+                      assert(ρ[7] == sizeof(ο) / sizeof(*ο) - 4);
+                      ρ[0] = 150 + 150,
+                      ο[--ρ[0]].v = ray_end_Gor,
+                      ο[--ρ[0]].v = ray_end_God,
+                      ο[--ρ[0]].v = ray_end_Got,
+                      ο[--ρ[0]].Q = 0111;
                       A(B, show) O;
                       return 0; }
 N(ray_con_Gor ) { G;  Gor(ο, α, ρ, 7); }
 N(ray_con_God ) { G;  God(ο, α, ρ, 7); }
 N(ray_con_Got ) { G;  Got(ο, α, ρ, 7); }
 N(da          ) { G;  for (Q_t i = 1; i < 8; i++) 
-                        (*--ρ[i]).v = ray_next_Gor,
-                        (*--ρ[i]).v = ray_next_God,
-                        (*--ρ[i]).v = ray_next_Got,
-                        (*--ρ[i]).Q = 0111;
-                      (*--ρ[0]).v = ray_con_Gor,
-                      (*--ρ[0]).v = ray_con_God,
-                      (*--ρ[0]).v = ray_con_Got,
-                      (*--ρ[0]).Q = 0111;
+                        ο[--ρ[i]].v = ray_next_Gor,
+                        ο[--ρ[i]].v = ray_next_God,
+                        ο[--ρ[i]].v = ray_next_Got,
+                        ο[--ρ[i]].Q = 0111;
+                      ο[--ρ[0]].v = ray_con_Gor,
+                      ο[--ρ[0]].v = ray_con_God,
+                      ο[--ρ[0]].v = ray_con_Got,
+                      ο[--ρ[0]].Q = 0111;
                       O; }
