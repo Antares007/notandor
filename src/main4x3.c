@@ -10,7 +10,7 @@ typedef struct s_t { union {
 #define N(n) void n(OARS)
 #define A(...) As(σ, __VA_ARGS__)
 #define R(...) Rs(σ, __VA_ARGS__)
-#define G printf("%lu %02lu %02lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
+#define G (void)0//printf("%lu %02lu %02lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
 #define O α[σ]--, ο[σ][α[σ]].c(ο, α, ρ, σ)
 
 #define As(i, ...)                                                             \
@@ -61,7 +61,8 @@ N(ray_nxt_oor) { G, Gor(ο, α, ρ, (σ + 4) % 5); }
 N(ray_end_not) { G, sleep(1), ρ[σ] -= 4, Got(ο, α, ρ, (σ + 4) % 5); }
 N(ray_end_and) {
   G; //while (α[σ] > 1) --α[σ], printf("%lu ", ο[σ][--α[σ]].Q); printf("\n");
-  sleep(1), ρ[σ] -= 4, God(ο, α, ρ, (σ + 4) % 5);
+  //sleep(1),
+  ρ[σ] -= 4, God(ο, α, ρ, (σ + 4) % 5);
 }
 N(ray_end_oor) { G, sleep(1), ρ[σ] -= 4, Gor(ο, α, ρ, (σ + 4) % 5); }
 
@@ -84,7 +85,7 @@ N(shenφ   ) { G; Q_t o2s = ο[σ][--α[σ]].Q;
                  O; }
 N(aushena ) { G; Rs(0, 040, 2, 2, 1, shenφ) O; }
 
-N(ntext) { G; A(mamam, aushena, shvils, sakhli) O; }
+N(ntext) { G; A( mamam, aushena,shvils, sakhli) O; }
 
 N(one   ) { G;  R(σ, 030, 1, B, God) O; }
 N(add   ) { G;  Q_t r = (--α[σ], ο[σ][--α[σ]].Q);
