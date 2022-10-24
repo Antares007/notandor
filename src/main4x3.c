@@ -9,17 +9,16 @@ typedef struct s_t {
 #define OARS s_t **ο, Q_t *α, Q_t *ρ, Q_t σ
 
 #define N(n) void n(OARS)
-#define Ǎ(b) ο[σ][α[σ]++].v = (void *)b,
-#define Ř(r, b) ο[r][--ρ[r]].v = (void *)b,
-#define G printf("%02lu %02lu %lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
-#define O α[σ]--, ο[σ][α[σ]].c(ο, α, ρ, σ)
-#define A(i, ...)                                                              \
+#define Ai(i, ...)                                                             \
   {                                                                            \
     void *s[] = {__VA_ARGS__};                                                 \
     Q_t ξ = sizeof(s) / sizeof(*s);                                            \
     while (ξ)                                                                  \
       ξ--, ο[i][--ρ[i]].v = s[ξ];                                              \
   }
+#define As(...) Ai(σ, __VA_ARGS__)
+#define G printf("%02lu %02lu %lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
+#define O α[σ]--, ο[σ][α[σ]].c(ο, α, ρ, σ)
 #include <stdio.h>
 N(Got) {
   G;
@@ -62,19 +61,29 @@ N(ray_end_and) {
 N(ray_end_oor) { G, σ -= 4, Gor(ο, α, ρ, (σ + 3) % 4); }
 N(one) {
   G;
-  A(σ, 030, 1, B, God) O;
+  As(σ, 030, 1, B, God) O;
 }
 N(add) {
   G;
   Q_t r = (--α[σ], ο[σ][--α[σ]].Q);
   Q_t l = (--α[σ], ο[σ][--α[σ]].Q);
-  A(σ, 030, (l + r), B, God) O;
+  As(σ, 030, (l + r), B, God) O;
+}
+N(two) {
+  G;
+  As(010, one, 010, one, 010, add) O;
+}
+N(three) {
+  G;
+  As(010, one, 010, two, 010, add) O;
+}
+N(four) {
+  G;
+  As(010, one, 010, three, 010, add) O;
 }
 N(seven) {
   G;
-  A(σ, 010, one, 010, one, 010, add, 010, one, 010, add, 010, one, 010, add,
-    010, one, 010, add, 010, one, 010, add, 010, one, 010, add)
-  O;
+  As(010, three, 010, four, 010, add) O;
 }
 N(go) { G, O; }
 int main() {
@@ -83,10 +92,9 @@ int main() {
   Q_t α[4] = {0, 0, 0, 0}, ρ[4] = {4 * 128, 4 * 128, 4 * 128, 4 * 128}, σ = 0;
   for (Q_t i = 1; i < 4; i++) {
     ο[i][α[i]++].v = B;
-    A(i, 0111, ray_end_not, ray_end_and, ray_end_oor);
+    Ai(i, 0111, ray_end_not, ray_end_and, ray_end_oor)(void) 0;
   }
   ο[0][α[0]++].v = B;
-  A(0, 0111, ray_end_not, ray_end_and, ray_end_oor)
-
-  A(0, 010, seven) God(ο, α, ρ, σ);
+  Ai(0, 0111, ray_end_not, ray_end_and, ray_end_oor)
+  Ai(0, 010, seven) God(ο, α, ρ, σ);
 }
