@@ -1,5 +1,5 @@
 CC|=clang
-CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector
+CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector -Wno-int-conversion
 
 %.out: %.c
 	${CC}    $^ -o $@ ${CFLAGS} -luv
