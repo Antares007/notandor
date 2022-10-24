@@ -29,7 +29,7 @@ N(Got) {
   notc ? O : Got(ο, α, ρ, σ);
 }
 N(God) {
-  // G;
+  G;
   Q_t ψ = ο[σ][ρ[σ]++].Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
   ρ[σ] += notc;
   for (Q_t i = 0; i < andc; i++)
@@ -73,5 +73,5 @@ int main() {
   }
   ο[0][α[0]++].v = B;
   Ai(0, 0111, ray_end_not, ray_end_and, ray_end_oor)
-  Ai(0, 010, seven) God(ο, α, ρ, σ);
+  Ai(0, 010, seven) O;
 }
