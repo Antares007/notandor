@@ -17,7 +17,7 @@ typedef struct s_t {
       ξ--, ο[i][--ρ[i]].v = s[ξ];                                              \
   }
 #define As(...) Ai(σ, __VA_ARGS__)
-#define G printf("%02lu %02lu %lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
+#define G printf("%lu %02lu %02lu %s\n", σ, α[σ], ρ[σ], __FUNCTION__)
 #define O α[σ]--, ο[σ][α[σ]].c(ο, α, ρ, σ)
 #include <stdio.h>
 N(Got) {
@@ -50,41 +50,18 @@ N(B) { G, α[σ]++, God(ο, α, ρ, σ); }
 N(ray_nxt_not) { G, Got(ο, α, ρ, (σ + 3) % 4); }
 N(ray_nxt_and) { G, God(ο, α, ρ, (σ + 3) % 4); }
 N(ray_nxt_oor) { G, Gor(ο, α, ρ, (σ + 3) % 4); }
-N(ray_end_not) { G, σ -= 4, Got(ο, α, ρ, (σ + 3) % 4); }
-N(ray_end_and) {
-  G;
-  while (α[σ] > 1)
-    --α[σ], printf("%lu ", ο[σ][--α[σ]].Q);
-  printf("\n");
-  σ -= 4, God(ο, α, ρ, (σ + 3) % 4);
-}
-N(ray_end_oor) { G, σ -= 4, Gor(ο, α, ρ, (σ + 3) % 4); }
-N(one) {
-  G;
-  As(σ, 030, 1, B, God) O;
-}
-N(add) {
-  G;
-  Q_t r = (--α[σ], ο[σ][--α[σ]].Q);
-  Q_t l = (--α[σ], ο[σ][--α[σ]].Q);
-  As(σ, 030, (l + r), B, God) O;
-}
-N(two) {
-  G;
-  As(010, one, 010, one, 010, add) O;
-}
-N(three) {
-  G;
-  As(010, one, 010, two, 010, add) O;
-}
-N(four) {
-  G;
-  As(010, one, 010, three, 010, add) O;
-}
-N(seven) {
-  G;
-  As(010, three, 010, four, 010, add) O;
-}
+#include<unistd.h>
+N(ray_end_not) { G, sleep(1), ρ[σ] -= 4, Got(ο, α, ρ, (σ + 3) % 4); }
+N(ray_end_and) { G; while (α[σ] > 1) --α[σ], printf("%lu ", ο[σ][--α[σ]].Q);
+                    printf("\n");
+                    sleep(1), ρ[σ] -= 4, God(ο, α, ρ, (σ + 3) % 4); }
+N(ray_end_oor) { G, sleep(1), ρ[σ] -= 4, Gor(ο, α, ρ, (σ + 3) % 4); }
+N(one) { G; As(σ, 030, 1, B, God) O; }
+N(add) { G; Q_t r = (--α[σ], ο[σ][--α[σ]].Q); Q_t l = (--α[σ], ο[σ][--α[σ]].Q); As(σ, 030, (l + r), B, God) O; }
+N(two) { G; As(010, one, 010, one, 010, add) O; }
+N(three) { G; As(010, one, 010, two, 010, add) O; }
+N(four) { G; As(010, one, 010, three, 010, add) O; }
+N(seven) { G; As(010, three, 010, four, 010, add) O; }
 N(go) { G, O; }
 int main() {
   s_t *ο[4] = {(s_t[4 * 128]){}, (s_t[4 * 128]){}, (s_t[4 * 128]){},
