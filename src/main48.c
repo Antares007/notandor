@@ -9,36 +9,33 @@ typedef struct s_t {
     void(*c)(struct s_t*ο, Q_t α, Q_t ρ, struct s_t*σ);
   };
 } s_t;
-#define Ai(i, ...)                                  \
-  {                                                 \
-    void*s[]={__VA_ARGS__};                         \
-    s_t *iο = ο[5+i].s;                             \
-    s_t *iσ = iο[3].s;                              \
-    Q_t  iα = iο[1].Q;                              \
-    for(Q_t ξ=0; ξ < sizeof(s) / sizeof(*s); ξ++)   \
-      iσ[iα++].v = s[ξ];                            \
-    iο[1].Q = iα;                                   \
+#define T(body)       \
+  {                   \
+    s_t*νο= ο[0].s;   \
+    s_t*ο =νο;        \
+    Q_t α = ο[1].Q;   \
+    Q_t ρ = ο[2].Q;   \
+    s_t*σ = ο[3].s;   \
+    (void)ο;          \
+    (void)α;          \
+    (void)ρ;          \
+    (void)σ;          \
+    body;             \
+  }                   \
+  α = ο[1].Q;         \
+  ρ = ο[2].Q
+#define A(...)                                                      \
+  {                                                                 \
+    void*s[]={__VA_ARGS__};                                         \
+    for(Q_t ξ=0; ξ < sizeof(s) / sizeof(*s); ξ++) σ[α++].v = s[ξ];  \
+    ο[1].Q = α;                                                     \
   }
-#define Ri(i, ...)                                  \
-  {                                                 \
-    void*s[]={__VA_ARGS__};                         \
-    s_t *iο = ο[5+i].s;                             \
-    Q_t  iρ = iο[2].Q;                              \
-    for(q_t ξ=sizeof(s) / sizeof(*s); ξ > -1 ; --ξ) \
-      iο[--iρ].v = s[ξ];                            \
-    iο[2].Q = iρ;                                   \
-  }
-#define A(...)                                      \
-  {                                                 \
-    void*s[]={__VA_ARGS__};                         \
-    for(Q_t ξ=0; ξ < sizeof(s) / sizeof(*s); ξ++)   \
-      σ[α++].v = s[ξ];                              \
-  }
-#define R(...)                                      \
-  {                                                 \
-    void*s[]={__VA_ARGS__};                         \
-    for(q_t ξ=sizeof(s) / sizeof(*s)-1; ξ > -1 ; ξ--) \
-      ο[--ρ].v = s[ξ];                              \
+#define R(...)                                                      \
+  {                                                                 \
+    void*s[]={__VA_ARGS__};                                         \
+    Q_t ξ = sizeof(s) / sizeof(*s);                                 \
+    while (ξ) ο[--ρ].v = s[--ξ];                                    \
+    ο[2].Q = ρ;                                                     \
   }
 #define N(name) void name(s_t*ο, Q_t α, Q_t ρ, s_t*σ)
 #define G       printf("%lu %02lu %03lu %s\n", ο[4].Q, α, ρ, __FUNCTION__);
@@ -47,7 +44,7 @@ typedef struct s_t {
 
 N(Nain) {G; O;}
 #define Σ 4*128
-N(God     ) {G;
+N(God     ) {//G;
   Q_t ψ = ο[ρ++].Q, notc = ψ >> 6 & 7, andc = ψ >> 3 & 7, oorc = ψ & 7;
   ρ += notc;
   for (Q_t i = 0; i < andc; i++) σ[α++].v = ο[ρ++].v;
@@ -60,8 +57,40 @@ N(ray_and ) {G; while (α > 1) --α, printf("%lu ", σ[--α].Q); printf("\n");
                 sleep(1), ο[1].Q = α, ο[2].Q = ρ - 4, God(ο[0].s, ο[0].s[1].Q, ο[0].s[2].Q, ο[0].s[3].s); }
 N(ray_not ) {G; }
 N(B       ) {G; God(ο, α+1, ρ, σ); }
-N(T) {
-  Ri(0, 3,4,6) O;
+
+N(plu) { ; printf("%lu\n", σ[--α].Q); God(ο, α, ρ, σ); }
+N(Ttt) {
+  R(020, 0, plu)
+    T(R(020, 1, plu)
+      T(R(020, 2, plu)
+        T(R(020, 3, plu)
+          T(R(020, 4, plu)
+            T(R(020, 5, plu)
+              T(R(020, 6, plu)
+                T(R(020, 7, plu)
+                  T(R(020, 8, plu)
+                    R(020, 0, plu)
+                      T(R(020, 1, plu)
+                        T(R(020, 2, plu)
+                          T(R(020, 3, plu)
+                            T(R(020, 4, plu)
+                              T(R(020, 5, plu)
+                                T(R(020, 6, plu)
+                                  T(R(020, 7, plu)
+                                    T(R(020, 8, plu)
+                      ););););););););
+    ););););););););
+  R(020, 0, plu)
+    T(R(020, 1, plu)
+      T(R(020, 2, plu)
+        T(R(020, 3, plu)
+          T(R(020, 4, plu)
+            T(R(020, 5, plu)
+              T(R(020, 6, plu)
+                T(R(020, 7, plu)
+                  T(R(020, 8, plu)
+    ););););););););
+  O;
 }
 N(one   ) { G;  R(020, 1, B) O; }
 N(add   ) { G;  Q_t r = (--α, σ[--α].Q);
@@ -100,5 +129,5 @@ int main( ) {
     ο[i][Σ-2].v = ray_and,
     ο[i][Σ-3].v = ray_not,
     ο[i][Σ-4].v = 0111;
-  seven(ο[0], 1, Σ-4, σ[0]);
+  Ttt(ο[0], 1, Σ-4, σ[0]);
 }
