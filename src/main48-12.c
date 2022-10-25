@@ -9,6 +9,13 @@ typedef struct s_t { union {
 #define οαρσΜΙΣ         ο,    α,    ρ,            σ,    Μ,    Ι,    Σ
 #define οαρσΜ           ο,    α,    ρ,            σ,    Μ
 #define L printf("%lu %02lu %03lu %s\n", Ι, α[Μ[Ι]], ρ[Ι], __FUNCTION__);
+#define R(i, ...) { void*s[]={__VA_ARGS__};                   \
+                    Q_t ξ=sizeof(s)/sizeof(*s);               \
+                    while(ξ)                                  \
+                      ο[i][--ρ[i]].v = s[--ξ]; }
+#define A(i, ...) { void*s[]={__VA_ARGS__};                   \
+                    for(Q_t ξ=0; ξ<sizeof(s)/sizeof(*s);ξ++)  \
+                      σ[Μ[i]][α[Μ[i]]++].v = s[ξ]; }
 #include<stdio.h>
 void Got      (OARS) { ;Q_t ψ = ο[Ι][ρ[Ι]++].Q, nc = ψ >> 6 & 7, ac = ψ >> 3 & 7, oc = ψ & 7;
                         for (Q_t i = 0; i < nc; i++) σ[Μ[Ι]][α[Μ[Ι]]++].v = ο[Ι][ρ[Ι]++].v;
@@ -23,28 +30,16 @@ void Gor      (OARS) { ;Q_t ψ = ο[Ι][ρ[Ι]++].Q, nc = ψ >> 6 & 7, ac = ψ >
                         ρ[Ι] += nc + ac;
                         for (Q_t i = 0; i < oc; i++) σ[Μ[Ι]][α[Μ[Ι]]++].v = ο[Ι][ρ[Ι]++].v;
                         oc ? σ[Μ[Ι]][--α[Μ[Ι]]].c(οαρσΜΙΣ) : Gor(οαρσΜΙΣ); }
-void B        (OARS) {L;α[Μ[Ι]]++, God(οαρσΜ,7,Σ); }
-void C        (OARS) {L;α[Μ[Ι]]++, God(οαρσΜΙΣ); }
-void ray_God  (OARS) {L;if (Ι) God(οαρσΜ,(Ι+7)%8,Σ); }
-void dot      (OARS) {L;σ[Μ[Ι]][--α[Μ[Ι]]].c(οαρσΜΙΣ); }
-void mama_    (OARS) {L;σ[Μ[Ι]][α[Μ[Ι]]++].v = "მამა";
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = C;
-                        God(οαρσΜΙΣ); }
-void mamam    (OARS) {L;ο[2][--ρ[2]].v = mama_;
-                        ο[2][--ρ[2]].Q = 010;
-                        dot(οαρσΜΙΣ); }
-void shvil_   (OARS) {L;σ[Μ[Ι]][α[Μ[Ι]]++].v = "შვილ";
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = C;
-                        God(οαρσΜΙΣ); }
-void shvils   (OARS) {L;ο[3][--ρ[3]].v = shvil_;
-                        ο[3][--ρ[3]].Q = 010;
-                        dot(οαρσΜΙΣ); }
-void sakhl_   (OARS) {L;σ[Μ[Ι]][α[Μ[Ι]]++].v = "სახლ";
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = C;
-                        God(οαρσΜΙΣ); }
-void sakhli   (OARS) {L;ο[1][--ρ[1]].v = sakhl_;
-                        ο[1][--ρ[1]].Q = 010;
-                        dot(οαρσΜΙΣ); }
+void B        (OARS) { ;α[Μ[Ι]]++, God(οαρσΜ,7,Σ); }
+void C        (OARS) { ;α[Μ[Ι]]++, God(οαρσΜΙΣ); }
+void ray_God  (OARS) { ;if (Ι) God(οαρσΜ,(Ι+7)%8,Σ); }
+void dot      (OARS) { ;σ[Μ[Ι]][--α[Μ[Ι]]].c(οαρσΜΙΣ); }
+void mama_    (OARS) {L;A(Ι, "მამა", C)   God(οαρσΜΙΣ); }
+void mamam    (OARS) {L;R(2, 010, mama_)  dot(οαρσΜΙΣ); }
+void shvil_   (OARS) {L;A(Ι, "შვილ", C)   God(οαρσΜΙΣ); }
+void shvils   (OARS) {L;R(3, 010, shvil_) dot(οαρσΜΙΣ); }
+void sakhl_   (OARS) {L;A(Ι, "სახლ", C)   God(οαρσΜΙΣ); }
+void sakhli   (OARS) {L;R(1, 010, sakhl_) dot(οαρσΜΙΣ); }
 void _shen_   (OARS) {L;Q_t pi3 = σ[Μ[Ι]][--α[Μ[Ι]]].Q;
                         Q_t pi2 = σ[Μ[Ι]][--α[Μ[Ι]]].Q;
                         Q_t pi1 = σ[Μ[Ι]][--α[Μ[Ι]]].Q;
@@ -54,17 +49,8 @@ void _shen_   (OARS) {L;Q_t pi3 = σ[Μ[Ι]][--α[Μ[Ι]]].Q;
                         const char* ps1 = (--α[Μ[pi1]], σ[Μ[pi1]][--α[Μ[pi1]]].Q);
                         printf("%s  %s  %s შენ.\n", ps1, ps2, ps3);
                         God(οαρσΜΙΣ); }
-void aushena  (OARS) {L;ο[Ι][--ρ[Ι]].v = _shen_;
-                        ο[Ι][--ρ[Ι]].v = 1;
-                        ο[Ι][--ρ[Ι]].v = 2;
-                        ο[Ι][--ρ[Ι]].v = 2;
-                        ο[Ι][--ρ[Ι]].v = 040;
-                        dot(οαρσΜΙΣ); }
-void ntext    (OARS) {L;σ[Μ[Ι]][α[Μ[Ι]]++].v = sakhli;
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = shvils;
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = mamam;
-                        σ[Μ[Ι]][α[Μ[Ι]]++].v = aushena;
-                        dot(οαρσΜΙΣ); }
+void aushena  (OARS) {L;R(Ι, 040, 2, 2, 1, _shen_) dot(οαρσΜΙΣ); }
+void ntext    (OARS) {L;A(Ι, shvils, mamam, aushena, sakhli) dot(οαρσΜΙΣ); }
 int main() {
   Q_t Σ;
   s_t b[12][Σ = 512];
