@@ -37,7 +37,7 @@ void go0        (OARS) { ;Q_t ψ = ο[Ι][ρ[Ι]++].Q, nc = ψ >> 6 & 7, ac = ψ
 void B          (OARS) { ;A(Ι, B) go1(οαρσΜ,7,Σ); }
 void C          (OARS) { ;A(Ι, C) go1(οαρσΜΙΣ); }
 void end        (OARS) { ; }
-void next1      (OARS) {L;go1(οαρσΜ,(Ι+7)%8,Σ); }
+void next1      (OARS) { ;go1(οαρσΜ,(Ι+7)%8,Σ); }
 
 void mama_      (OARS) {L;A(Ι, "მამა", C)   go1(οαρσΜΙΣ); }
 void mamam      (OARS) {L;P(2, 010, mama_)  R(Ι).c(οαρσΜΙΣ); }
