@@ -20,35 +20,23 @@
 
 #include <arpa/inet.h>
 #include <stdlib.h>
-/// for each ioctl keep diffrent ifreq structure otherwise error
-/// may come in sending(sendto )
-int sock_raw;
-
-#define DESTMAC0 0xF4
-#define DESTMAC1 0x96
-#define DESTMAC2 0x34
-#define DESTMAC3 0x0A
-#define DESTMAC4 0x0E
-#define DESTMAC5 0x0B
-#define DESTINATION_IP "192.168.240.225"
-#define IFNAME "wlp2s0"
-
-void get_eth_index(struct sockaddr_ll *sadr_ll) {
-  struct ifreq ifreq_i;
-  memset(&ifreq_i, 0, sizeof(ifreq_i));
-  strncpy(ifreq_i.ifr_name, IFNAME, IFNAMSIZ - 1);
+int get_eth_index(int sock_raw, const char *ifname) {
+  struct ifreq ifreq_i = {0};
+  strncpy(ifreq_i.ifr_name, ifname, IFNAMSIZ - 1);
   if ((ioctl(sock_raw, SIOCGIFINDEX, &ifreq_i)) < 0)
     printf("error in index ioctl reading"), exit(1);
   printf("index=%d\n", ifreq_i.ifr_ifindex);
-  sadr_ll->sll_ifindex = ifreq_i.ifr_ifindex;
+  return ifreq_i.ifr_ifindex;
 }
-
-void get_mac(struct ethhdr *eth, const char *ifname) {
+void get_mac(int sock_raw, struct ethhdr *eth, const char *ifname,
+             unsigned char dmac[6]) {
   struct ifreq ifreq_c;
   memset(&ifreq_c, 0, sizeof(ifreq_c));
   strncpy(ifreq_c.ifr_name, ifname, IFNAMSIZ - 1);
+
   if ((ioctl(sock_raw, SIOCGIFHWADDR, &ifreq_c)) < 0)
-    printf("error in SIOCGIFHWADDR ioctl reading");
+    printf("error in SIOCGIFHWADDR ioctl reading"), exit(1);
+
   printf("Mac= %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n",
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[0]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[1]),
@@ -66,18 +54,17 @@ void get_mac(struct ethhdr *eth, const char *ifname) {
   eth->h_source[4] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[4]);
   eth->h_source[5] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[5]);
 
-  eth->h_dest[0] = DESTMAC0;
-  eth->h_dest[1] = DESTMAC1;
-  eth->h_dest[2] = DESTMAC2;
-  eth->h_dest[3] = DESTMAC3;
-  eth->h_dest[4] = DESTMAC4;
-  eth->h_dest[5] = DESTMAC5;
+  eth->h_dest[0] = dmac[0];
+  eth->h_dest[1] = dmac[1];
+  eth->h_dest[2] = dmac[2];
+  eth->h_dest[3] = dmac[3];
+  eth->h_dest[4] = dmac[4];
+  eth->h_dest[5] = dmac[5];
 
   eth->h_proto = htons(ETH_P_IP); // 0x800
 
   printf("ethernet packaging done.\n");
 }
-
 unsigned short checksum(unsigned short *buff, int _16bitword) {
   unsigned long sum;
   for (sum = 0; _16bitword > 0; _16bitword--)
@@ -87,57 +74,65 @@ unsigned short checksum(unsigned short *buff, int _16bitword) {
   } while (sum & 0xFFFF0000);
   return (~sum);
 }
-void get_ip(struct iphdr *iph, int data_lengt) {
+void get_ip(int sock_raw, const char *ifname, int data_len, struct iphdr *iph) {
   struct ifreq ifreq_ip;
   memset(&ifreq_ip, 0, sizeof(ifreq_ip));
-  strncpy(ifreq_ip.ifr_name, IFNAME, IFNAMSIZ - 1);
-  if (ioctl(sock_raw, SIOCGIFADDR, &ifreq_ip) < 0) {
-    printf("error in SIOCGIFADDR \n");
-  }
-  printf("Source IP: %s\n",
-         inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr)));
+  strncpy(ifreq_ip.ifr_name, ifname, IFNAMSIZ - 1);
+  if (ioctl(sock_raw, SIOCGIFADDR, &ifreq_ip) < 0)
+    printf("error in SIOCGIFADDR \n"), exit(1);
+  const char *sipa =
+      inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr));
+  printf("Source IP: %s\n", sipa);
   iph->ihl = 5;
   iph->version = 4;
   iph->tos = 16;
   iph->id = htons(4849);
   iph->ttl = 64;
-  iph->protocol = 17;
-  iph->saddr = inet_addr(
-      inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr)));
-  iph->daddr = inet_addr(DESTINATION_IP); // put destination IP address
-  iph->tot_len = htons(data_lengt + sizeof(struct iphdr));
+  iph->protocol = 14;
+  iph->saddr = inet_addr(sipa);
+  iph->daddr = inet_addr("192.168.240.225");
+
+  iph->tot_len = htons(data_len + sizeof(struct iphdr));
   iph->check =
       htons(checksum((unsigned short *)iph, (sizeof(struct iphdr) / 2)));
 }
 
 int main() {
-  sock_raw = socket(AF_PACKET, SOCK_RAW, IPPROTO_RAW);
+  int sock_raw = socket(AF_PACKET, SOCK_RAW, IPPROTO_RAW);
   if (sock_raw == -1)
     printf("error in socket");
 
-  unsigned char *sendbuff[64] = {};
-  int off = 0;
-  get_mac((struct ethhdr *)(sendbuff + off), IFNAME);
-  off += sizeof(struct ethhdr);
-  get_ip((struct iphdr *)(sendbuff + off), 5);
-  off += sizeof(struct iphdr);
-  sendbuff[off++] = 0xaa;
-  sendbuff[off++] = 0xbb;
-  sendbuff[off++] = 0xcc;
-  sendbuff[off++] = 0xdd;
-  sendbuff[off++] = 0xee;
+  unsigned char sendbuff[64] = {0};
+
+  unsigned char dmac[] = {0xF4, 0x96, 0x34, 0x0A, 0x0E, 0x0B};
+
+  struct ethhdr *eth = (struct ethhdr *)(sendbuff);
+  int total_len = 0;
+
+  const char *IFNAME = "wlp2s0";
+  get_mac(sock_raw, eth, IFNAME, dmac);
+  total_len += sizeof(struct ethhdr);
+  struct iphdr *iph = (struct iphdr *)(sendbuff + total_len);
+  get_ip(sock_raw, IFNAME, 5, iph);
+  total_len += sizeof(struct iphdr);
+  sendbuff[total_len++] = 0xaa;
+  sendbuff[total_len++] = 0xbb;
+  sendbuff[total_len++] = 0xcc;
+  sendbuff[total_len++] = 0xdd;
+  sendbuff[total_len++] = 0xee;
 
   struct sockaddr_ll sadr_ll;
-  get_eth_index(&sadr_ll); // interface number
+  sadr_ll.sll_ifindex = get_eth_index(sock_raw, IFNAME);
   sadr_ll.sll_halen = ETH_ALEN;
-  sadr_ll.sll_addr[0] = DESTMAC0;
-  sadr_ll.sll_addr[1] = DESTMAC1;
-  sadr_ll.sll_addr[2] = DESTMAC2;
-  sadr_ll.sll_addr[3] = DESTMAC3;
-  sadr_ll.sll_addr[4] = DESTMAC4;
-  sadr_ll.sll_addr[5] = DESTMAC5;
+  sadr_ll.sll_addr[0] = dmac[0];
+  sadr_ll.sll_addr[1] = dmac[1];
+  sadr_ll.sll_addr[2] = dmac[2];
+  sadr_ll.sll_addr[3] = dmac[3];
+  sadr_ll.sll_addr[4] = dmac[4];
+  sadr_ll.sll_addr[5] = dmac[5];
 
-  printf("S:%d\n", ntohs(((struct iphdr *)(sendbuff + sizeof(struct ethhdr)))->tot_len));
+  printf("S:%d\n",
+         ntohs(((struct iphdr *)(sendbuff + sizeof(struct ethhdr)))->tot_len));
   printf("sending...\n");
   while (1) {
     int send_len = sendto(
