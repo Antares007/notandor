@@ -37,15 +37,13 @@ void get_mac(int sock_raw, struct ethhdr *eth, const char *ifname,
   if ((ioctl(sock_raw, SIOCGIFHWADDR, &ifreq_c)) < 0)
     printf("error in SIOCGIFHWADDR ioctl reading"), exit(1);
 
-  printf("Mac= %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n",
+  printf("Sour MAC: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X ",
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[0]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[1]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[2]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[3]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[4]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[5]));
-
-  printf("ethernet packaging start ... \n");
 
   eth->h_source[0] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[0]);
   eth->h_source[1] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[1]);
@@ -62,8 +60,6 @@ void get_mac(int sock_raw, struct ethhdr *eth, const char *ifname,
   eth->h_dest[5] = dmac[5];
 
   eth->h_proto = htons(ETH_P_IP); // 0x800
-
-  printf("ethernet packaging done.\n");
 }
 unsigned short checksum(unsigned short *buff, int _16bitword) {
   unsigned long sum;
@@ -74,7 +70,8 @@ unsigned short checksum(unsigned short *buff, int _16bitword) {
   } while (sum & 0xFFFF0000);
   return (~sum);
 }
-void get_ip(int sock_raw, const char *ifname, int data_len, struct iphdr *iph) {
+void get_ip(int sock_raw, const char *ifname, int data_len, struct iphdr *iph,
+            const char *daddr) {
   struct ifreq ifreq_ip;
   memset(&ifreq_ip, 0, sizeof(ifreq_ip));
   strncpy(ifreq_ip.ifr_name, ifname, IFNAMSIZ - 1);
@@ -82,7 +79,7 @@ void get_ip(int sock_raw, const char *ifname, int data_len, struct iphdr *iph) {
     printf("error in SIOCGIFADDR \n"), exit(1);
   const char *sipa =
       inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr));
-  printf("Source IP: %s\n", sipa);
+  printf("Sour IP: %s\n", sipa);
   iph->ihl = 5;
   iph->version = 4;
   iph->tos = 16;
@@ -90,21 +87,40 @@ void get_ip(int sock_raw, const char *ifname, int data_len, struct iphdr *iph) {
   iph->ttl = 64;
   iph->protocol = 14;
   iph->saddr = inet_addr(sipa);
-  iph->daddr = inet_addr("192.168.240.225");
+  iph->daddr = inet_addr(daddr);
 
   iph->tot_len = htons(data_len + sizeof(struct iphdr));
   iph->check =
       htons(checksum((unsigned short *)iph, (sizeof(struct iphdr) / 2)));
 }
 
-int main() {
+int main(int argc, char **argv) {
+  unsigned char dmac[] = {0XCA, 0XE8, 0X7E, 0X50, 0XE0, 0XAA};
+  const char *dipa = "192.168.240.224";
+  if (argc > 1)
+    dipa = argv[1];
+  if (argc > 2) {
+    const static unsigned char map[] = {
+        ['0'] = 0x0, ['1'] = 0x1, ['2'] = 0x2, ['3'] = 0x3, ['4'] = 0x4,
+        ['5'] = 0x5, ['6'] = 0x6, ['7'] = 0x7, ['8'] = 0x8, ['9'] = 0x9,
+        ['a'] = 0xa, ['b'] = 0xb, ['c'] = 0xc, ['d'] = 0xd, ['e'] = 0xe,
+        ['f'] = 0xf, //
+        ['A'] = 0XA, ['B'] = 0XB, ['C'] = 0XC, ['D'] = 0XD, ['E'] = 0XE,
+        ['F'] = 0XF,
+    };
+    memset(dmac, 0, 6);
+    for (int i = 0; i < 12; i++)
+      dmac[i / 2] |= map[(int)argv[2][i]] << (i + 1) % 2 * 4;
+  }
+  printf("Dest MAC: %.2X-%.2X-%.2X-%.2X-%.2X-%.2X Dest IP: %s\n", dmac[0], dmac[1],
+         dmac[2], dmac[3], dmac[4], dmac[5], dipa);
   int sock_raw = socket(AF_PACKET, SOCK_RAW, IPPROTO_RAW);
   if (sock_raw == -1)
-    printf("error in socket");
+    printf("error in socket"), exit(1);
 
   unsigned char sendbuff[64] = {0};
 
-  unsigned char dmac[] = {0xF4, 0x96, 0x34, 0x0A, 0x0E, 0x0B};
+  //{0XF4, 0X96, 0X34, 0X0A, 0X0E, 0X0B};
 
   struct ethhdr *eth = (struct ethhdr *)(sendbuff);
   int total_len = 0;
@@ -113,7 +129,7 @@ int main() {
   get_mac(sock_raw, eth, IFNAME, dmac);
   total_len += sizeof(struct ethhdr);
   struct iphdr *iph = (struct iphdr *)(sendbuff + total_len);
-  get_ip(sock_raw, IFNAME, 5, iph);
+  get_ip(sock_raw, IFNAME, 5, iph, dipa);
   total_len += sizeof(struct iphdr);
   sendbuff[total_len++] = 0xaa;
   sendbuff[total_len++] = 0xbb;

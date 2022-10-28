@@ -172,16 +172,6 @@ void data_process(unsigned char *buffer, int buflen) {
     fprintf(log_txt,"%04X\n", ntohs(eth->h_proto));
     return;
   }
-  fprintf(log_txt,"%.3u v%d ihl:%d tos:%.d tot_len:%d(%d) id:%u flag:%02x\n",
-          ip->protocol,
-          ip->version,
-          ip->ihl,
-          ip->tos,
-          ntohs(ip->tot_len),
-          buflen - (int)sizeof(struct ethhdr),
-          ntohs(ip->id),
-          ntohs(ip->frag_off) >> 13
-          );
   fprintf(log_txt, "%.3u.%.3u.%.3u.%.3u ",
           ip->saddr>> 0 &0xff,
           ip->saddr>> 8 &0xff,
@@ -199,13 +189,23 @@ void data_process(unsigned char *buffer, int buflen) {
           ip->daddr>> 8 &0xff,
           ip->daddr>>16 &0xff,
           ip->daddr>>24 &0xff);
-  fprintf(log_txt, "%.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n",
+  fprintf(log_txt, "%.2X-%.2X-%.2X-%.2X-%.2X-%.2X ",
           eth->h_dest[0],
           eth->h_dest[1],
           eth->h_dest[2],
           eth->h_dest[3],
           eth->h_dest[4],
           eth->h_dest[5]);
+  fprintf(log_txt,"%.3u v%d ihl:%d tos:%.d tot_len:%d(%d) id:%u flag:%02x\n",
+          ip->protocol,
+          ip->version,
+          ip->ihl,
+          ip->tos,
+          ntohs(ip->tot_len),
+          buflen - (int)sizeof(struct ethhdr),
+          ntohs(ip->id),
+          ntohs(ip->frag_off) >> 13
+          );
 return;
   ++total;
   /* we will se UDP Protocol only*/
