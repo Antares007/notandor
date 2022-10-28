@@ -19,11 +19,10 @@
 #include <linux/if_packet.h>
 
 #include <arpa/inet.h>
-struct ifreq ifreq_c, ifreq_i,
-    ifreq_ip; /// for each ioctl keep diffrent ifreq structure otherwise error
-              /// may come in sending(sendto )
+#include <stdlib.h>
+/// for each ioctl keep diffrent ifreq structure otherwise error
+/// may come in sending(sendto )
 int sock_raw;
-unsigned char *sendbuff;
 
 #define DESTMAC0 0xF4
 #define DESTMAC1 0x96
@@ -34,25 +33,22 @@ unsigned char *sendbuff;
 #define DESTINATION_IP "192.168.240.225"
 #define IFNAME "wlp2s0"
 
-int total_len = 0, send_len;
-
-void get_eth_index() {
+void get_eth_index(struct sockaddr_ll *sadr_ll) {
+  struct ifreq ifreq_i;
   memset(&ifreq_i, 0, sizeof(ifreq_i));
   strncpy(ifreq_i.ifr_name, IFNAME, IFNAMSIZ - 1);
-
   if ((ioctl(sock_raw, SIOCGIFINDEX, &ifreq_i)) < 0)
-    printf("error in index ioctl reading");
-
+    printf("error in index ioctl reading"), exit(1);
   printf("index=%d\n", ifreq_i.ifr_ifindex);
+  sadr_ll->sll_ifindex = ifreq_i.ifr_ifindex;
 }
 
-void get_mac() {
+void get_mac(struct ethhdr *eth, const char *ifname) {
+  struct ifreq ifreq_c;
   memset(&ifreq_c, 0, sizeof(ifreq_c));
-  strncpy(ifreq_c.ifr_name, IFNAME, IFNAMSIZ - 1);
-
+  strncpy(ifreq_c.ifr_name, ifname, IFNAMSIZ - 1);
   if ((ioctl(sock_raw, SIOCGIFHWADDR, &ifreq_c)) < 0)
     printf("error in SIOCGIFHWADDR ioctl reading");
-
   printf("Mac= %.2X-%.2X-%.2X-%.2X-%.2X-%.2X\n",
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[0]),
          (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[1]),
@@ -63,7 +59,6 @@ void get_mac() {
 
   printf("ethernet packaging start ... \n");
 
-  struct ethhdr *eth = (struct ethhdr *)(sendbuff);
   eth->h_source[0] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[0]);
   eth->h_source[1] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[1]);
   eth->h_source[2] = (unsigned char)(ifreq_c.ifr_hwaddr.sa_data[2]);
@@ -81,29 +76,6 @@ void get_mac() {
   eth->h_proto = htons(ETH_P_IP); // 0x800
 
   printf("ethernet packaging done.\n");
-
-  total_len += sizeof(struct ethhdr);
-}
-
-void get_data() {
-  sendbuff[total_len++] = 0xAA;
-  sendbuff[total_len++] = 0xBB;
-  sendbuff[total_len++] = 0xCC;
-  sendbuff[total_len++] = 0xDD;
-  sendbuff[total_len++] = 0xEE;
-}
-
-void get_udp() {
-  struct udphdr *uh = (struct udphdr *)(sendbuff + sizeof(struct iphdr) +
-                                        sizeof(struct ethhdr));
-
-  uh->source = htons(23451);
-  uh->dest = htons(23452);
-  uh->check = 0;
-
-  total_len += sizeof(struct udphdr);
-  get_data();
-  uh->len = htons((total_len - sizeof(struct iphdr) - sizeof(struct ethhdr)));
 }
 
 unsigned short checksum(unsigned short *buff, int _16bitword) {
@@ -113,26 +85,17 @@ unsigned short checksum(unsigned short *buff, int _16bitword) {
   do {
     sum = ((sum >> 16) + (sum & 0xFFFF));
   } while (sum & 0xFFFF0000);
-
   return (~sum);
 }
-
-void get_ip() {
+void get_ip(struct iphdr *iph, int data_lengt) {
+  struct ifreq ifreq_ip;
   memset(&ifreq_ip, 0, sizeof(ifreq_ip));
   strncpy(ifreq_ip.ifr_name, IFNAME, IFNAMSIZ - 1);
   if (ioctl(sock_raw, SIOCGIFADDR, &ifreq_ip) < 0) {
     printf("error in SIOCGIFADDR \n");
   }
-
   printf("Source IP: %s\n",
          inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr)));
-
-  /****** OR
-          int i;
-          for(i=0;i<14;i++)
-          printf("%d\n",(unsigned char)ifreq_ip.ifr_addr.sa_data[i]); ******/
-
-  struct iphdr *iph = (struct iphdr *)(sendbuff + sizeof(struct ethhdr));
   iph->ihl = 5;
   iph->version = 4;
   iph->tos = 16;
@@ -142,13 +105,9 @@ void get_ip() {
   iph->saddr = inet_addr(
       inet_ntoa((((struct sockaddr_in *)&(ifreq_ip.ifr_addr))->sin_addr)));
   iph->daddr = inet_addr(DESTINATION_IP); // put destination IP address
-  total_len += sizeof(struct iphdr);
-  get_udp();
-
-  iph->tot_len = htons(total_len - sizeof(struct ethhdr));
+  iph->tot_len = htons(data_lengt + sizeof(struct iphdr));
   iph->check =
-      htons(checksum((unsigned short *)(sendbuff + sizeof(struct ethhdr)),
-                     (sizeof(struct iphdr) / 2)));
+      htons(checksum((unsigned short *)iph, (sizeof(struct iphdr) / 2)));
 }
 
 int main() {
@@ -156,15 +115,20 @@ int main() {
   if (sock_raw == -1)
     printf("error in socket");
 
-  sendbuff = (unsigned char *)malloc(
-      64); // increase in case of large data.Here data is --> AA  BB  CC  DD  EE
-  memset(sendbuff, 0, 64);
-  get_eth_index(); // interface number
-  get_mac();
-  get_ip();
+  unsigned char *sendbuff[64] = {};
+  int off = 0;
+  get_mac((struct ethhdr *)(sendbuff + off), IFNAME);
+  off += sizeof(struct ethhdr);
+  get_ip((struct iphdr *)(sendbuff + off), 5);
+  off += sizeof(struct iphdr);
+  sendbuff[off++] = 0xaa;
+  sendbuff[off++] = 0xbb;
+  sendbuff[off++] = 0xcc;
+  sendbuff[off++] = 0xdd;
+  sendbuff[off++] = 0xee;
 
   struct sockaddr_ll sadr_ll;
-  sadr_ll.sll_ifindex = ifreq_i.ifr_ifindex;
+  get_eth_index(&sadr_ll); // interface number
   sadr_ll.sll_halen = ETH_ALEN;
   sadr_ll.sll_addr[0] = DESTMAC0;
   sadr_ll.sll_addr[1] = DESTMAC1;
@@ -173,11 +137,10 @@ int main() {
   sadr_ll.sll_addr[4] = DESTMAC4;
   sadr_ll.sll_addr[5] = DESTMAC5;
 
-  printf("S:%d\n",
-         ntohs(((struct iphdr *)(sendbuff + sizeof(struct ethhdr)))->tot_len));
+  printf("S:%d\n", ntohs(((struct iphdr *)(sendbuff + sizeof(struct ethhdr)))->tot_len));
   printf("sending...\n");
   while (1) {
-    send_len = sendto(
+    int send_len = sendto(
         sock_raw, sendbuff,
         ntohs(((struct iphdr *)(sendbuff + sizeof(struct ethhdr)))->tot_len) +
             sizeof(struct ethhdr),
