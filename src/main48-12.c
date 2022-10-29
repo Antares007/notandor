@@ -10,7 +10,7 @@ typedef struct s_t { union {
 #define οαρσ                   ω,    α,    ρ,            σ,          
 #define οαρσΜΣ                 ω,    α,    ρ,            σ,    Μ,    Σ
 #define ΣΙ                                                      ,    Σ,    Ι
-#define L                 printf("%lu %lu %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", Ι, Μ>>Ι*3&7, α[0], α[1], α[2], α[3], ρ[Ι], __FUNCTION__);
+#define L                 printf("%lu %08lo %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", Ι, Μ, α[0], α[1], α[2], α[3], ρ[Ι], __FUNCTION__);
 #define N(a)              void a(OARS)
 #define A(Ι, ...)         { void*s[]={__VA_ARGS__};                       \
                             for(Q_t ξ=0; ξ<sizeof(s)/sizeof(*s);ξ++)      \
