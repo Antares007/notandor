@@ -3,19 +3,19 @@ typedef unsigned long Q_t;
 typedef struct s_t { union {
   Q_t Q;
   void *v;
-  void (*c)(struct s_t**ω,Q_t*α,Q_t*ρ,struct s_t**σ,Q_t*Μ,Q_t Σ,Q_t Ι);
+  void (*c)(struct s_t**ω,Q_t*α,Q_t*ρ,struct s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι);
 }; } s_t;                                                      
-#define OARS              s_t**ω,Q_t*α,Q_t*ρ,       s_t**σ,Q_t*Μ,Q_t Σ,Q_t Ι
+#define OARS              s_t**ω,Q_t*α,Q_t*ρ,       s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι
 #define οαρσΜΣΙ                ω,    α,    ρ,            σ,    Μ,    Σ,    Ι
 #define οαρσ                   ω,    α,    ρ,            σ,          
 #define οαρσΜΣ                 ω,    α,    ρ,            σ,    Μ,    Σ
 #define ΣΙ                                                      ,    Σ,    Ι
-#define L                 printf("%lu %lu %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", Ι, Μ[Ι], α[0], α[1], α[2], α[3], ρ[Ι], __FUNCTION__);
+#define L                 printf("%lu %lu %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", Ι, Μ>>Ι*3&7, α[0], α[1], α[2], α[3], ρ[Ι], __FUNCTION__);
 #define N(a)              void a(OARS)
 #define A(Ι, ...)         { void*s[]={__VA_ARGS__};                       \
                             for(Q_t ξ=0; ξ<sizeof(s)/sizeof(*s);ξ++)      \
-                              σ[Μ[Ι]][α[Μ[Ι]]++].v = s[ξ]; }
-#define R(Ι)              σ[Μ[Ι]][--α[Μ[Ι]]]
+                              σ[Μ>>Ι*3&7][α[Μ>>3*Ι&7]++].v = s[ξ]; }
+#define R(Ι)              σ[Μ>>Ι*3&7][--α[Μ>>Ι*3&7]]
 #define GOTO(On, Be, Af)  N(goto##On) {                                   \
                             Q_t ψ = T(Ι).Q, c3 = ψ>>9&7,                  \
                             c2 = ψ>>6&7, c1 = ψ>>3&7, c0 = ψ>>0&7;        \
@@ -52,9 +52,8 @@ N(_shen_    ) {L; const char* Oi = (assert(R(3).v==C), R(3).Q);
                   const char* Op = (assert(R(3).v==C), R(3).Q);
                   printf("%s  %s  %s.\n", S, Op, Oi);
                   goto1(οαρσΜΣΙ); }
-Q_t Map[][8] = { [0333]={0,3,3,3,0,0,0,0} };
 N(aushena   ) {L; P(Ι, 010, _shen_)
-                  R(Ι).c(οαρσ Map[0333] ΣΙ); }
+                  R(Ι).c(οαρσ 03330 ΣΙ); }
 N(da        ) {L; for(Q_t i=0;i<8;i++) {
                     P(i, 0111, end, next1, end);
                   }
@@ -72,7 +71,7 @@ N(namckhvar_) {L; A(Ι, "ნამცხვარ", C)   goto1(οαρσΜΣΙ); 
 N(namckhvari) {L; P(2, 010, namckhvar_) R(Ι).c(οαρσΜΣΙ); }
 N(_ckho_    ) {L;                       _shen_(οαρσΜΣΙ); }
 N(gamouckho ) {L; P(Ι, 010, _ckho_)
-                  R(Ι).c(οαρσ Map[0333] ΣΙ); }
+                  R(Ι).c(οαρσ 03330 ΣΙ); }
 
 N(ntext     ) {L; A(Ι, mamam, sakhli, shvils,     aushena,
                    da, dedam, mat,    namckhvari, gamouckho
@@ -87,7 +86,7 @@ int main() {
   Q_t α[4]    = {0, 0, 0, 0};
   Q_t ρ[8]    = {Σ, Σ, Σ, Σ, Σ, Σ, Σ, Σ};
   s_t*σ[4]    = {b[8], b[9], b[10], b[11]};
-  Q_t Μ[8]    = {0, 1, 2, 2, 3, 3, 3, 1};
+  Q_t Μ       = 03210;
   Q_t Ι       = 0;
   for (Q_t i  = 0; i < 8; i++) {
     P(i, 0111, end, (i ? next1 : end), end);
