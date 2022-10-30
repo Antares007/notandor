@@ -3,39 +3,56 @@ typedef unsigned long Q_t;
 typedef struct s_t { union {
   Q_t Q;
   void *v;
-  void (*c)(struct s_t**ω,Q_t α,Q_t ρ,struct s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι);
+  void (*c)(struct s_t**ω,Q_t α,Q_t ρ,struct s_t**σ,Q_t Σ,Q_t Ι);
 }; } s_t;                                                      
-#define OARS              s_t**ω,Q_t α,Q_t ρ,       s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι
-#define οαρσΜΣΙ                ω,    α,    ρ,            σ,    Μ,    Σ,    Ι
-#define οαρσ                   ω,    α,    ρ,            σ,          
-#define οαρσΜΣ                 ω,    α,    ρ,            σ,    Μ,    Σ
-#define ΣΙ                                                      ,    Σ,    Ι
-#define L                 printf("%lu %08lo %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", \
-                                 Ι, Μ, \
+#define OARS              s_t**ω,Q_t α,Q_t ρ,       s_t**σ,Q_t Σ,Q_t Ι
+#define οαρσΜΣΙ                ω,    α,    ρ,            σ,    Σ,    Ι
+#define οαρσ                   ω,    α,    ρ,            σ,    
+#define οαρσΜΣ                 ω,    α,    ρ,            σ,    Σ
+#define ΣΙ                                                     Σ,    Ι
+#define L                 printf("%lu %lu%lu%lu%lu%lu%lu%lu%lu %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", \
+                                 Ι,           \
+                                 ω[0][ρ+1].Q, \
+                                 ω[1][ρ+1].Q, \
+                                 ω[2][ρ+1].Q, \
+                                 ω[3][ρ+1].Q, \
+                                 ω[4][ρ+1].Q, \
+                                 ω[5][ρ+1].Q, \
+                                 ω[6][ρ+1].Q, \
+                                 ω[7][ρ+1].Q, \
                                  σ[0][α].Q, \
                                  σ[1][α].Q, \
                                  σ[2][α].Q, \
                                  σ[3][α].Q, \
-                                 ω[Ι][ρ].Q, \
+                                 ω[Ι][ρ+0].Q, \
                                  __FUNCTION__);
 #define N(a)              void a(OARS)
 #define A(Ι, ...)         { void*s[]={__VA_ARGS__};                       \
                             for(Q_t ξ=0; ξ<sizeof(s)/sizeof(*s);ξ++)      \
-                              σ[Μ>>Ι*3&7][(σ[Μ>>3*Ι&7][α]).Q++].v = s[ξ]; }
-#define R(Ι)              σ[Μ>>Ι*3&7][--(σ[Μ>>Ι*3&7][α]).Q]
+                              σ[ω[Ι][ρ+1].Q][(σ[ω[Ι][ρ+1].Q][α]).Q++].v = s[ξ]; }
+#define R(Ι)              σ[ω[Ι][ρ+1].Q][--(σ[ω[Ι][ρ+1].Q][α]).Q]
 #define GOTO(On, Be, Af)  N(goto##On) {                                   \
                             Q_t ψ = T(Ι).Q, c3 = ψ>>9&7,                  \
                             c2 = ψ>>6&7, c1 = ψ>>3&7, c0 = ψ>>0&7;        \
-                            ω[Ι][ρ].Q += Be;                                   \
+                            ω[Ι][ρ+0].Q += Be;                                   \
                             for (Q_t i = 0; i < c##On; i++) A(Ι, T(Ι).v); \
-                            ω[Ι][ρ].Q += Af;                                   \
+                            ω[Ι][ρ+0].Q += Af;                                   \
                             c##On ? O : goto##On(οαρσΜΣΙ); }
 #define O                 R(Ι).c(οαρσΜΣΙ)
-#define T(Ι)              ω[Ι][ω[Ι][ρ].Q++]
+#define T(Ι)              ω[Ι][ω[Ι][ρ+0].Q++]
 #define P(Ι, ...)         { void*s[]={__VA_ARGS__};                       \
                             Q_t ξ=sizeof(s)/sizeof(*s);                   \
                             while(ξ)                                      \
-                              ω[Ι][--ω[Ι][ρ].Q].v = s[--ξ]; }
+                              ω[Ι][--ω[Ι][ρ+0].Q].v = s[--ξ]; }
+#define M(v)  ω[0][ρ+1].Q = v>>3*(7-0)&7, \
+              ω[1][ρ+1].Q = v>>3*(7-1)&7, \
+              ω[2][ρ+1].Q = v>>3*(7-2)&7, \
+              ω[3][ρ+1].Q = v>>3*(7-3)&7, \
+              ω[4][ρ+1].Q = v>>3*(7-4)&7, \
+              ω[5][ρ+1].Q = v>>3*(7-5)&7, \
+              ω[6][ρ+1].Q = v>>3*(7-6)&7, \
+              ω[7][ρ+1].Q = v>>3*(7-7)&7
+
 #include<stdio.h>
 #include<assert.h>
 
@@ -59,8 +76,9 @@ N(_shen_    ) {L; const char* Oi = (assert(R(3).v==C), R(3).Q);
                   const char* Op = (assert(R(3).v==C), R(3).Q);
                   printf("%s  %s  %s.\n", S, Op, Oi);
                   goto1(οαρσΜΣΙ); }
-N(aushena   ) {L; P(Ι, 010, _shen_)
-                  R(Ι).c(οαρσ 03330 ΣΙ); }
+N(aushena   ) {L; P(Ι, 010, _shen_);
+                  M(003330000);
+                  R(Ι).c(οαρσΜΣΙ); }
 N(da        ) {L; for(Q_t i=0;i<8;i++) {
                     P(i, 0111, end, next1, end);
                   }
@@ -78,7 +96,8 @@ N(namckhvar_) {L; A(Ι, "ნამცხვარ", C)   goto1(οαρσΜΣΙ); 
 N(namckhvari) {L; P(2, 010, namckhvar_) O; }
 N(_ckho_    ) {L;                       _shen_(οαρσΜΣΙ); }
 N(gamouckho ) {L; P(Ι, 010, _ckho_)
-                  R(Ι).c(οαρσ 0113330 ΣΙ); }
+                  M(003330000);
+                  R(Ι).c(οαρσΜΣΙ); }
 
 N(ntext     ) {L; A(Ι, mamam, sakhli, shvils,     aushena,
                    da, dedam, mat,    namckhvari, gamouckho
@@ -93,10 +112,10 @@ int main() {
   Q_t α       = Σ - 1;
   Q_t ρ       = 0;
   s_t*σ[4]    = {b[8], b[9], b[10], b[11]};
-  Q_t Μ       = 03210;
   Q_t Ι       = 0;
   for (Q_t i  = 0; i < 8; i++) {
-    ω[i][ρ].Q = Σ;
+    ω[i][ρ+0].Q = Σ;
+    ω[i][ρ+1].Q = 0;
     P(i, 0111, end, (i ? next1 : end), end);
   }
   for (Q_t i  = 0; i < 4; i++) {
