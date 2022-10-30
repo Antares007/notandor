@@ -3,19 +3,26 @@ typedef unsigned long Q_t;
 typedef struct s_t { union {
   Q_t Q;
   void *v;
-  void (*c)(struct s_t**ω,Q_t*α,Q_t*ρ,struct s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι);
+  void (*c)(struct s_t**ω,Q_t α,Q_t*ρ,struct s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι);
 }; } s_t;                                                      
-#define OARS              s_t**ω,Q_t*α,Q_t*ρ,       s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι
+#define OARS              s_t**ω,Q_t α,Q_t*ρ,       s_t**σ,Q_t Μ,Q_t Σ,Q_t Ι
 #define οαρσΜΣΙ                ω,    α,    ρ,            σ,    Μ,    Σ,    Ι
 #define οαρσ                   ω,    α,    ρ,            σ,          
 #define οαρσΜΣ                 ω,    α,    ρ,            σ,    Μ,    Σ
 #define ΣΙ                                                      ,    Σ,    Ι
-#define L                 printf("%lu %08lo %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", Ι, Μ, α[0], α[1], α[2], α[3], ρ[Ι], __FUNCTION__);
+#define L                 printf("%lu %08lo %02lu₀%02lu₁%02lu₂%02lu₃%.3lu %s\n", \
+                                 Ι, Μ, \
+                                 σ[0][α].Q, \
+                                 σ[1][α].Q, \
+                                 σ[2][α].Q, \
+                                 σ[3][α].Q, \
+                                 ρ[Ι], \
+                                 __FUNCTION__);
 #define N(a)              void a(OARS)
 #define A(Ι, ...)         { void*s[]={__VA_ARGS__};                       \
                             for(Q_t ξ=0; ξ<sizeof(s)/sizeof(*s);ξ++)      \
-                              σ[Μ>>Ι*3&7][α[Μ>>3*Ι&7]++].v = s[ξ]; }
-#define R(Ι)              σ[Μ>>Ι*3&7][--α[Μ>>Ι*3&7]]
+                              σ[Μ>>Ι*3&7][(σ[Μ>>3*Ι&7][α]).Q++].v = s[ξ]; }
+#define R(Ι)              σ[Μ>>Ι*3&7][--(σ[Μ>>Ι*3&7][α]).Q]
 #define GOTO(On, Be, Af)  N(goto##On) {                                   \
                             Q_t ψ = T(Ι).Q, c3 = ψ>>9&7,                  \
                             c2 = ψ>>6&7, c1 = ψ>>3&7, c0 = ψ>>0&7;        \
@@ -83,7 +90,7 @@ int main() {
   Q_t Σ;
   s_t b[12][Σ = 512];
   s_t*ω[8]    = {b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]};
-  Q_t α[4]    = {0, 0, 0, 0};
+  Q_t α       = Σ - 1;
   Q_t ρ[8]    = {Σ, Σ, Σ, Σ, Σ, Σ, Σ, Σ};
   s_t*σ[4]    = {b[8], b[9], b[10], b[11]};
   Q_t Μ       = 03210;
@@ -93,6 +100,9 @@ int main() {
     ω[i][0].v = ρ[i];
     ω[i][1].v = ρ[i];
     ω[i][2].v = ρ[i];
+  }
+  for (Q_t i  = 0; i < 4; i++) {
+    σ[i][α].Q = 0;
   }
   A(0, B);
   show(οαρσΜΣΙ);
