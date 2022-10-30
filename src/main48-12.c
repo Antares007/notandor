@@ -63,14 +63,13 @@ GOTO(0, c3+c2+c1,00)
 N(B         ) {L; A(Ι, B) goto1(οαρσΜΣ,7); }
 N(C         ) {L; A(Ι, C) goto1(οαρσΜΣΙ); }
 N(end       ) { ;  }
-N(next1     ) { ; goto1(οαρσΜΣ,(Ι+7)%8); }
 
-N(mama_     ) {L; A(Ι, "მამა", C)   goto1(οαρσΜΣΙ); }
-N(mamam     ) {L; P(2, 010, mama_)  O; }
-N(shvil_    ) {L; A(Ι, "შვილ", C)   goto1(οαρσΜΣΙ); }
-N(shvils    ) {L; P(3, 010, shvil_) O; }
-N(sakhl_    ) {L; A(Ι, "სახლ", C)   goto1(οαρσΜΣΙ); }
-N(sakhli    ) {L; P(1, 010, sakhl_) O; }
+N(mama_     ) {L; A(Ι+0, "მამა", C)   goto1(οαρσΜΣΙ); }
+N(mamam     ) {L; P(Ι+2, 010, mama_)  O; }
+N(shvil_    ) {L; A(Ι+0, "შვილ", C)   goto1(οαρσΜΣΙ); }
+N(shvils    ) {L; P(Ι+3, 010, shvil_) O; }
+N(sakhl_    ) {L; A(Ι+0, "სახლ", C)   goto1(οαρσΜΣΙ); }
+N(sakhli    ) {L; P(Ι+1, 010, sakhl_) O; }
 N(_shen_    ) {L; const char* Oi = (assert(R(3).v==C), R(3).Q);
                   const char* S  = (assert(R(3).v==C), R(3).Q);
                   const char* Op = (assert(R(3).v==C), R(3).Q);
@@ -79,14 +78,36 @@ N(_shen_    ) {L; const char* Oi = (assert(R(3).v==C), R(3).Q);
 N(aushena   ) {L; P(Ι, 010, _shen_);
                   M(003330000);
                   R(Ι).c(οαρσΜΣΙ); }
-N(da        ) {L; for(Q_t i=0;i<8;i++) {
-                    P(i, 0111, end, next1, end);
-                  }
-                  O; }
-N(an        ) {L; for(Q_t i=0;i<8;i++) {
-                    P(i, 0111, end, end, next1);
-                  }
-                  O; }
+N(next2     ) { ; goto2(οαρσΜΣ,(Ι+7)%8); }
+N(next1     ) { ; goto1(οαρσΜΣ,(Ι+7)%8); }
+N(next0     ) { ; goto0(οαρσΜΣ,(Ι+7)%8); }
+N(rest2     ) {L; ρ -= 2; A(Ι, 2); }
+N(rest1     ) {L; ρ -= 2; A(Ι, 1); }
+N(rest0     ) {L; ρ -= 2; A(Ι, 0); }
+N(da        ) {L; for (Q_t i = 0; i < 8; i++) ω[i][ρ+2].Q = ω[i][ρ+0].Q,
+                                              ω[i][ρ+3].Q = ω[i][ρ+1].Q;
+                  ρ += 2;
+                  P(0, 0111, rest2, rest1, rest0);
+                  for (Q_t i = 1; i < 8; i++) P(i, 0111, next2, next1, next0);
+                  O;
+                  ρ -= 2;
+                  Q_t ψ = R(Ι).Q;
+                  printf("%lu\n", ψ);L;
+                  if(ψ == 1) goto1(οαρσΜΣ,(Ι+7)%8);
+                  else A(Ι, ψ);
+              }
+N(an        ) {L; for (Q_t i = 0; i < 8; i++) ω[i][ρ+2].Q = ω[i][ρ+0].Q,
+                                              ω[i][ρ+3].Q = ω[i][ρ+1].Q;
+                  ρ += 2;
+                  P(0, 0111, rest2, rest1, rest0);
+                  for (Q_t i = 1; i < 8; i++) P(i, 0111, next2, next1, next0);
+                  O;
+                  ρ -= 2;
+                  Q_t ψ = R(Ι).Q;
+                  printf("%lu\n", ψ);L;
+                  if(ψ == 0) goto1(οαρσΜΣ,(Ι+7)%8);
+                  else A(Ι, ψ);
+              }
 N(ο         ) {L; O;}
 N(deda_     ) {L; A(Ι, "დედა", C)       goto1(οαρσΜΣΙ); }
 N(dedam     ) {L; P(2, 010, deda_)      O; }
@@ -96,11 +117,13 @@ N(namckhvar_) {L; A(Ι, "ნამცხვარ", C)   goto1(οαρσΜΣΙ); 
 N(namckhvari) {L; P(2, 010, namckhvar_) O; }
 N(_ckho_    ) {L;                       _shen_(οαρσΜΣΙ); }
 N(gamouckho ) {L; P(Ι, 010, _ckho_)
-                  M(003330000);
+                  M(003330201);
                   R(Ι).c(οαρσΜΣΙ); }
-
+N(xti_      ) {L; printf("xti_\n");     goto1(οαρσΜΣΙ);}
+N(xtis      ) {L; P(2, 010, xti_) O; }
 N(ntext     ) {L; A(Ι, mamam, sakhli, shvils,     aushena,
-                   da, dedam, mat,    namckhvari, gamouckho
+                   da, dedam, mat,    namckhvari, gamouckho,
+                   an, xtis,
                   ) O; }
 
 N(show      ) {L; ntext(οαρσΜΣΙ); }
