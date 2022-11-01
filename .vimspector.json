@@ -1,0 +1,16 @@
+{
+  "configurations": {
+    "launch": {
+      "adapter": "CodeLLDB",
+      "configuration": {
+        "request": "launch",
+        "program": "src/main.out",
+        "args": ["src/a_stdio.arsi"],
+        "cwd": "${workspaceRoot}",
+        "environment": [  ],
+        "externalConsole": true,
+        "MIMode": "lldb"
+      }
+    }
+  }
+}
