@@ -10,12 +10,14 @@ G(1, c2,00+c0)
 G(0, c2+c1,00)
 #undef G
 #include <assert.h>
-N(end2      ) { ; A(2); }
-N(end1      ) { ; A(1); }
-N(end0      ) { ; A(0); }
-N(nxt2      ) { ; ι=(ι+7)%8, C(2); }
-N(nxt1      ) { ; ι=(ι+7)%8, C(1); }
-N(nxt0      ) { ; ι=(ι+7)%8, C(0); }
+Q_t M0[]  ={0,0,0,0,0,0,0,0};
+Q_t M333[]={0,3,3,3,0,0,0,0};
+N(end2      ) {L; A(2); }
+N(end1      ) {L; A(1); }
+N(end0      ) {L; A(0); }
+N(nxt2      ) {L; ι=(ι+7)%8, C(2); }
+N(nxt1      ) {L; ι=(ι+7)%8, C(1); }
+N(nxt0      ) {L; ι=(ι+7)%8, C(0); }
 N(და        ) {L; for (Q_t i = 0; i < 8; i++)
                     P(i, 0111, nxt2, nxt1, nxt0);
                   O; }
@@ -56,9 +58,7 @@ N(namckhvar_) {L; C(1); }
 N(namckhvari) {L; P(1, 030, "ნამცხვარ", Co, namckhvar_) O; }
 N(_ckho_    ) {L;                       _shen_(ο,α,ρ,σ,ι,Μ); }
 N(gamouckho ) {L; P(0, 010, _ckho_)
-                  Μ[(ι+1)%8] = 3;
-                  Μ[(ι+2)%8] = 3;
-                  Μ[(ι+3)%8] = 3;
+                  Μ = M333;
                   O; }
 N(xti_      ) {L; printf("xti_\n");     C(1);}
 N(xtis      ) {L; P(2, 010, xti_)       O; }
@@ -70,15 +70,22 @@ N(text_     ) {L; O; }
 N(texti     ) {L; P(1, 030, R(0).v, Co, text_) O; }
 N(anda      ) {L; }
 N(aris      ) {L; O;}
-N(da        ) {L; O;}
-N(gaarchie  ) {L; Μ[(ι+1)%8] = 3; Μ[(ι+2)%8] = 3; Μ[(ι+3)%8] = 3; O; }
+N(da        ) {L;
+  P(0, 0111, nxt2, nxt1, nxt0); P(1, 0111, nxt2, nxt1, nxt0);
+  P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
+  P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0);
+  P(6, 0111, nxt2, nxt1, nxt0); P(7, 0111, nxt2, nxt1, nxt0);
+  O;}
+N(_arch_    ) {L; C(1); }
+N(gaarchie  ) {L; Μ = M333; O; }
 N(S_);
 N(S_i       ) {L; P(1, 010, S_) O; }
 N(S_it      ) {L; P(5, 010, S_) O; }
 N(S_        ) {L; A(S_i, aris, "b", texti,
                          anda,        S_i, da,   "a", texti) O; }
-N(show_     ) {L; A("baaa", texti, S_it, gaarchie) O; }
-N(dot       ) {L; 
+N(show_     ) {L; A("baaa", texti, gaarchie, S_it) O; }
+N(b         ) {L; }
+N(o         ) {L; 
   P(0, 0111, end2, end1, end0); P(1, 0111, nxt2, nxt1, nxt0);
   P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
   P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0);
@@ -86,10 +93,14 @@ N(dot       ) {L;
   O;
 } 
 N(nar       ) {L;
-  P(0, 030, nxt1, nar_, dot); C(1);
+  P(0, 030, nxt1, nar_, o); O;
 }
-
-
+// ერთი და ორი და ოთხი შეკრიბე.
+// "არჩილს " ტექსტი და "უყვარს " ტექსტი და "სოფო" ტექსტი შეკრიბე.
+// გაარჩიე ის Sით.
+// გადაიყვანე ის c სტრინგად.
+N(_bechd_   ) {L; C(1); }
+N(dabechde  ) {L; P(0, 010, _bechd_) O;}
 int main() {
   Q_t Σ;
   s_t b[12][Σ = 256];
@@ -98,6 +109,6 @@ int main() {
   Q_t ρ[]     = {Σ,Σ,Σ,Σ,Σ,Σ,Σ,Σ};
   s_t*σ[]     = {b[8],b[9],b[10],b[11]};
   Q_t ι       = 0;
-  Q_t Μ[]     = {0,0,0,0,0,0,0,0};
-  nar(ο,α,ρ,σ,ι,Μ);
+  Q_t*Μ       = M0;
+  A(nxt1, dabechde, da, dabechde, o) O;
 }
