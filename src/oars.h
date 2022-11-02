@@ -18,6 +18,6 @@ typedef struct s_t  {union{ void*v; Q_t Q; void(*c)(OARS); };} s_t;
                     ρ[ι] += A;                                          \
                     c##O ? σ[Μ[ι]][--α[Μ[ι]]].c(T)                      \
                          :              goto##O(T); }
-#define P(ι, ...)   { void*ζs[] = {__VA_ARGS__};                        \
+#define O(ι, ...)   { void*ζs[] = {__VA_ARGS__};                        \
                     Q_t ζi = sizeof(ζs) / sizeof(*ζs);                  \
                     while(ζi) ο[ι][--ρ[ι]].Q = ζs[--ζi]; }
