@@ -56,7 +56,7 @@ N(ma_       ) {L; C(1); }
 N(mat       ) {L; P(3, 030, "მათ", Co, ma_) O; }            
 N(namckhvar_) {L; C(1); }
 N(namckhvari) {L; P(1, 030, "ნამცხვარ", Co, namckhvar_) O; }
-N(_ckho_    ) {L;                       _shen_(ο,α,ρ,σ,ι,Μ); }
+N(_ckho_    ) {L;                       _shen_(T); }
 N(gamouckho ) {L; P(0, 010, _ckho_)
                   Μ = M333;
                   O; }
@@ -81,17 +81,28 @@ N(gaarchie  ) {L; Μ = M333; O; }
 N(S_);
 N(S_i       ) {L; P(1, 010, S_) O; }
 N(S_it      ) {L; P(5, 010, S_) O; }
-N(S_        ) {L; A(S_i, aris, "b", texti,
+N(S_        ) {L; A(S_i, aris, "β", texti,
                          anda,        S_i, da,   "a", texti) O; }
 N(show_     ) {L; A("baaa", texti, gaarchie, S_it) O; }
 N(b         ) {L; }
 N(o         ) {L; 
-  P(0, 0111, end2, end1, end0); P(1, 0111, nxt2, nxt1, nxt0);
-  P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
-  P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0);
-  P(6, 0111, nxt2, nxt1, nxt0); P(7, 0111, nxt2, nxt1, nxt0);
-  O;
+  {
+    s_t β[8][Σ];
+    s_t*ο[]     = {β[0],β[1],β[2],β[3],β[4],β[5],β[6],β[7]};
+    Q_t ρ[]     = {Σ,Σ,Σ,Σ,Σ,Σ,Σ,Σ};
+    P(0, 0111, end2, end1, end0); P(1, 0111, nxt2, nxt1, nxt0); P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
+    P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0); P(6, 0111, nxt2, nxt1, nxt0); P(7, 0111, nxt2, nxt1, nxt0);
+    R(0).c(T);
+  }
 } 
+N(join) {
+  {
+    //s_t *so = σ;
+    σ       = R(0).v;
+    P(0, 0111, end2, end1, end0); P(1, 0111, nxt2, nxt1, nxt0); P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
+    P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0); P(6, 0111, nxt2, nxt1, nxt0); P(7, 0111, nxt2, nxt1, nxt0);
+  }
+}
 N(nar       ) {L;
   P(0, 030, nxt1, nar_, o); O;
 }
@@ -103,12 +114,12 @@ N(_bechd_   ) {L; C(1); }
 N(dabechde  ) {L; P(0, 010, _bechd_) O;}
 int main() {
   Q_t Σ;
-  s_t b[12][Σ = 256];
-  s_t*ο[]     = {b[0],b[1],b[2],b[3],b[4],b[5],b[6],b[7]};
+  s_t β[12][Σ = 256];
+  s_t*ο[]     = {β[0],β[1],β[2],β[3],β[4],β[5],β[6],β[7]};
   Q_t α[]     = {0,0,0,0};
   Q_t ρ[]     = {Σ,Σ,Σ,Σ,Σ,Σ,Σ,Σ};
-  s_t*σ[]     = {b[8],b[9],b[10],b[11]};
+  s_t*σ[]     = {β[8],β[9],β[10],β[11]};
   Q_t ι       = 0;
   Q_t*Μ       = M0;
-  A(nxt1, dabechde, da, dabechde, o) O;
+  A(nxt1, nar_, o) O;
 }

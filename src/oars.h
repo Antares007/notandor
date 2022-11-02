@@ -1,7 +1,7 @@
 #pragma once
 // clang-format off
-#define OARS        struct s_t**ο, Q_t*α, Q_t*ρ, struct s_t**σ,       \
-                    Q_t ι, Q_t*Μ
+#define OARS        struct s_t**ο,Q_t*α,Q_t*ρ,struct s_t**σ,Q_t ι,Q_t*Μ,Q_t Σ 
+#define T           ο, α, ρ, σ, ι, Μ, Σ
 typedef unsigned long Q_t;
 typedef struct s_t  {union{ void*v; Q_t Q; void(*c)(OARS); };} s_t;
 #define N(a)        void a(OARS)
@@ -16,12 +16,11 @@ typedef struct s_t  {union{ void*v; Q_t Q; void(*c)(OARS); };} s_t;
                     for (Q_t i = 0; i < c##O; i++)                      \
                       σ[Μ[ι]][α[Μ[ι]]++].v = ο[ι][ρ[ι]++].v;            \
                     ρ[ι] += A;                                          \
-                    c##O ? σ[Μ[ι]][--α[Μ[ι]]].c(ο, α, ρ, σ, ι, Μ)       \
-                         :              goto##O(ο, α, ρ, σ, ι, Μ); }
-#define O           R(0).c(ο, α, ρ, σ, ι, Μ)
-#define C(r)        goto##r(ο, α, ρ, σ, ι, Μ)
+                    c##O ? σ[Μ[ι]][--α[Μ[ι]]].c(T)                      \
+                         :              goto##O(T); }
+#define O           R(0).c(T)
+#define C(r)        goto##r(T)
 #define P(Δ, ...)   { void*ζs[] = {__VA_ARGS__};                        \
                     Q_t ζi = sizeof(ζs)/sizeof(*ζs);                    \
                     while(ζi)                                           \
                       ο[(ι+Δ)%8][--ρ[(ι+Δ)%8]].Q = ζs[--ζi]; }
-#define T(Δ)        ο[(Δ+ι)%8][ρ[(Δ+ι)%8]++]
