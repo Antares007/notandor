@@ -12,6 +12,7 @@ G(0, c2+c1,00)
 #include <assert.h>
 Q_t M0[]  ={0,0,0,0,0,0,0,0};
 Q_t M333[]={0,3,3,3,0,0,0,0};
+Q_t M312[]={0,3,1,2,0,0,0,0};
 N(end2      ) {L; A(2); }
 N(end1      ) {L; A(1); }
 N(end0      ) {L; A(0); }
@@ -37,17 +38,17 @@ N(Co        ) {L; A(Co)          C(1); }
 N(mamam     ) {L; P(2, 020, "მამა", goto1) R(0).c(T); }
 N(shvils    ) {L; P(3, 020, "შვილ", goto1) R(0).c(T); }
 N(sakhli    ) {L; P(1, 020, "სახლ", goto1) R(0).c(T); }
-N(_shen_    ) {L; const char* Oi = R(3).v;
-                  const char* Ss = R(3).v;
-                  const char* Op = R(3).v;
+N(_shen_    ) {L; const char* Ss = R(1).v;
+                  const char* Op = R(2).v;
+                  const char* Oi = R(3).v;
                   printf("%s  %s  %s.\n", Ss, Op, Oi);
                   C(1); }
-N(aushena   ) {L; P(0, 010, _shen_) Μ = M333, R(0).c(T); }
+N(aushena   ) {L; P(0, 010, _shen_) Μ = M312, R(0).c(T); }
 
 N(dedam     ) {L; P(2, 020, "დედა",    goto1) R(0).c(T); }            
 N(mat       ) {L; P(3, 020, "მათ ",    goto1) R(0).c(T); }            
 N(namckhvari) {L; P(1, 020, "ნამცხვარ",goto1) R(0).c(T); }
-N(gamouckho ) {L; P(0, 010, _shen_) Μ = M333, R(0).c(T); }
+N(gamouckho ) {L; P(0, 010, _shen_) Μ = M312, R(0).c(T); }
 N(xti_      ) {L; printf("xti_\n");     C(1);}
 N(xtis      ) {L; P(2, 010, xti_)       R(0).c(T); }
 N(nar_      ) {L; A(mamam, shvils, sakhli, aushena,
