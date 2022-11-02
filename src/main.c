@@ -20,70 +20,58 @@ N(nxt1      ) {L; ι=(ι+7)%8, C(1); }
 N(nxt0      ) {L; ι=(ι+7)%8, C(0); }
 N(და        ) {L; for (Q_t i = 0; i < 8; i++)
                     P(i, 0111, nxt2, nxt1, nxt0);
-                  O; }
+                  R(0).c(T); }
 N(ან        ) {L; {
                     Q_t ρn[]= { ρ[0],ρ[1],ρ[2],ρ[3],ρ[4],ρ[5],ρ[6],ρ[7], };
                     Q_t*ρ   = ρn;
                     Q_t Μ[] = {0,0,0,0,0,0,0,0};
                     for (Q_t i = 0; i < 8; i++)
                       P(i, 0111, i?nxt2:end2, i?nxt1:end1, i?nxt0:end0);
-                    O;
+                    R(0).c(T);
                   }
                   Q_t ψ = R(0).Q;
                   printf("%lu\n", ψ);L;
                   if(ψ == 0) ι=(ι+7)%8,C(1);
                   else A(ψ); }
 N(Co        ) {L; A(Co)          C(1); }
-N(mama_     ) {L; C(1); }
-N(mamam     ) {L; P(2, 030, "მამა", Co, mama_)  O;    }
-N(shvil_    ) {L; C(1); }
-N(shvils    ) {L; P(3, 030, "შვილ", Co, shvil_) O;    }
-N(sakhl_    ) {L; C(1); }
-N(sakhli    ) {L; P(1, 030, "სახლ", Co, sakhl_) O;    }
-N(_shen_    ) {L; const char* Oi = (assert(R(3).v==Co), R(3).Q);
-                  const char* Ss = (assert(R(3).v==Co), R(3).Q);
-                  const char* Op = (assert(R(3).v==Co), R(3).Q);
+N(mamam     ) {L; P(2, 020, "მამა", goto1) R(0).c(T); }
+N(shvils    ) {L; P(3, 020, "შვილ", goto1) R(0).c(T); }
+N(sakhli    ) {L; P(1, 020, "სახლ", goto1) R(0).c(T); }
+N(_shen_    ) {L; const char* Oi = R(3).v;
+                  const char* Ss = R(3).v;
+                  const char* Op = R(3).v;
                   printf("%s  %s  %s.\n", Ss, Op, Oi);
                   C(1); }
-N(aushena   ) {L; P(0, 010, _shen_);
-                  Μ[(ι+1)%8] = 3;
-                  Μ[(ι+2)%8] = 3;
-                  Μ[(ι+3)%8] = 3;
-                  O; }
-N(deda_     ) {L; C(1); }
-N(dedam     ) {L; P(2, 030, "დედა", Co, deda_) O; }            
-N(ma_       ) {L; C(1); }
-N(mat       ) {L; P(3, 030, "მათ", Co, ma_) O; }            
-N(namckhvar_) {L; C(1); }
-N(namckhvari) {L; P(1, 030, "ნამცხვარ", Co, namckhvar_) O; }
-N(_ckho_    ) {L;                       _shen_(T); }
-N(gamouckho ) {L; P(0, 010, _ckho_)
-                  Μ = M333;
-                  O; }
+N(aushena   ) {L; P(0, 010, _shen_) Μ = M333, R(0).c(T); }
+
+N(dedam     ) {L; P(2, 020, "დედა",    goto1) R(0).c(T); }            
+N(mat       ) {L; P(3, 020, "მათ ",    goto1) R(0).c(T); }            
+N(namckhvari) {L; P(1, 020, "ნამცხვარ",goto1) R(0).c(T); }
+N(gamouckho ) {L; P(0, 010, _shen_) Μ = M333, R(0).c(T); }
 N(xti_      ) {L; printf("xti_\n");     C(1);}
-N(xtis      ) {L; P(2, 010, xti_)       O; }
+N(xtis      ) {L; P(2, 010, xti_)       R(0).c(T); }
 N(nar_      ) {L; A(mamam, shvils, sakhli, aushena,
                    და, gamouckho, mat, namckhvari, dedam,
                    //ან, xtis,
-                  ) O; }
-N(text_     ) {L; O; }
-N(texti     ) {L; P(1, 030, R(0).v, Co, text_) O; }
+                  ) R(0).c(T); }
+N(text_     ) {L; R(0).c(T); }
+N(texti     ) {L; P(1, 030, R(0).v, Co, text_) R(0).c(T); }
 N(anda      ) {L; }
-N(aris      ) {L; O;}
+N(aris      ) {L; R(0).c(T);}
 N(da        ) {L;
   P(0, 0111, nxt2, nxt1, nxt0); P(1, 0111, nxt2, nxt1, nxt0);
   P(2, 0111, nxt2, nxt1, nxt0); P(3, 0111, nxt2, nxt1, nxt0);
   P(4, 0111, nxt2, nxt1, nxt0); P(5, 0111, nxt2, nxt1, nxt0);
   P(6, 0111, nxt2, nxt1, nxt0); P(7, 0111, nxt2, nxt1, nxt0);
-  O;}
+  R(0).c(T);}
 N(_arch_    ) {L; C(1); }
-N(gaarchie  ) {L; Μ = M333; O; }
+N(gaarchie  ) {L; Μ = M333; R(0).c(T); }
 N(S_);
-N(S_i       ) {L; P(1, 010, S_) O; }
-N(S_it      ) {L; P(5, 010, S_) O; }
+N(S_i       ) {L; P(1, 010, S_) R(0).c(T); }
+N(S_it      ) {L; P(5, 010, S_) R(0).c(T); }
 N(S_        ) {L; A(S_i, aris, "β", texti,
-                         anda,        S_i, da,   "a", texti) O; }
-N(show_     ) {L; A("baaa", texti, gaarchie, S_it) O; }
+                         anda,        S_i, da,   "a", texti) R(0).c(T); }
+N(show_     ) {L; A("baaa", texti, gaarchie, S_it) R(0).c(T); }
 N(b         ) {L; }
 N(o         ) {L; 
   {
@@ -104,14 +92,14 @@ N(join) {
   }
 }
 N(nar       ) {L;
-  P(0, 030, nxt1, nar_, o); O;
+  P(0, 030, nxt1, nar_, o); R(0).c(T);
 }
 // ერთი და ორი და ოთხი შეკრიბე.
 // "არჩილს " ტექსტი და "უყვარს " ტექსტი და "სოფო" ტექსტი შეკრიბე.
 // გაარჩიე ის Sით.
 // გადაიყვანე ის c სტრინგად.
 N(_bechd_   ) {L; C(1); }
-N(dabechde  ) {L; P(0, 010, _bechd_) O;}
+N(dabechde  ) {L; P(0, 010, _bechd_) R(0).c(T);}
 int main() {
   Q_t Σ;
   s_t β[12][Σ = 256];
@@ -121,5 +109,5 @@ int main() {
   s_t*σ[]     = {β[8],β[9],β[10],β[11]};
   Q_t ι       = 0;
   Q_t*Μ       = M0;
-  A(nxt1, nar_, o) O;
+  A(nxt1, nar_, o) R(0).c(T);
 }
