@@ -40,11 +40,10 @@ N(Sa      ) { A(                 "b", term,
 N(CSa     ) { A(Sa, var) O; }
 //N(show_   ) { A("baaa", B, CSa, var) O;}
 
-N(B       ) {L; A(B) c1(T);}
+N(B       ) { ; A(B) c1(T);}
 
-N(one_    ) {L; A(1, B) O; }
-N(one     ) {L; P(010, one_) O; }
-N(add_    ) {L; RN(Q_t, r);
+N(one     ) {L; P(020, 1, B) O; }
+N(add_    ) { ; RN(Q_t, r);
                 RN(Q_t, l);
                 A(l + r, B) O; }
 N(add     ) {L; P(010, add_) O; }
