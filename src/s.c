@@ -15,7 +15,7 @@ typedef struct s_t {union{ void*v; Q_t Q; void(*c)(OARS); struct s_t*s; };} s_t;
                     for (Q_t i = 0; i < ψ##_n; i++) σ[α++].v = ο[ρ++].v;      \
                     ρ += _a;                                                  \
                     ψ##_n ? O : c##_n(T); }
-#define O           (--α, σ[α].c(T))
+#define O           (logn(T,__FUNCTION__),--α, σ[α].c(T))
 #define P(...)      { const void*ζs[] = {__VA_ARGS__};                        \
                     Q_t i = sizeof(ζs) / sizeof(*ζs);                         \
                     while(i) ο[--ρ].v = (void*)ζs[--i]; }
@@ -29,22 +29,22 @@ G(0, ψ2+ψ1,00)
 #include<assert.h>
 #define RN(ti,na)   ti na = (assert(R.v==B),(ti)R.v)
 N(var);
-#define VBM(...) {L; A(__VA_ARGS__) O; }
-#define V(aso) N(aso##_);N(aso){L;P(030, aso##_, aso, var) O; } N(aso##_) VBM
+#define VBM(...) { ; A(__VA_ARGS__) O; }
+#define V(aso) N(aso##_);N(aso){ ;P(030, aso##_, aso, var) O; } N(aso##_) VBM
 #include<unistd.h>
-N(B       ) {L; A(B) c1(T);}
-N(term_   ) {L; α--, c1(T); }
-N(term    ) {L; P(020, R.v, term_) sleep(1), O; }
-N(orelse  ) {L; O; }
+N(B       ) { ; A(B, c1) O;}
+N(term_   ) { ; α--; A(c1) O; }
+N(term    ) { ; P(020, R.v, term_) sleep(1), O; }
+N(orelse  ) { ; O; }
 N(Sa);
 V(Bb      ) ("b", term, "b", term)
 V(Abba    ) (Sa, "a", term, Bb, "a", term)
 V(Sa      ) ("b", term, orelse,
              "b", term, Sa, "a", term);
-N(show    ) {L; void*s[]={0,0,0};
+N(show    ) { ; void*s[]={0,0,0};
                 A(s, "baaa", 4, B, Sa) O;}
 
-N(var     ) {L; void (*cur_var)(OARS) = R.v;
+N(var     ) { ; //void (*cur_var)(OARS) = R.v;
                 if (σ[α-2].v == orelse) printf("orelse\n");
                 //for (s_t *c = σ[1].s; c; c = c[2].v)
                 //  if (c[1].v == cur_var) 
@@ -66,16 +66,20 @@ N(var     ) {L; void (*cur_var)(OARS) = R.v;
       T → FT′ T′→ *FT′|∈
       F → ( E ) | id
 */
-N(end2    ) {L; }
-N(end1    ) {L; RN(Q_t, r);printf("%lu\n", r);}
-N(end0    ) {L; }
-const char* names[0x10000]={};
-#define NAME(me) names[(Q_t)me & (Q_t)0xFFFF] = " "#me 
+N(end2    ) { ; }
+N(end1    ) { ; RN(Q_t, r);printf("%lu\n", r);}
+N(end0    ) { ; }
+void init_names();
 int main() {
   s_t ο[256], σ[256];
   Q_t α = 0, ρ = sizeof(ο) / sizeof(*ο);
   P(0111, end2, end1, end0);
-
+  init_names();
+  A(B, show) O;
+}
+#define NAME(me) names[(Q_t)me & (Q_t)0xFFFF] = #me 
+char* names[0x10000]={};
+void init_names() {
   NAME(B       );
   NAME(term_   );
   NAME(term    );
@@ -92,27 +96,49 @@ int main() {
   NAME(end2    );
   NAME(end1    );
   NAME(end0    );
-
-  A(B, show) O;
 }
+#undef NAME
+char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
 void logn(OARS, const char*name) {
-  Q_t i = 0;
-  while(name[i] &&
-        i < 7) printf("%c", name[i++]);
-  while(i < 7) printf(" "), i++;
-  printf("%.2lu %lu ", α, ρ);
-  for(Q_t i=0;i<α;i++)
-    printf("%s", names[σ[i].Q & (Q_t)0xFFFF] ? names[σ[i].Q & (Q_t)0xFFFF]:" .");
-  printf("\n              ");
-  i = ρ;
-  while(i < 255) {
-    Q_t ψ   = ο[i++].Q;
-    Q_t len = (ψ>>6&7)+(ψ>>3&7)+(ψ&7);
-    printf(" ψ%.3lo", ψ);
-    while(len)
-      printf("%s",  names[ο[i].Q & (Q_t)0xFFFF]
-                  ? names[ο[i].Q & (Q_t)0xFFFF]
-                  : " ."), len--, i++;
+  Q_t m = 44;
+  {
+    Q_t i = α, c = 0;
+    while(i && c < m) {
+      char*n = get_name(σ[--i].v);
+      while(*n) n++, c++;
+      c++;
+    }
+    c = 0;
+    while(i < α && c < m) {
+      char*n = get_name(σ[i++].v);
+      while(*n && c < m) printf("%c", *n), n++, c++;
+      if (c < m) printf(" "), c++;
+    }
+    while(c < m) printf(" "), c++;
+  }
+  printf("  ");
+  {
+    Q_t i = 0;
+    while(name[i] &&
+          i < 7) printf("%c", name[i++]);
+    while(i < 7) printf(" "), i++;
+    printf("%.2lu %.3lu", α, ρ);
+  }
+  printf("  ");
+  {
+    Q_t i = ρ, c = 0;
+    while(i < 255 && c < m) {
+      Q_t ψ   = ο[i++].Q;
+      Q_t len = (ψ>>6&7)+(ψ>>3&7)+(ψ&7);
+      printf("ψ%.3lo ", ψ);
+      c += 5;
+      while(len && c < m) {
+        char *n = get_name(ο[i++].v);
+        while(*n && c < m) printf("%c", *n), n++, c++;
+        if(c < m) printf(" "), c++;
+        len--;
+      }
+    }
   }
   printf("\n");
 }
