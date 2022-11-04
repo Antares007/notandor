@@ -1,6 +1,6 @@
 #pragma once
 #define OARS struct s_t *ο, Q_t α, Q_t ρ, struct s_t *σ
-#define T                ο,     α,     ρ,             σ
+#define Τ                ο,     α,     ρ,             σ
 
 typedef unsigned long Q_t;
 typedef struct s_t {union{ void*v; Q_t Q; void(*c)(OARS); struct s_t*s; };} s_t;
@@ -15,8 +15,8 @@ typedef struct s_t {union{ void*v; Q_t Q; void(*c)(OARS); struct s_t*s; };} s_t;
                     ρ += _b;                                                  \
                     for (Q_t i = 0; i < ψ##_n; i++) σ[α++].v = ο[ρ++].v;      \
                     ρ += _a;                                                  \
-                    ψ##_n ? O : c##_n(T); }
-#define O           (--α, σ[α].c(T))
+                    ψ##_n ? o : c##_n(Τ); }
+#define o           (--α, σ[α].c(Τ))
 #define P(...)      { const void*ζs[] = {__VA_ARGS__};                        \
                     Q_t i = sizeof(ζs) / sizeof(*ζs);                         \
                     while(i) ο[--ρ].v = (void*)ζs[--i]; }
