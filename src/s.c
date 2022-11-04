@@ -8,10 +8,9 @@ G(0, ψ2+ψ1,00)
 N(var);
 #define VBM(...) { ; A(__VA_ARGS__) O; }
 #define V(aso) N(aso##_);N(aso){ ;P(030, aso##_, aso, var) O; } N(aso##_) VBM
-#include<unistd.h>
 N(B       ) { ; A(B, c1) O;}
 N(t_      ) { ; α--; A(c1) O; }
-N(t       ) { ; P(020, R.v, t_) sleep(1), O; }
+N(t       ) { ; P(020, R.v, t_) O; }
 N(oe      ) { ; O; }
 N(Sa);
 V(Bb      ) ("b", t, "b", t)
@@ -22,11 +21,12 @@ N(show    ) { ; void*s[]={0,0,0};
                 A(s, "baaa", 4, B, Sa) O;}
 
 N(var     ) { ; //void (*cur_var)(OARS) = R.v;
-                if (σ[α-2].v == oe) printf("oe\n");
+                //if (σ[α-2].v == oe) printf("oe\n");
                 //for (s_t *c = σ[1].s; c; c = c[2].v)
                 //  if (c[1].v == cur_var) 
                 //    return α--, printf("lr\n"), O;
                 //σ[1].v = (void*[]){ σ[1].s[0].v, cur_var, σ[1].s };
+                α--;
                 O; }
 /*
       A → A α |β
