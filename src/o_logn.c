@@ -1,33 +1,11 @@
-#include "o.h"
+#include "o_logn.h"
 // clang-format off
-static char* names[0x10000]={};
-#define CAT_(a, b) a##b
-#define CAT(a, b) CAT_(a, b)
-#define L CAT(name_fun,__LINE__)
-#define E(t,n,h) N(n); static void h() { names[(Q_t)n & (Q_t)0xFFFF] = #n; t(); }
-static void nop(){}
-E(nop,
-B       ,L)E(L,
-t_      ,L)E(L,
-t       ,L)E(L,
-oe      ,L)E(L,
-Bb      ,L)E(L,
-Abba    ,L)E(L,
-Sa_     ,L)E(L,
-Sa      ,L)E(L,
-show    ,L)E(L,
-var     ,L)E(L,
-c2      ,L)E(L,
-c1      ,L)E(L,
-c0      ,L)E(L,
-e2      ,L)E(L,
-e1      ,L)E(L,
-e0      ,L)void init_logn(){L();}
-#undef E
-#undef L
-char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
+char* names[0x10000]={};
+static char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
 #include<stdio.h>
 #include<stdlib.h>
+N(t);
+N(t_);
 void logn(OARS, const char*name) {
   {
     static Q_t counter = 0;
