@@ -3,14 +3,13 @@
 typedef unsigned long Q_t;
 typedef struct s_t { union { Q_t Q; void *v; void (*c)(OARS); }; } s_t;
 
+#define N(argo  ) void argo(OARS)
 #define A(α, ...) { const void *va_args[] = {__VA_ARGS__};                    \
                       Q_t size = sizeof(va_args)/sizeof(*va_args);            \
                       for (Q_t i=0; i<size; i++) (*α++).v=(void*)va_args[i]; }
 #define R(ρ, ...) { const void *va_args[] = {__VA_ARGS__};                    \
                       Q_t size = sizeof(va_args)/sizeof(*va_args);            \
                       while (size) (*--ρ).v=(void*)va_args[--size]; }
-#define N(argo) void argo(OARS)
-
 #define o(α) (α--,(*α).c(oars))
 #include<assert.h>
 N(cont) {                                                            
@@ -48,11 +47,11 @@ int main() {
     /* ←ο
     σ→     ←ρ
         α→ */    
-    s_t b[256 + 256], *σ = b, *ο = σ + 256, *α = ο, *ρ = ο + 256;
-    printf("%p\n", ρ);
-    R(ρ, 012111, e4,  9, e3, e2, e1, e0) 
-    R(ρ,   0111, b2, b1, b0)
-    R(ο, 012111, e4,  9, e3, e2, e1, e0) 
-    R(ο,   0111, b2, b1, b0)
-    A(α, B, show) o(α);
+  const Q_t Σ = 512;
+  s_t b[Σ], *σ = b, *ο = σ + Σ / 2, *α = ο, *ρ = ο + Σ / 2;
+  R(ρ, 012111, e4,  9, e3, e2, e1, e0) 
+  R(ρ,   0x49, b2, b1, b0)
+  R(ο, 012111, e4,  9, e3, e2, e1, e0) 
+  R(ο,   0x49, b2, b1, b0)
+  A(α, B, show) o(α);
 }
