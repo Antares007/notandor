@@ -1,30 +1,30 @@
 typedef unsigned long Q_t;
 #include <assert.h>
-#define OARS struct s_t*ο, Q_t*α, Q_t ρ, struct s_t**σ, Q_t ι
-#define oars            ο,     α,     ρ,             σ,     ι
+#define OARS struct s_t*ο, Q_t*ρ, Q_t α, struct s_t**σ, Q_t ξ
+#define oars            ο,     ρ,     α,             σ,     ξ
 typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 #define Ν(argo) void argo(OARS)
-#define N(... ) { const void *va_args[] = {__VA_ARGS__};                  \
-                  Q_t size = sizeof(va_args)/sizeof(*va_args);            \
-                  while (size) ο[--ρ].v = (void*)va_args[--size]; }
-#define S(... ) { const void *va_args[] = {__VA_ARGS__};                  \
-                  Q_t size = sizeof(va_args)/sizeof(*va_args);            \
-                  for (Q_t i=0; i<size; i++)                              \
-                    σ[ι][α[ι]++].v = (void*)va_args[i]; }
-#define D       σ[ι][--α[ι]].c(oars)
+#define N(... ) { const void *ϋ[] = {__VA_ARGS__};                          \
+                  Q_t size = sizeof(ϋ) / sizeof(*ϋ);                        \
+                  while (size) ο[--α].v = (void*)ϋ[--size]; }
+#define S(... ) { const void *ϋ[] = {__VA_ARGS__};                          \
+                  Q_t size = sizeof(ϋ) / sizeof(*ϋ);                        \
+                  for (Q_t i=0; i<size; i++) σ[ξ][ρ[ξ]++].v = (void*)ϋ[i]; }
+#define D       σ[ξ][--ρ[ξ]].c(oars)
+
 Ν(cont) {
-  ι = σ[ι][--α[ι]].Q; assert(ι < 8);
+  ξ = σ[ξ][--ρ[ξ]].Q; assert(ξ < 8);
   while(1) {
-    Q_t ψ = ο[ρ++].Q; assert(ψ <= 07777777);
-    Q_t ray_no_count = ψ >> 3 * ι & 7;
-    for(Q_t i = ι + 1; i < 8           ; i++) ρ += ψ >> 3 * i & 7;
-    for(Q_t i = 0    ; i < ray_no_count; i++) σ[ι][α[ι]++].v = ο[ρ++].v;
-    for(Q_t i = 0    ; i < ι           ; i++) ρ += ψ >> 3 * i & 7;
-    if (ray_no_count) return σ[ι][--α[ι]].c(oars);
+    Q_t ψ = ο[α++].Q; assert(ψ-1 < 07777777);
+    Q_t sword_count = ψ >> 3 * ξ & 7;
+    for(Q_t i = ξ + 1; i < 8          ; i++) α += ψ >> 3 * i & 7;
+    for(Q_t i = 0    ; i < sword_count; i++) σ[ξ][ρ[ξ]++].v = ο[α++].v;
+    for(Q_t i = 0    ; i < ξ          ; i++) α += ψ >> 3 * i & 7;
+    if (sword_count) return σ[ξ][--ρ[ξ]].c(oars);
   }
 }
 #include<stdio.h>
-#define LOGN printf("%lu. %s\n", ι, __FUNCTION__)
+#define LOGN printf("%lu. %.2lu %.3lu %s\n", ξ, ρ[ξ], α, __FUNCTION__)
 
 Ν(sWord0); Ν(sWord1); Ν(sWord2);
 Ν(sWord0) { N(0111, sWord2, sWord1, sWord0) S(1, cont) LOGN, D; }
@@ -36,9 +36,9 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 int main() {
   s_t b[8][256];
   s_t*ο    = b[0];
-  Q_t α[8] = {0,0,0,0,0,0,0,0};
+  Q_t α    = 256;
+  Q_t ρ[8] = {0,0,0,0,0,0,0,0};
   s_t*σ[8] = {b[1],b[2],b[3],b[4],b[5],b[6],b[7],};
-  Q_t ρ    = 256;
-  Q_t ι    = 0;
+  Q_t ξ    = 0;
   N(0x49, e2, e1, e0) S(sWord0) D;
 }
