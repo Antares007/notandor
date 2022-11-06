@@ -25,11 +25,21 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 }
 #include<stdio.h>
 #define LOGN printf("%lu. %.2lu %.3lu %s\n", ξ, ρ[ξ], α, __FUNCTION__)
-
+#undef  D
+#define D LOGN, σ[ξ][--ρ[ξ]].c(oars)
+Ν(B     ) { S(ξ, cont) D; }
+Ν(V     ) { ρ[ξ]--, D; }
+Ν(O     ) { D; }
+Ν(T     ) { ρ[ξ]--, D; }
+Ν(Sa    );
+Ν(Sa_   ) { S("b", T, O, Sa, "a", T) D; }
+Ν(Sa    ) { N(010, Sa_) S(Sa, V) D; }
+Ν(parse ) { S("baaa", 4, 0, B, Sa) D; }
 Ν(sWord0); Ν(sWord1); Ν(sWord2);
-Ν(sWord0) { N(0111, sWord2, sWord1, sWord0) S(1, cont) LOGN, D; }
-Ν(sWord1) { N(0111, sWord2, sWord1, sWord0) S(2, cont) LOGN, D; }
-Ν(sWord2) { N(0111, sWord2, sWord1, sWord0) S(0, cont) LOGN, D; }
+Ν(sWord0) { N(0111, sWord2, sWord1, sWord0) S(1, cont) D; }
+Ν(sWord1) { N(0111, sWord2, sWord1, sWord0) S(2, cont) D; }
+Ν(sWord2) { N(0111, sWord2, sWord1, sWord0) S(0, cont) D; }
+Ν(how   ) { S(parse) D; }
 Ν(e2) {LOGN;}
 Ν(e1) {LOGN;}
 Ν(e0) {LOGN;}
@@ -40,5 +50,5 @@ int main() {
   Q_t ρ[8] = {0,0,0,0,0,0,0,0};
   s_t*σ[8] = {b[1],b[2],b[3],b[4],b[5],b[6],b[7],};
   Q_t ξ    = 0;
-  N(0x49, e2, e1, e0) S(sWord0) D;
+  N(0x49, e2, e1, e0) S(how) D;
 }
