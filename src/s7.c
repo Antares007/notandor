@@ -32,15 +32,30 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 Ν(O     ) { D; }
 Ν(T_    ) { }
 Ν(T     ) { N(ξ, 020, σ[ξ][--ρ[ξ]].v, T_) D; }
+Ν(ε     ) { D; }
 Ν(Sa    );
 Ν(Sa_   ) { S("b", T, O, "a", T) D; }
 Ν(Sa    ) { N(ξ, 010, Sa_) S(Sa, V) D; }
-Ν(parse ) { S("baaa", 4, 0, B, Sa) D; }
-Ν(sWord0);Ν(sWord1);Ν(sWord2);Ν(sWord3);
-Ν(sWord0) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(1, cont) D; }
-Ν(sWord1) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(2, cont) D; }
-Ν(sWord2) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(3, cont) D; }
-Ν(sWord3) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(0, cont) D; }
+Ν(eOt_  ) { S(ε, O, "s", T) D; }
+Ν(eOt   ) { N(ξ, 010, eOt_) S(eOt, V) D; }
+Ν(sOa_  ) { S("s", T, O, "a", T) D; }
+Ν(sOa   ) { N(ξ, 010, sOa_) S(sOa, V) D; }
+Ν(eOtsOa_){ S(eOt, sOa) D; }
+Ν(eOtsOa) { N(ξ, 010, eOtsOa_) S(eOtsOa, V) D; }
+Ν(parse ) { S("ssss", 4, 2, B, eOtsOa) D; }
+/*
+  V V
+  V O
+  V T
+  O V
+  O T
+  T V
+  T O
+  T T
+  V   V   V   V   V   V
+  O V O     O     O T O
+  T   T   T   T   T   T
+*/
 Ν(how   ) { S(parse) D; }
 Ν(e7    ) {LOGN;}
 Ν(e6    ) {LOGN;}
@@ -63,7 +78,8 @@ int main() {
   s_t*σ[4] = {b[4], b[5], b[6], b[7], };
   Q_t ξ    = 0;
   N(0, 01111, e3, e2, e1, e0)
-  S(B, one, one, one, sum) D;
+  //S(B, one, one, one, sum) D;
+  S(parse) D;
 }
 // (p ‘orelse‘ q) j = unite (p j) (q j)   e.g., assuming that the input is "ssss", then
 // (empty ‘orelse‘ term_s) 2 => {2, 3}
