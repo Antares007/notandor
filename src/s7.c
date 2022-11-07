@@ -15,12 +15,12 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 Ν(cont) {
   Q_t nextξ = σ[ξ][--ρ[ξ]].Q; assert(ξ < 8);
   while(1) {
-    Q_t ψ = ο[ξ][α[ξ]++].Q; assert(ψ < 010000000);
+    Q_t ψ = ο[ξ][α[ξ]++].Q; assert(0 < ψ && ψ < 0100000000);
     Q_t nextξcount = ψ >> 3 * nextξ & 7;
     for(Q_t i = nextξ + 1; i < 8         ; i++) α[ξ] += ψ >> 3 * i & 7;
-    for(Q_t i = 0        ; i < nextξcount; i++) σ[nextξ][ρ[nextξ]++].v = ο[ξ][α[ξ]++].v;
+    for(Q_t i = 0        ; i < nextξcount; i++) σ[ξ][ρ[ξ]++].v = ο[ξ][α[ξ]++].v;
     for(Q_t i = 0        ; i < nextξ     ; i++) α[ξ] += ψ >> 3 * i & 7;
-    if (nextξcount) return (ξ = nextξ, σ[ξ][--ρ[ξ]].c(oars));
+    if (nextξcount) return D;
   }
 }
 #include<stdio.h>
@@ -42,6 +42,10 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 Ν(sWord2) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(3, cont) D; }
 Ν(sWord3) { N(ξ, 01111, sWord3, sWord2, sWord1, sWord0) S(0, cont) D; }
 Ν(how   ) { S(parse) D; }
+Ν(e7    ) {LOGN;}
+Ν(e6    ) {LOGN;}
+Ν(e5    ) {LOGN;}
+Ν(e4    ) {LOGN;}
 Ν(e3    ) {LOGN;}
 Ν(e2    ) {LOGN;}
 Ν(e1    ) {LOGN;}
@@ -50,20 +54,16 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 Ν(m2    ) { D; }
 Ν(one   ) { N(ξ, 030, 1, 1, cont) D; }
 Ν(sum   ) { D; }
+Ν(dot   ) { D; }
 int main() {
   s_t b[4+4][256];
-  s_t*ο[4] = {b[0],b[1],b[2],b[3],};
-  Q_t α[4] = {256,256,256,256};
-  Q_t ρ[4] = {0,   0,   0,   0,   };
-  s_t*σ[4] = {b[4],b[5],b[6],b[7],};
-  Q_t ξ      = 0;
+  s_t*ο[4] = {b[0], b[1], b[2], b[3], };
+  Q_t α[4] = {256,  256,  256,  256,  };
+  Q_t ρ[4] = {0,    0,    0,    0,    };
+  s_t*σ[4] = {b[4], b[5], b[6], b[7], };
+  Q_t ξ    = 0;
   N(0, 01111, e3, e2, e1, e0)
-  N(1, 01111, e3, e2, e1, e0)
-  N(2, 01111, e3, e2, e1, e0)
-  N(3, 01111, e3, e2, e1, e0)
-  S(sWord0)
-  //S(B, one, one, one, sum)
-  D;
+  S(B, one, one, one, sum) D;
 }
 // (p ‘orelse‘ q) j = unite (p j) (q j)   e.g., assuming that the input is "ssss", then
 // (empty ‘orelse‘ term_s) 2 => {2, 3}
