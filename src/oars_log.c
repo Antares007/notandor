@@ -4,11 +4,14 @@
 char* names[0x10000]={};
 #define Σ 100
 static char buf[Σ];
+static char* sword="NNSD";
 static char* get_name(void*a) {
   char*n = names[(Q_t)a & (Q_t)0xFFFF];
   if (n) return n;
   if((Q_t)a < 151) return (snprintf(buf, Σ, "%lu", (Q_t)a), buf);
-  if((Q_t)a >> 24 == (Q_t)names >> 24) return (snprintf(buf, Σ, "\"%s\"", (char*)a), buf);
+  if((Q_t)a >> 12 == (Q_t)buf >> 12 ||   //bss
+     (Q_t)a >> 12 == (Q_t)sword >> 12)   //data
+        return (snprintf(buf, Σ, "\"%s\"", (char*)a), buf);
   return ".";
 }
 void logn(OARS, const char*name) {

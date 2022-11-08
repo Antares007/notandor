@@ -33,6 +33,24 @@ Tokens are consumed from left to right.
 
 Backtracking is used to expand all alternative right-hand-sides of grammar
 rules in order to identify all possible parses.
+parse                                               main   01 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo eOseOs                                parse  05 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo bi eOseOs v                           eOseOs 07 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo bi                                    v      05 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi 1 c                              bi     08 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOseOs_                          c      07 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs eOs                      eOseOs_09 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs bi eOs v                 eOs    11 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs bi                       v      09 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi 1 c                 bi     12 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi eOs_                c      11 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi e o "s" t           eOs_   14 251  ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi e o                 t      12 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi e                   o      11 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . bi                     e      10 245  ₀20 1 c ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . . bi 1 c               bi     13 245  ₀20 1 c ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . . bi 1 c               c      13 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
+"ssss" 4 2 bo . bi eOs eOs . . bi "s" t_            c      13 251  ₀1111 e3 e2 e1 e0 
 
 Top-down recognizers can be implemented as a set of mutually recursive
 processes which search for parses using a top-down expansion of the grammar
@@ -87,8 +105,4 @@ eOs         ,L)G(L,
 eOseOs_     ,L)G(L,
 eOseOs      ,L)G(L,
 parse       ,L)G(L,
-e3          ,L)G(L,
-e2          ,L)G(L,
-e1          ,L)G(L,
-e0          ,L)G(L,
 e           ,L)void init(){L();}
