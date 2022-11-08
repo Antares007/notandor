@@ -1,7 +1,6 @@
 #pragma once
 // clang-format off
 typedef unsigned long Q_t;
-#include <assert.h>
 #define OARS struct s_t*ο, Q_t α, Q_t ρ, struct s_t*σ
 #define oars            ο,     α,     ρ,            σ
 typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;

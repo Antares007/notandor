@@ -1,5 +1,6 @@
 // clang-format off
 #include "oars_log.h"
+#include <assert.h>
 Ν(c) {
   Q_t n = σ[--ρ].Q;
   while(1) {
@@ -12,20 +13,25 @@
   }
 }
 Ν(bo        ) { S(bo, 1, c) D; }
-Ν(bi        ) { S(α, bi, 1, c) D; }
-Ν(v         ) { ρ--, D; }
+Ν(bi        ) { S(bi, 1, c) D; }
+Ν(v_        ) { ρ--; assert(σ[ρ].v == bi); S(1, c) D; }
+Ν(v         ) { ρ--; N(010, v_) D; }
 Ν(o         ) { D; }
-Ν(t_        ) { }
+Ν(t_        ) { --ρ;S(1,c) D;}
 Ν(t         ) { N(020, σ[--ρ].v, t_) D; }
 Ν(e         ) { N(020, 1, c) D; }
 Ν(Sa        );
 Ν(Sa_       ) { S("b", t, o, "a", t) D; }
 Ν(Sa        ) { N(010, Sa_) S(Sa, v) D; }
-Ν(eOs_      ) { S(e, o, "s", t) D; }
+Ν(st_       ) { S("s", t) D; }
+Ν(st        ) { N(010, st_) S(bi, st, v) D; }
+Ν(ast_      ) { S(st) D; }
+Ν(ast       ) { N(010, ast_) S(bi, ast, v) D; }
+Ν(eOs_      ) { S(e, o, st) D; }
 Ν(eOs       ) { N(010, eOs_) S(bi, eOs, v) D; }
-Ν(eOseOs_   ) { S(eOs, eOs, eOs) D; }
+Ν(eOseOs_   ) { S(eOs, eOs) D; }
 Ν(eOseOs    ) { N(010, eOseOs_) S(bi, eOseOs, v) D; }
-Ν(parse     ) { S("ssss", 4, 2, bo, eOseOs) D; }
+Ν(parse     ) { S("ssss", 4, 0, bo, ast) D; }
 /*
 Grammar rules are expanded from right to left.
 
@@ -33,24 +39,6 @@ Tokens are consumed from left to right.
 
 Backtracking is used to expand all alternative right-hand-sides of grammar
 rules in order to identify all possible parses.
-parse                                               main   01 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo eOseOs                                parse  05 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo bi eOseOs v                           eOseOs 07 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo bi                                    v      05 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi 1 c                              bi     08 249  ₀10 eOseOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOseOs_                          c      07 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs eOs                      eOseOs_09 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs bi eOs v                 eOs    11 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs bi                       v      09 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi 1 c                 bi     12 249  ₀10 eOs_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi eOs_                c      11 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi e o "s" t           eOs_   14 251  ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi e o                 t      12 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi e                   o      11 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . bi                     e      10 245  ₀20 1 c ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . . bi 1 c               bi     13 245  ₀20 1 c ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . . bi 1 c               c      13 248  ₀20 "s" t_ ₀1111 e3 e2 e1 e0 
-"ssss" 4 2 bo . bi eOs eOs . . bi "s" t_            c      13 251  ₀1111 e3 e2 e1 e0 
 
 Top-down recognizers can be implemented as a set of mutually recursive
 processes which search for parses using a top-down expansion of the grammar
@@ -77,10 +65,10 @@ sequence beginning at j. Multiple results are returned for ambiguous input.
   O V O     O     O T O
   T   T   T   T   T   T
 */
-Ν(e3        ) {LOGN;}
-Ν(e2        ) {LOGN;}
-Ν(e1        ) {LOGN;}
-Ν(e0        ) {LOGN;}
+Ν(end3      ) {}
+Ν(end2      ) {}
+Ν(end1      ) {}
+Ν(end0      ) {}
 void init();
 int main() {
   init();
@@ -88,7 +76,7 @@ int main() {
   Q_t α = 256;
   Q_t ρ = 0;
   s_t σ[256];
-  N(01111, e3, e2, e1, e0)
+  N(01111, end3, end2, end1, end0)
   S(parse) D;
 }
 // clang-format off
@@ -96,10 +84,15 @@ int main() {
 c           ,L)G(L,
 bo          ,L)G(L,
 bi          ,L)G(L,
+v_          ,L)G(L,
 v           ,L)G(L,
 o           ,L)G(L,
 t_          ,L)G(L,
 t           ,L)G(L,
+st_         ,L)G(L,      
+st          ,L)G(L, 
+ast_        ,L)G(L,      
+ast         ,L)G(L, 
 eOs_        ,L)G(L,      
 eOs         ,L)G(L, 
 eOseOs_     ,L)G(L,
