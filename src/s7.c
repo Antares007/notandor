@@ -1,16 +1,5 @@
-typedef unsigned long Q_t;
-#include <assert.h>
-#define OARS struct s_t*ο, Q_t α, Q_t ρ, struct s_t*σ
-#define oars            ο,     α,     ρ,            σ
-typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
-#define Ν(argo  ) void argo(OARS)
-#define N(...   ) { const void *ϋ[] = {__VA_ARGS__};                          \
-                    Q_t size = sizeof(ϋ) / sizeof(*ϋ);                        \
-                    while (size) ο[--α].v = (void*)ϋ[--size]; }
-#define S(...   ) { const void *ϋ[] = {__VA_ARGS__};                          \
-                    Q_t size = sizeof(ϋ) / sizeof(*ϋ);                        \
-                    for (Q_t i=0; i<size; i++) σ[ρ++].v = (void*)ϋ[i]; }
-#define D         (--ρ, σ[ρ].c(oars))
+// clang-format off
+#include "os_log.h"
 Ν(C) {
   Q_t n = σ[--ρ].Q;
   while(1) {
@@ -22,25 +11,65 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
     if (swords) return D;
   }
 }
-#include<stdio.h>
-#define LOGN printf("%.2lu %.3lu %s\n", ρ, α, __FUNCTION__)
-#undef  D
-#define D LOGN, (--ρ, σ[ρ].c(oars))
-Ν(B         ) { S(B, 1, C) D; }
+Ν(B         ) { S(α, 1, C) D; }
 Ν(V         ) { ρ--, D; }
 Ν(O         ) { D; }
 Ν(T_        ) { }
 Ν(T         ) { N(020, σ[--ρ].v, T_) D; }
-Ν(ε         ) { D; }
+Ν(e         ) { S(1, C) D; }
 Ν(Sa        );
 Ν(Sa_       ) { S("b", T, O, "a", T) D; }
 Ν(Sa        ) { N(010, Sa_) S(Sa, V) D; }
-Ν(eOs_      ) { S(ε, O, "s", T) D; }
-Ν(eOs       ) { N(010, eOs_) S(eOs, V) D; }
+Ν(eOs_      ) { S(e, O, "s", T) D; }
+Ν(eOs       ) { N(010, eOs_) S(B, eOs, V) D; }
 Ν(eOseOs_   ) { S(eOs, eOs) D; }
 Ν(eOseOs    ) { N(010, eOseOs_) S(eOseOs, V) D; }
-Ν(parse     ) { S("ssss", 4, 2, B, eOseOs) D; }
+Ν(parse     ) { S("ssss", 4, 2, eOs) D; }
+// clang-format off
+               G(0,
+B           ,L)G(L,
+V           ,L)G(L,
+O           ,L)G(L,
+T_          ,L)G(L,
+T           ,L)G(L,
+eOs_        ,L)G(L,      
+eOs         ,L)G(L, 
+eOseOs_     ,L)G(L,
+eOseOs      ,L)G(L,
+parse       ,L)G(L,
+e           ,L)void init(){L();}
 /*
+parse                           main   01 251   1111....
+. . . eOs                       parse  04 251   1111....
+. . . B eOs V                   eOs    06 249   010eOs_ 1111....
+. . . B                         V      04 249   010eOs_ 1111....
+. . . . . .                     B      06 249   010eOs_ 1111....
+. . . . eOs_                    C      05 251   1111....
+. . . . e O s T                 eOs_   08 251   1111....
+. . . . e O                     T      06 248   020sT_ 1111....
+. . . . e                       O      05 248   020sT_ 1111....
+. . . . . .                     e      06 248   020sT_ 1111....
+. . . . s T_                    C      06 251   1111....
+Grammar rules are expanded from right to left.
+
+Tokens are consumed from left to right.
+
+Backtracking is used to expand all alternative right-hand-sides of grammar
+rules in order to identify all possible parses.
+
+Top-down recognizers can be implemented as a set of mutually recursive
+processes which search for parses using a top-down expansion of the grammar
+rules defining non-terminals while looking for matches of terminals with
+tokens on the input.
+
+Recognizers are functions which take an index j as argument and which return
+a set of indices as result. Each index in the result set corresponds to the
+position at which the recognizer successfully finished recognizing a sequence
+of tokens that began at position j.
+
+An empty result set indicates that the recognizer failed to recognize any
+sequence beginning at j. Multiple results are returned for ambiguous input.
+
   V V
   V O
   V T
@@ -58,6 +87,7 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 Ν(e1        ) {LOGN;}
 Ν(e0        ) {LOGN;}
 int main() {
+  init();
   s_t ο[256];
   Q_t α = 256;
   Q_t ρ = 0;

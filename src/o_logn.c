@@ -3,7 +3,6 @@
 char* names[0x10000]={};
 static char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
 #include<stdio.h>
-#include<stdlib.h>
 N(T);
 N(T_);
 void logn(OARS, const char*name) {
@@ -12,7 +11,7 @@ void logn(OARS, const char*name) {
     //if(counter++>31) exit(1);
   }
   {
-    Q_t i = α, c = 0, m = 54;
+    Q_t i = α, c = 0, m = 30;
     while(i && c < m+1) {
       char*n = get_name(σ[--i].v);
       while(*n) n++, c++;
@@ -37,10 +36,10 @@ void logn(OARS, const char*name) {
   }
   printf("  ");
   {
-    Q_t i = ρ, c = 0, m = 120;
+    Q_t i = ρ, c = 0, m = 60;
     while(i < 256 && c < m) {
       Q_t ψ   = ο[i++].Q;
-      Q_t len = (ψ>>6&7)+(ψ>>3&7)+(ψ&7);
+      Q_t len = 0; for(Q_t i=0;i<7;i++) len+=ψ>>3*i&7;
       printf(" %.3lo", ψ);
       c += 4;
       while(len && c < m) {
