@@ -1,10 +1,10 @@
-#include "o_logn.h"
+#include "os.h"
 // clang-format off
 char* names[0x10000]={};
 static char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
 #include<stdio.h>
-N(T);
-N(T_);
+Ν(T);
+Ν(T_);
 void logn(OARS, const char*name) {
   {
     //static Q_t counter = 0;
