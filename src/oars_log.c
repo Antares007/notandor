@@ -20,7 +20,7 @@ void logn(OARS, const char*name) {
     //if(counter++>31) exit(1);
   }
   {
-    Q_t i = α, c = 0, m = 50;
+    Q_t i = α, c = 0, m = 30;
     while(i && c < m+1) {
       char*n = get_name(σ[--i].v);
       while(*n) n++, c++;
@@ -47,16 +47,21 @@ void logn(OARS, const char*name) {
     Q_t i = ρ, c = 0, m = 100;
     while(i < 256 && c < m) {
       Q_t ψ   = ο[i++].Q;
-      Q_t len = 0; for(Q_t i=0;i<7;i++) len+=ψ>>3*i&7;
-      printf("₀%lo ", ψ);
-      c += 4;
+      Q_t len = 0;
+      Q_t pn = 0;
+      for(long i = 6; i > -1; i--) {
+        Q_t n = ψ >> 3 * i & 7;
+        len += n;
+        static char*octs[]={"₀","₁","₂","₃","₄","₅","₆","₇"};
+        if (n || pn) pn = n, printf("%s", octs[n]), c++;
+      }
       while(len && c < m) {
         char *n = get_name(ο[i++].v);
         while(*n && c < m) printf("%c", *n), n++, c++;
         len--;
-        if(c < m && len) printf(" "), c++;
+        //if(c < m && len) printf(" "), c++;
       }
-      if(c < m) printf(" "), c++;
+      //if(c < m) printf(" "), c++;
     }
   }
   printf("\n");
