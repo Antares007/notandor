@@ -11,8 +11,7 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
                     Q_t size = sizeof(ϋ) / sizeof(*ϋ);                        \
                     for (Q_t i=0; i<size; i++) σ[ρ++].v = (void*)ϋ[i]; }
 #define D         (--ρ, σ[ρ].c(oars))
-
-Ν(cont) {
+Ν(C) {
   Q_t n = σ[--ρ].Q;
   while(1) {
     Q_t ψ = ο[α++].Q;
@@ -27,22 +26,20 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
 #define LOGN printf("%.2lu %.3lu %s\n", ρ, α, __FUNCTION__)
 #undef  D
 #define D LOGN, (--ρ, σ[ρ].c(oars))
-Ν(B     ) { S(1, cont) D; }
-Ν(V     ) { ρ--, D; }
-Ν(O     ) { D; }
-Ν(T_    ) { }
-Ν(T     ) { N(020, σ[--ρ].v, T_) D; }
-Ν(ε     ) { D; }
-Ν(Sa    );
-Ν(Sa_   ) { S("b", T, O, "a", T) D; }
-Ν(Sa    ) { N(010, Sa_) S(Sa, V) D; }
-Ν(eOt_  ) { S(ε, O, "s", T) D; }
-Ν(eOt   ) { N(01, eOt_) S(eOt, V) D; }
-Ν(sOa_  ) { S("s", T, O, "a", T) D; }
-Ν(sOa   ) { N(01, sOa_) S(sOa, V) D; }
-Ν(eOtsOa_){ S(eOt, sOa) D; }
-Ν(eOtsOa) { N(01, eOtsOa_) S(eOtsOa, V) D; }
-Ν(parse ) { S("ssss", 4, 2, B, eOtsOa) D; }
+Ν(B         ) { S(B, 1, C) D; }
+Ν(V         ) { ρ--, D; }
+Ν(O         ) { D; }
+Ν(T_        ) { }
+Ν(T         ) { N(020, σ[--ρ].v, T_) D; }
+Ν(ε         ) { D; }
+Ν(Sa        );
+Ν(Sa_       ) { S("b", T, O, "a", T) D; }
+Ν(Sa        ) { N(010, Sa_) S(Sa, V) D; }
+Ν(eOs_      ) { S(ε, O, "s", T) D; }
+Ν(eOs       ) { N(010, eOs_) S(eOs, V) D; }
+Ν(eOseOs_   ) { S(eOs, eOs) D; }
+Ν(eOseOs    ) { N(010, eOseOs_) S(eOseOs, V) D; }
+Ν(parse     ) { S("ssss", 4, 2, B, eOseOs) D; }
 /*
   V V
   V O
@@ -56,29 +53,15 @@ typedef struct s_t {union{Q_t Q;void*v;void(*c)(OARS);};} s_t;
   O V O     O     O T O
   T   T   T   T   T   T
 */
-Ν(how   ) { S(parse) D; }
-Ν(e7    ) {LOGN;}
-Ν(e6    ) {LOGN;}
-Ν(e5    ) {LOGN;}
-Ν(e4    ) {LOGN;}
-Ν(e3    ) {LOGN;}
-Ν(e2    ) {LOGN;}
-Ν(e1    ) {LOGN;}
-Ν(e0    ) {LOGN;}
-Ν(one   ) { N(030, 1, 1, cont) D; }
-Ν(sum   ) {   D;}
-Ν(dot   ) {   D;}
+Ν(e3        ) {LOGN;}
+Ν(e2        ) {LOGN;}
+Ν(e1        ) {LOGN;}
+Ν(e0        ) {LOGN;}
 int main() {
   s_t ο[256];
   Q_t α = 256;
   Q_t ρ = 0;
   s_t σ[256];
   N(01111, e3, e2, e1, e0)
-  //S(B, one, one, one, sum) D;
   S(parse) D;
 }
-// (p ‘orelse‘ q) j = unite (p j) (q j)   e.g., assuming that the input is "ssss", then
-// (empty ‘orelse‘ term_s) 2 => {2, 3}
-
-// (p ‘thenS‘ q) j = union (map q (p j))  e.g., assuming that the input is "ssss", then
-// (term_s ‘thenS‘ term_s) 1 => {3}
