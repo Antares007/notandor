@@ -1,17 +1,23 @@
 #include "oars.h"
 // clang-format off
-char* names[0x10000]={};
-static char* get_name(void*addr) { char*n = names[(Q_t)addr & (Q_t)0xFFFF]; return n ? n : "."; }
 #include<stdio.h>
-Ν(T);
-Ν(T_);
+char* names[0x10000]={};
+#define Σ 100
+static char buf[Σ];
+static char* get_name(void*a) {
+  char*n = names[(Q_t)a & (Q_t)0xFFFF];
+  if (n) return n;
+  if((Q_t)a < 151) return (snprintf(buf, Σ, "%lu", (Q_t)a), buf);
+  if((Q_t)a >> 24 == (Q_t)names >> 24) return (snprintf(buf, Σ, "\"%s\"", (char*)a), buf);
+  return ".";
+}
 void logn(OARS, const char*name) {
   {
     //static Q_t counter = 0;
     //if(counter++>31) exit(1);
   }
   {
-    Q_t i = α, c = 0, m = 30;
+    Q_t i = α, c = 0, m = 50;
     while(i && c < m+1) {
       char*n = get_name(σ[--i].v);
       while(*n) n++, c++;
@@ -20,7 +26,6 @@ void logn(OARS, const char*name) {
     c = 0;
     while(i < α && c < m) {
       char*n = get_name(σ[i++].v);
-      if(i < α && (σ[i].v == T || σ[i].v == T_)) n = σ[i-1].v;
       while(*n && c < m) printf("%c", *n), n++, c++;
       if (c < m) printf(" "), c++;
     }
@@ -36,19 +41,19 @@ void logn(OARS, const char*name) {
   }
   printf("  ");
   {
-    Q_t i = ρ, c = 0, m = 60;
+    Q_t i = ρ, c = 0, m = 100;
     while(i < 256 && c < m) {
       Q_t ψ   = ο[i++].Q;
       Q_t len = 0; for(Q_t i=0;i<7;i++) len+=ψ>>3*i&7;
-      printf(" %.3lo", ψ);
+      printf("₀%lo ", ψ);
       c += 4;
       while(len && c < m) {
         char *n = get_name(ο[i++].v);
-        if(i < 256 && ο[i].v == T_) n = ο[i-1].v;
         while(*n && c < m) printf("%c", *n), n++, c++;
         len--;
-        //if(c < m && len) printf("|"), c++;
+        if(c < m && len) printf(" "), c++;
       }
+      if(c < m) printf(" "), c++;
     }
   }
   printf("\n");
