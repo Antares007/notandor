@@ -16,7 +16,7 @@
 #define Ϋ(...) { S(__VA_ARGS__) D; }
 #define V(aso) Ν(aso##_); Ν(aso) {              \
   names[(Q_t)aso & (Q_t)0xFFFF] = #aso;         \
-  names[(Q_t)aso##_ & (Q_t)0xFFFF] = #aso "_";     \
+  names[(Q_t)aso##_ & (Q_t)0xFFFF] = #aso "_";  \
   N(010, aso##_, 020, aso, v_)  D; } Ν(aso##_) Ϋ
 Ν(bo        ) { S(bo, 1, c) D; }
 Ν(v_        ) { ρ--; S(1, c) D; }
@@ -96,7 +96,7 @@ write and execute human language like senteces in computer world.
 thik about it. in computer world we dont have words, rather we have 
 mathematical funcion implementation to divide and conuire problems.
 two most useful model of computetion we have are functions and
-sequences of states.
+sequences of states - behaviour model.
 
 What is more powerfull then human langauage. We can
 specify and define almost evrething by words.
