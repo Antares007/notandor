@@ -45,6 +45,12 @@ V(aaaT      ) (aT, aT)
 Ν(e2        ) {printf("end2\n");}
 Ν(e1        ) {assert(bo==σ[ρ-1].v);printf("end1\n");}
 Ν(e0        ) {printf("end0\n");}
+Ν(one       ) { N(040, 1, bo, 1, c)  D; }
+Ν(add_      ) { Q_t r = (--ρ, σ[--ρ].Q);
+                Q_t l = (--ρ, σ[--ρ].Q);
+                S(r+l, bo) D; }
+Ν(add       ) { N(010, add_)  D; }
+Ν(seven     ) { S(bo, one, one, add, one, add, one, add, one, add, one, add, one, add) D; }
 void init();
 int main() {
   init();
@@ -53,7 +59,8 @@ int main() {
   Q_t ρ = 0;
   s_t σ[256];
   N(01111, e3, e2, e1, e0)
-  S(parse) D;
+  S(seven) D;
+//  S(parse) D;
 }
 // clang-format off
                G(0,
@@ -75,6 +82,9 @@ eOs         ,L)G(L,
 eOseOs_     ,L)G(L,
 eOseOs      ,L)G(L,
 parse       ,L)G(L,
+one         ,L)G(L,
+add_        ,L)G(L,
+add         ,L)G(L,
 e           ,L)void init(){L();}
 Ν(t_        ) {
   const char *match = σ[--ρ].v;
@@ -90,7 +100,7 @@ e           ,L)void init(){L();}
 }
 /*
 AraDAni aka NotAndOr is the protocol which can
-define high level langugege words, and thins to use for
+define high level langugege Words, and thins to use for
 write and execute human language like senteces in computer world.
 
 thik about it. in computer world we dont have words, rather we have 
