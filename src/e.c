@@ -9,16 +9,17 @@ typedef struct s_t {
   };
 } s_t;
 #include <stdio.h>
+#include <assert.h>
 #define LOG printf("%s\n", __FUNCTION__)
 #define NUMARGS(...) (sizeof((const void*[]){__VA_ARGS__}) / sizeof(void*))
 #define ΨX(X, ...) X = (s_t *)(const void *[]){X, 0, __VA_ARGS__},             \
                   (X += 2)[-1].Q = NUMARGS(__VA_ARGS__) 
-#define Ψ__(...) ΨX(ν, cn, __VA_ARGS__)
-#define Ψ_(...) ΨX(α, ca, __VA_ARGS__), Ψ__
-#define Ψ(...) ΨX(ο, co, __VA_ARGS__), Ψ_
-#define S(...) ΨX(ρ, ca, __VA_ARGS__), ι = ρ[-1].Q
-#define O ρ[ι - 1].c(ο, α, ν, ρ, ι - 1, σ, τ)
-#define D O //LOG, 
+#define Ψ__(...)  ΨX(ν, cn, __VA_ARGS__)
+#define Ψ_(...)   ΨX(α, ca, __VA_ARGS__), Ψ__
+#define Ψ(...)    ΨX(ο, co, __VA_ARGS__), Ψ_
+#define S(...)    ΨX(ρ, ca, __VA_ARGS__), ι = ρ[-1].Q
+#define O         ρ[ι - 1].c(ο, α, ν, ρ, ι - 1, σ, τ)
+#define D         LOG,O    
 #define C(x)                                                                   \
   ρ = x,                                                                       \
   ο = ο[-2].v,                                                                 \
@@ -53,14 +54,17 @@ void eOs_ (OARS) {  s_t nσ[128]; for(Q_t i=0;i<τ;i++) nσ[i].v = σ[i].v;
                     S("s", t, eOs, eOs), D; }
 void eOs  (OARS) {  Ψ()(eOs_)(), D;}
 void Sa   (OARS);
-void Sa_  (OARS) {  
+void Sa_  (OARS) {   
+                    static Q_t i = 0; if (i++>9) return;
                     s_t nσ[128]; for(Q_t i=0;i<τ;i++) nσ[i].v = σ[i].v;
                     s_t bσ[128]; for(Q_t i=0;i<τ;i++) bσ[i].v = σ[i].v;
-                    S("b", t), D; σ = nσ;
-                    S(Sa, "a", t), D; σ = bσ;
+                    S(    "b", t), D; σ = nσ;
+                    S(Sa, "a", t), D, σ = bσ;
                     S(Sa, "c", t), D; 
                  }
-void Sa   (OARS) {  Ψ()(Sa_)(), D; }
+void Sa   (OARS) {
+  //assert(Sa == (void*)ρ[ρ[-1].Q-1].v);
+  Ψ()(Sa_)(), D; }
 int main() {
   Q_t ι;
   s_t *ο, *α, *ν, *ρ = ο = α = ν = ι = 0;
