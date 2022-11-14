@@ -41,9 +41,9 @@ void c(void **ο, long α, long ρ, void **σ) {
   S(l + r, 1, c) Dot;
 }
 Ν(add) { N(010, add_) Dot; }
-Ν(end2) { puts(__FUNCTION__); }
-Ν(end1) { puts(__FUNCTION__); }
-Ν(end0) { puts(__FUNCTION__); }
+Ν(e₂) { puts(""); }
+Ν(e₁) { puts(""); }
+Ν(e₀) { puts(""); }
 
 Ν(e) { S(1, c) Dot; }
 Ν(t_) {
@@ -58,13 +58,34 @@ void c(void **ο, long α, long ρ, void **σ) {
     S(inp, len, pos,   bo, 0, c) Dot;
   }
 }
-Ν(t) { N(020, σ[--ρ], t_) Dot; }
-Ν(eOs_) {
-    //S(e) Dot;
+Ν(t     ) { N(020, σ[--ρ], t_) Dot; }
+Ν(join2 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(2) c(oο, oα, ρ, σ); }
+Ν(join1 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(1) c(oο, oα, ρ, σ); }
+Ν(join0 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(0) c(oο, oα, ρ, σ); }
+Ν(eOs_  ) {
+  {
+    void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
+    ο = (void*[256]){}; α = 256;
+    N(0333, oο, oα, join0,
+            oο, oα, join1,
+            oο, oα, join2)
+    for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
+    S(e) Dot;
+    ο = oο, α = oα, ρ = oρ; σ = oσ;
+  }
+  { 
+    void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
+    ο = (void*[256]){}; α = 256;
+    N(0333, oο, oα, join0,
+            oο, oα, join1,
+            oο, oα, join2)
+    for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
     S("s", t) Dot;
+    ο = oο, α = oα, ρ = oρ; σ = oσ;
+  }
 }
 Ν(eOs) { N(010, eOs_) Dot; }
-Ν(parse) { S("sssss", 5, 0, bo, eOs) Dot; }
+Ν(parse) { S("sssss", 5, 0, bo, eOs, eOs) Dot; }
 Ν(seven) { S(one, one, add, one, add, one, add, one, add, one, add, one, add) Dot; }
 void init_names();
 int main() {
@@ -73,7 +94,7 @@ int main() {
   long α = 256;
   long ρ = 0;
   void *σ[128];
-  N(0111, end2, end1, end0)
+  N(0111, e₂, e₁, e₀)
   S(parse)
   Dot;
 }
@@ -90,4 +111,7 @@ void init_names() {
   NAME(add);
   NAME(c);
   NAME(bo);
+  NAME(e₂);
+  NAME(e₁);
+  NAME(e₀);
 }
