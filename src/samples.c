@@ -1,54 +1,93 @@
 #include <stdio.h>
-void c(void **ο, long α, long ρ, void **σ) { //printf("%s\n", __FUNCTION__);
+#include <assert.h>
+typedef void (*n_t)(void **ο, long α, long ρ, void **σ);
+#define S(...)                                                                 \
+  {                                                                            \
+    const void *va_args[] = {__VA_ARGS__};                                     \
+    long size = sizeof(va_args) / sizeof(*va_args);                            \
+    for (long i = 0; i < size; i++)                                            \
+      σ[ρ++] = (void *)va_args[i];                                             \
+  }
+#define N(...)                                                                 \
+  {                                                                            \
+    const void *ϋ[] = {__VA_ARGS__};                                           \
+    long size = sizeof(ϋ) / sizeof(*ϋ);                                        \
+    while (size)                                                               \
+      ο[--α] = (void *)ϋ[--size];                                              \
+  }
+#define Ν(argo) void argo(void **ο, long α, long ρ, void **σ)
+
+void logn(void **ο, long α, long ρ, void **σ, const char*name);
+#define Dot (logn(ο, ρ, α, σ, __FUNCTION__),((n_t)σ[ρ - 1])(ο, α, ρ - 1, σ))
+
+void c(void **ο, long α, long ρ, void **σ) {
   unsigned long nth_ray = σ[--ρ];
   while (1) {
     unsigned long ψ = ο[α++];
     unsigned long words = ψ >> 3 * nth_ray & 7;
-    for (unsigned long i = nth_ray + 1; i < 8      ; i++) α += ψ >> 3 * i & 7;
-    for (unsigned long i = 0          ; i < words  ; i++) σ[ρ++] = ο[α++];
-    for (unsigned long i = 0          ; i < nth_ray; i++) α += ψ >> 3 * i & 7;
-    if (words) {
-        void (*nar)() = σ[--ρ];
-        return nar(ο, α, ρ, σ);
-    }
+    for (unsigned long i = nth_ray + 1; i < 8; i++) α += ψ >> 3 * i & 7;
+    for (unsigned long i = 0; i < words; i++) σ[ρ++] = ο[α++];
+    for (unsigned long i = 0; i < nth_ray; i++) α += ψ >> 3 * i & 7;
+    if (words) return Dot;
   }
 }
-void ერთ(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-  σ[ρ++] = 1, σ[ρ++] = 1, c(ο, α, ρ, σ);
-}
-void ერთი(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-  ο[--α] = ერთ, ο[--α] = 010;
-  void (*n)() = σ[--ρ];
-  n(ο, α, ρ, σ);
-}
-void კრიბ(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
+Ν(bo   ) { S(bo, 1, c) Dot; }
+
+Ν(one_) { S(1, 1, c) Dot; }
+Ν(one) { N(010, one_) Dot; }
+Ν(add_) {
   long r = σ[--ρ];
   long l = σ[--ρ];
-  σ[ρ++] = l + r, σ[ρ++] = 1, c(ο, α, ρ, σ);
+  S(l + r, 1, c) Dot;
 }
-void შეკრიბე(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-  ο[--α] = კრიბ, ο[--α] = 010;
-  void (*n)() = σ[--ρ];
-  n(ο, α, ρ, σ);
+Ν(add) { N(010, add_) Dot; }
+Ν(end2) { puts(__FUNCTION__); }
+Ν(end1) { puts(__FUNCTION__); }
+Ν(end0) { puts(__FUNCTION__); }
+
+Ν(e) { S(1, c) Dot; }
+Ν(t_) {
+  char   *m = σ[--ρ];
+  assert(bo== σ[--ρ]);
+  long  pos = σ[--ρ];
+  long  len = σ[--ρ];
+  char *inp = σ[--ρ];
+  if (pos < len && inp[pos] == m[0]) {
+    S(inp, len, pos+1, bo, 1, c) Dot;
+  } else {
+    S(inp, len, pos,   bo, 0, c) Dot;
+  }
 }
-void end2(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-            }
-void end1(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-      while(ρ) printf("%ld ",(long)σ[--ρ]);}
-void end0(void **ο, long α, long ρ, void **σ) {//printf("%s\n", __FUNCTION__);
-            }
+Ν(t) { N(020, σ[--ρ], t_) Dot; }
+Ν(eOs_) {
+    //S(e) Dot;
+    S("s", t) Dot;
+}
+Ν(eOs) { N(010, eOs_) Dot; }
+Ν(parse) { S("sssss", 5, 0, bo, eOs) Dot; }
+Ν(seven) { S(one, one, add, one, add, one, add, one, add, one, add, one, add) Dot; }
+void init_names();
 int main() {
-  void*ο[256];
-  long α=256;
-  long ρ=0;
-  void*σ[128];
-  ο[--α]=end2;
-  ο[--α]=end1;
-  ο[--α]=end0;
-  ο[--α]=0111;
-  σ[ρ++]=1, σ[ρ++]=c,
-    σ[ρ++]=ერთი, σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე, σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე, σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე,
-                 σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე; σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე, σ[ρ++]=ერთი, σ[ρ++]=შეკრიბე;
-  void (*n)() = σ[--ρ];
-  n(ο, α, ρ, σ);
+  init_names();
+  void *ο[256];
+  long α = 256;
+  long ρ = 0;
+  void *σ[128];
+  N(0111, end2, end1, end0)
+  S(parse)
+  Dot;
+}
+extern char* names[];
+#define NAME(ame) names[(long)ame&0xFFFF] = #ame
+void init_names() {
+  NAME(e);
+  NAME(t_);
+  NAME(t);
+  NAME(eOs_);
+  NAME(eOs);
+
+  NAME(one);
+  NAME(add);
+  NAME(c);
+  NAME(bo);
 }

@@ -3,6 +3,9 @@ CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-p
 
 src/gui.out: src/gui.c
 	${CC}    $^ -o $@ ${CFLAGS} -lraylib
+
+src/samples.out: src/samples.c src/oars_log.o
+	${CC}    $^ -o $@ ${CFLAGS} -luv
 src/oars.out: src/oars.c src/oars_log.o
 	${CC}    $^ -o $@ ${CFLAGS} -luv
 
