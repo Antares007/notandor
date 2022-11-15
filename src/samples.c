@@ -62,31 +62,34 @@ void c(void **ο, long α, long ρ, void **σ) {
 Ν(join2 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(2) c(oο, oα, ρ, σ); }
 Ν(join1 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(1) c(oο, oα, ρ, σ); }
 Ν(join0 ) { long oα = σ[--ρ]; void**oο = σ[--ρ]; S(0) c(oο, oα, ρ, σ); }
-Ν(eOs_  ) {
-  {
-    void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
-    ο = (void*[256]){}; α = 256;
-    N(0333, oο, oα, join0,
-            oο, oα, join1,
-            oο, oα, join2)
-    for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
-    S(e) Dot;
-    ο = oο, α = oα, ρ = oρ; σ = oσ;
-  }
-  { 
-    void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
-    ο = (void*[256]){}; α = 256;
-    N(0333, oο, oα, join0,
-            oο, oα, join1,
-            oο, oα, join2)
-    for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
-    S("s", t) Dot;
-    ο = oο, α = oα, ρ = oρ; σ = oσ;
-  }
-}
+Ν(eOs_  ) {{
+  void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
+  ο = (void*[256]){}; α = 256;
+  N(0333, oο, oα, join0,
+          oο, oα, join1,
+          oο, oα, join2)
+  for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
+  S(e) Dot;
+  ο = oο, α = oα, ρ = oρ; σ = oσ;
+}{ 
+  void**oο = ο, **oσ=σ; long oα = α, oρ = ρ;
+  ο = (void*[256]){}; α = 256;
+  N(0333, oο, oα, join0,
+          oο, oα, join1,
+          oο, oα, join2)
+  for (long i = 0; i < ρ; i++) σ[i] = oσ[i];
+  S("s", t) Dot;
+  ο = oο, α = oα, ρ = oρ; σ = oσ;
+}}
 Ν(eOs) { N(010, eOs_) Dot; }
 Ν(parse) { S("sssss", 5, 0, bo, eOs, eOs) Dot; }
-Ν(seven) { S(one, one, add, one, add, one, add, one, add, one, add, one, add) Dot; }
+Ν(two_ ) { S(one, one, add) Dot;}
+Ν(two  ) { N(030, 1, c, two_) Dot;}
+Ν(fru_ ) { S(two, two, add) Dot;}
+Ν(fru  ) { N(030, 1, c, fru_) Dot;}
+Ν(oct_ ) { S(fru, fru, add) Dot;}
+Ν(oct  ) { N(030, 1, c, oct_) Dot;}
+Ν(seven) { S(1, c, one, two, add, fru, add, oct, add) Dot; }
 void init_names();
 int main() {
   init_names();
@@ -95,7 +98,7 @@ int main() {
   long ρ = 0;
   void *σ[128];
   N(0111, e₂, e₁, e₀)
-  S(parse)
+  S(seven)
   Dot;
 }
 extern char* names[];
@@ -107,8 +110,17 @@ void init_names() {
   NAME(eOs_);
   NAME(eOs);
 
+  NAME(one_);
   NAME(one);
+  NAME(two_);
+  NAME(two);
+  NAME(fru_);
+  NAME(fru);
+  NAME(oct_);
+  NAME(oct);
+  NAME(add_);
   NAME(add);
+
   NAME(c);
   NAME(bo);
   NAME(e₂);
