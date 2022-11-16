@@ -4,7 +4,7 @@
       "adapter": "CodeLLDB",
       "configuration": {
         "request": "launch",
-        "program": "src/otina.out",
+        "program": "src/tinao.out",
         "args": ["src/a_stdio.arsi"],
         "cwd": "${workspaceRoot}",
         "environment": [  ],
