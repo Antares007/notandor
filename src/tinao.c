@@ -15,22 +15,14 @@ void c(void **o, void **t, long i, void **n, long a);
 //void tina(void **o, void **t, long i, void **n, long a) {
 //  run(T(0, T(tina_), 0, o), t, i, n, a);
 //}
-void e2(void **o, void **t, long i, void **n, long a) { LOG; n[2]--; }
-void e1(void **o, void **t, long i, void **n, long a) { LOG; n[1]--; }
-void e0(void **o, void **t, long i, void **n, long a) { LOG; n[0]--; }
-void t1() {
-  void**s;
-  c(T(T(e0), T(e1), T(e2), 0), 0, 1, s=T(7,7,7), 0);
-  assert((long)s[1] == 6);
-}
-void t2() {
-  void**s;
-  c(T(T(e0), T(e1), T(e2), 0), T(1, c), 0, s=T(7,7,7), 2);
-  assert((long)s[1] == 6);
-}
+void e2(void **t, long i, void **n, long a, void **o) { LOG; n[2]--; }
+void e1(void **t, long i, void **n, long a, void **o) { LOG; n[1]--; }
+void e0(void **t, long i, void **n, long a, void **o) { LOG; n[0]--; }
 int main() {
-  c(T(T(1, c),
-      T(2, c),
+  void**s;
+  c(0, 1, s=T(7,7,7), 0,
+    T(T(1, c),
+      T(2, c, 1, c, 0, c, 2, c, 1, c, 0, c),
       T(0, c),
       T(T(2,c),
         T(0,c),
@@ -38,5 +30,5 @@ int main() {
         T(T(e0),
           T(e1),
           T(e2),
-          0))), 0, 2, T(7,7,7), 0);
+          0))));
 }
