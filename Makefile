@@ -1,6 +1,9 @@
 CC|=clang
 CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector -Wno-int-conversion
 
+src/otina.out: src/otina.c src/c.o
+	${CC}    $^ -o $@ ${CFLAGS}
+	
 src/gui.out: src/gui.c
 	${CC}    $^ -o $@ ${CFLAGS} -lraylib
 

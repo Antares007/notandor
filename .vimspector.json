@@ -4,7 +4,7 @@
       "adapter": "CodeLLDB",
       "configuration": {
         "request": "launch",
-        "program": "src/cosan.out",
+        "program": "src/otina.out",
         "args": ["src/a_stdio.arsi"],
         "cwd": "${workspaceRoot}",
         "environment": [  ],
