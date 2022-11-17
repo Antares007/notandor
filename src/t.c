@@ -9,18 +9,21 @@
 void c(void (***o)(), void (**a)(), long r, void **s) { LOG;
   o[r][-1](o[-2], o[r]-1, r, s);
 }
+void d(void (***o)(), void (**a)(), long r, void **s) { LOG;
+  a[-1](o, a - 1, r, s);
+}
 void one_(void (***o)(), void (**a)(), long r, void **s) { LOG;
   c(o, a, r, O(s, 1));
 }
 void one(void (***o)(), void (**a)(), long r, void **s) { LOG;
-  a[-1](O(o, T(c), T(one_), T(c)), a - 1, r, s);
+  d(O(o, T(c), T(one_), T(c)), a, r, s);
 }
 void add_(void (***o)(), void (**a)(), long r, void **s) { LOG;
   void**sp = s[-2];
   c(o, a, r, O(sp[-2], (long)sp[0] + (long)s[0]));
 }
 void add(void (***o)(), void (**a)(), long r, void **s) { LOG;
-  a[-1](O(o, T(c), T(add_), T(c)), a - 1, r, s);
+  d(O(o, T(c), T(add_), T(c)), a, r, s);
 }
 
 void thankyouGod(void (***a)()) {}
@@ -29,7 +32,7 @@ void printo(void(***o)(), void(**a)(), long r, void **s) {
     printf("%p %p %p\n", o[0][-1], o[1][-1], o[2][-1]);
     o = (void*)o[-2];
   }
-  a[-1](o, a - 1, r, s);
+  d(o, a, r, s);
 }
 void e0(void(***o)(), void(**a)(), long r, void **s) { /*printf("%s\n", __FUNCTION__);*/ }
 void e1(void(***o)(), void(**a)(), long r, void **s) { printf("%s %ld %ld %s\n", (char*)s[0], (long)s[1], (long)s[2], __FUNCTION__); }
@@ -55,20 +58,20 @@ void term(void(***o)(), void(**a)(), long r, void **s) { LOG;
 }
 void tina(void(***o)(), void(**a)(), long r, void **s);
 void tina_(void(***o)(), void(**a)(), long r, void **s) { LOG;
-  a[-1](O(o,
-          T(c),
-          T(c, "t", term),
-          T(c)), a - 1, r, s);
-  a[-1](O(o,
-          T(c),
-          T(c, tina, "a", term),
-          T(c)), a - 1, r, s);
+  d(O(o,
+      T(c),
+      T(c, "t", term),
+      T(c)), a, r, s);
+  d(O(o,
+      T(c),
+      T(c, tina, "a", term),
+      T(c)), a, r, s);
 }
 void tina(void(***o)(), void(**a)(), long r, void **s) { LOG;
-  a[-1](O(o,
-          T(c),
-          T(c, tina_),
-          T(c)), a - 1, r, s);
+  d(O(o,
+      T(c),
+      T(c, tina_),
+      T(c)), a, r, s);
 }
 
 int main() {
