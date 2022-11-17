@@ -1,13 +1,13 @@
 #define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
 #define VA(...) ((const void *[]){__VA_ARGS__})
-#define T(...) ((void *)&VA(Nargs(__VA_ARGS__), __VA_ARGS__)[1])
+#define T(...) ((void *)&VA(__VA_ARGS__,Nargs(__VA_ARGS__))[Nargs(__VA_ARGS__)])
 #define O(o, ...) ((void *)&VA(o, Nargs(__VA_ARGS__), __VA_ARGS__)[2])
 #include <assert.h>
 #include <stdio.h>
 #define LOG //printf("%.2ld %s\n", r, __FUNCTION__);
 
 void c(void (***o)(), void (**a)(), long r, void **s) { LOG;
-  o[r][(long)o[r][-1] - 1](o[-2], &o[r][(long)o[r][-1] - 1], r, s);
+  o[r][-1](o[-2], o[r]-1, r, s);
 }
 void one_(void (***o)(), void (**a)(), long r, void **s) { LOG;
   c(o, a, r, O(s, 1));
