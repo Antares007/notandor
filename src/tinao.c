@@ -32,17 +32,18 @@ void ain_(void **t, long i, void **n, long a, void **o) {
 void ain(void **t, long i, void **n, long a, void **o) {
   c(t, i, n, a, T(0, T(ain_), 0, o));
 }
+long ce0=0;
 void tina(void **t, long i, void **n, long a, void **o);
 void tina_(void **t, long i, void **n, long a, void **o) {
   c(t, i, n, a, T(0, T("t", term), 0, o));
-  c(t, i, n, a, T(0, T(tina, ain), 0, o));
+  if(ce0 < 7) c(t, i, n, a, T(0, T(tina, ain), 0, o));
 }
 void tina(void **t, long i, void **n, long a, void **o) {
   c(t, i, n, a, T(0, T(tina_), 0, o));
 }
 void e2(void **t, long i, void **n, long a, void **o) { LOG; }
 void e1(void **t, long i, void **n, long a, void **o) { LOG; printf("%p\n", n[3]); }
-void e0(void **t, long i, void **n, long a, void **o) { }
+void e0(void **t, long i, void **n, long a, void **o) { ce0++; }
 int main() {
   c(T(tina), 1, T(0, "tina", 4, 0), 1,
     T(T(e0),
