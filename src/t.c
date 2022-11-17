@@ -9,7 +9,7 @@
 void c(void (***o)(), void (**a)(), long r, void **s) { LOG;
   o[r][(long)o[r][-1] - 1](o[-2], &o[r][(long)o[r][-1] - 1], r, s);
 }
-void one_(void (***o)(), void (**a)(), long r, void **s) {
+void one_(void (***o)(), void (**a)(), long r, void **s) { LOG;
   c(o, a, r, O(s, 1));
 }
 void one(void (***o)(), void (**a)(), long r, void **s) { LOG;
