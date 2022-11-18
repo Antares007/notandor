@@ -3,7 +3,7 @@
 #define T(...)                                                                 \
   ((void *)&VA(__VA_ARGS__, Nargs(__VA_ARGS__))[Nargs(__VA_ARGS__)])
 #define O(o, ...) ((void *)&VA(o, Nargs(__VA_ARGS__), __VA_ARGS__)[2])
-#define LOG printf("%.2ld %s\n", r, __FUNCTION__)//, sleep(1)
+#define LOG printf("%.2ld %s\n", r, __FUNCTION__) //, sleep(1)
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -16,25 +16,25 @@ N(l) {
     o[-2] = o[9];
     o[r][-1](o[-2], o[r] - 1, o[10], s, o[11]);
   } else {
-    void (***on)() = s[0];
+    void (***on)() = *--s;
     o[-2] = (void *)on;
-    on[4][-1](on[-2], on[4] - 1, 4, s[-2]);
+    on[4][-1](on[-2], on[4] - 1, 4, s);
   }
 }
 N(m) {
   LOG;
   char *ms = (char *)*--a;
-  char *in = s[0];
-  long pos = s[1];
+  long pos = *--s;
+  char *in = *--s;
   long i = 0;
   while (ms[i]) {
     if (ms[i] < in[pos + i])
-      return r++, o[r][-1](o[-2], o[r] - 1, r, s);
+      return r++, *s++ = in, *s++ = pos, o[r][-1](o[-2], o[r] - 1, r, s);
     else if (in[pos + i] < ms[i])
-      return r--, o[r][-1](o[-2], o[r] - 1, r, s);
+      return r--, *s++ = in, *s++ = pos, o[r][-1](o[-2], o[r] - 1, r, s);
     i++;
   }
-  o[r][-1](o[-2], o[r] - 1, r, O(s, in, pos + i));
+  *s++ = in, *s++ = pos + 1, o[r][-1](o[-2], o[r] - 1, r, s);
 }
 N(c) { LOG, o[r][-1](o[-2], o[r] - 1, r, s); }
 N(g) { LOG, o[11] = (long)o[11] + 1, c(o, a, r, s); }
@@ -52,23 +52,20 @@ N(k) { LOG, c(o, a, 4, s); }
   T(c ),sword1,T(c),  T(c),  T(c),  T(c),  T(c),  sword7,T(ε )),          \
   T(c ),T(ε),  sword2,T(c),  T(c),  T(c),  sword6,T(ε),  T(ε )),          \
   T(c ),T(ε),  T(ε),  sword3,T(c),  sword5,T(ε),  T(ε),  T(ε )),          \
-  T(c ),T(ε),  T(ε),  T(ε),  sword4,T(ε),  T(ε),  T(ε),  T(ε ))   
+  T(c ),T(ε),  T(ε),  T(ε),  sword4,T(ε),  T(ε),  T(ε),  T(ε ))
+// clang-format on
 N(dec17) {
-  o = S7(o, r,
-      T("1", m),T(k),
-      T("2", m),T(k),
-      T("3", m),T(k),
-      T("4", m),T(k),
-      T("5", m),T(k),
-      T("6", m),T(k),
-      T("7", m),T(k));
-  a[-1](o, a-1, 0, O(s, o));
+  o = S7(o, r, T("1", m), T(k), T("2", m), T(k), T("3", m), T(k), T("4", m),
+         T(k), T("5", m), T(k), T("6", m), T(k), T("7", m), T(k));
+  *s++ = o, a[-1](o, a - 1, 0, s);
 }
-N(r0) {printf("%s %s %ld\n", __FUNCTION__, (char*)s[0], (long)s[1]);}
-N(r1) {printf("%s %s %ld\n", __FUNCTION__, (char*)s[0], (long)s[1]);}
-N(r2) {printf("%s %s %ld\n", __FUNCTION__, (char*)s[0], (long)s[1]);}
+N(r0) { printf("%s %s %ld\n", __FUNCTION__, (char *)s[-2], (long)s[-1]); }
+N(r1) { printf("%s %s %ld\n", __FUNCTION__, (char *)s[-2], (long)s[-1]); }
+N(r2) { printf("%s %s %ld\n", __FUNCTION__, (char *)s[-2], (long)s[-1]); }
 int main() {
-  void(***o)()   = O(0, T(r0), T(r1), T(r2));
-  void(**a)()    = T(c,   dec17);
-  a[-1](o, a-1, 1, O(0, "41231234", 0));
+  void *mem[0x1000];
+  void **s = mem;
+  void (***o)() = O(0, T(r0), T(r1), T(r2));
+  void (**a)() = T(c, dec17);
+  *s++ = "41231234", *s++ = 0, a[-1](o, a - 1, 1, s);
 }
