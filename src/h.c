@@ -43,14 +43,14 @@ void lt(OARS, long eq) { LOG, c(o, a, eq ? r : r - 1, s); }
 void gt(OARS, long eq) { LOG, c(o, a, eq ? r : r + 1, s); }
 N(k) { LOG, c(o, a, 4, s); }
 // clang-format off
-#define S7(o,r,Srd1,rw1,Srd2,rw2,Srd3,rw3,Srd4,rw4,Srd5,rw5,Srd6,rw6,Srd7,rw7) \
+#define S7(o,r,SRD1,RED1,SRD2,RED2,SRD3,RED3,SRD4,RED4,SRD5,RED5,SRD6,RED6,SRD7,RED7) \
   O(O(O(O(O(O(0,                                                      \
-  T(lt), rw1, rw2, rw3, rw4, rw5, rw6, rw7,T(gt), o, r, 0),           \
+  T(lt),RED1,RED2,RED3,RED4,RED5,RED6,RED7,T(gt), o, r, 0),           \
   T(l ),T(g),T(g),T(g),T(g),T(g),T(g),T(g),T(l )),                    \
-  T(c ),Srd1,T(c),T(c),T(c),T(c),T(c),Srd7,T(ε )),                    \
-  T(c ),T(ε),Srd2,T(c),T(c),T(c),Srd6,T(ε),T(ε )),                    \
-  T(c ),T(ε),T(ε),Srd3,T(c),Srd5,T(ε),T(ε),T(ε )),                    \
-  T(c ),T(ε),T(ε),T(ε),Srd4,T(ε),T(ε),T(ε),T(ε ))   
+  T(c ),SRD1,T(c),T(c),T(c),T(c),T(c),SRD7,T(ε )),                    \
+  T(c ),T(ε),SRD2,T(c),T(c),T(c),SRD6,T(ε),T(ε )),                    \
+  T(c ),T(ε),T(ε),SRD3,T(c),SRD5,T(ε),T(ε),T(ε )),                    \
+  T(c ),T(ε),T(ε),T(ε),SRD4,T(ε),T(ε),T(ε),T(ε ))   
 N(dec17) {
   o = S7(o, r,
       T("1", m),T(k),
