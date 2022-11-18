@@ -3,7 +3,7 @@
 #define T(...)                                                                 \
   ((void *)&VA(__VA_ARGS__, Nargs(__VA_ARGS__))[Nargs(__VA_ARGS__)])
 #define O(o, ...) ((void *)&VA(o, Nargs(__VA_ARGS__), __VA_ARGS__)[2])
-#define LOG (void)0 //, printf("%.2ld %s\n", r, __FUNCTION__) //, sleep(1)
+#define LOG printf("%.2ld %s\n", r, __FUNCTION__)//, sleep(1)
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -43,16 +43,16 @@ void lt(OARS, long eq) { LOG, c(o, a, eq ? r : r - 1, s); }
 void gt(OARS, long eq) { LOG, c(o, a, eq ? r : r + 1, s); }
 N(k) { LOG, c(o, a, 4, s); }
 // clang-format off
-#define S7(o,r, SRD1, RED1, SRD2, RED2, SRD3, RED3,         \
-                SRD4, RED4,                                 \
-                SRD5, RED5, SRD6, RED6, SRD7, RED7)         \
-  O(O(O(O(O(O(0,                                            \
-  T(lt),RED1,RED2,RED3,RED4,RED5,RED6,RED7,T(gt), o, r, 0), \
-  T(l ),T(g),T(g),T(g),T(g),T(g),T(g),T(g),T(l )),          \
-  T(c ),SRD1,T(c),T(c),T(c),T(c),T(c),SRD7,T(ε )),          \
-  T(c ),T(ε),SRD2,T(c),T(c),T(c),SRD6,T(ε),T(ε )),          \
-  T(c ),T(ε),T(ε),SRD3,T(c),SRD5,T(ε),T(ε),T(ε )),          \
-  T(c ),T(ε),T(ε),T(ε),SRD4,T(ε),T(ε),T(ε),T(ε ))   
+#define S7(o,r, sword1, reduc1, sword2, reduc2, sword3, reduc3,           \
+                sword4, reduc4,                                           \
+                sword5, reduc5, sword6, reduc6, sword7, reduc7)           \
+  O(O(O(O(O(O(0,                                                          \
+  T(lt),reduc1,reduc2,reduc3,reduc4,reduc5,reduc6,reduc7,T(gt), o, r, 0), \
+  T(l ),T(g),  T(g),  T(g),  T(g),  T(g),  T(g),  T(g),  T(l )),          \
+  T(c ),sword1,T(c),  T(c),  T(c),  T(c),  T(c),  sword7,T(ε )),          \
+  T(c ),T(ε),  sword2,T(c),  T(c),  T(c),  sword6,T(ε),  T(ε )),          \
+  T(c ),T(ε),  T(ε),  sword3,T(c),  sword5,T(ε),  T(ε),  T(ε )),          \
+  T(c ),T(ε),  T(ε),  T(ε),  sword4,T(ε),  T(ε),  T(ε),  T(ε ))   
 N(dec17) {
   o = S7(o, r,
       T("1", m),T(k),
