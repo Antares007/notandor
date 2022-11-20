@@ -28,25 +28,31 @@ EndRayTemplate(0) EndRayTemplate(1) EndRayTemplate(2) EndRayTemplate(3);
 EndRayTemplate(4) EndRayTemplate(5) EndRayTemplate(6) EndRayTemplate(7);
 // clang-format off
 N(cr,     C(r, s, op, os);)
+
 N(cn,     long newray = *--a; C(newray, s, op, os);)
+
 N(term_,  const char *ms = os[0]; const char *in = op[0]; long len = op[1];
           long pos = s[0];
           if (pos < len && in[pos] == ms[0]) C(r, O(s, pos + 1), op, os[-2]);
           else C(r, s, op, os[-2]);)
+
 N(term,   const char *ms = (void *)*--a;
           D(O(o, T(0, cn), T(1, cn, term_),         T(2, cn)), s, op, O(os, ms));) void S();
+
 N(S_,     D(O(o, T(0, cn), T(1, cn,    "b", term),  T(2, cn)), s, op, os);
           D(O(o, T(0, cn), T(1, cn, S, "a", term),  T(2, cn)), s, op, os);)
+
 N(S,      D(O(o, T(0, cn), T(1, cn, S_),            T(2, cn)), s, op, os);)
+
 void init();
 int main() {
           init();
           void (***o)() = O(0, T(r0), T(r1), T(r2), T(r3), T(r4), T(r5), T(r6), T(r7));
-          void (**a)() = T(cr, S);
-          long r = 1;
-          void **s = 0;
-          void **op = 0;
-          void **os = 0;
+          void ( **a)() = T(cr, S);
+          long r        = 1;
+          void **s      = 0;
+          void **op     = 0;
+          void **os     = 0;
           D(o, O(s, 0), O(op, "baaa", 4), os);
 }
 ////NNSD
