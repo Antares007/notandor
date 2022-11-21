@@ -5,22 +5,19 @@
 #define O(o, ...) ((void *)&VA(o, Nargs(__VA_ARGS__), __VA_ARGS__)[2])
 #define N(argo, ...)                                                           \
   void argo(OARS) {                                                            \
-    LOG;                                                                       \
     { __VA_ARGS__ }                                                            \
   }
 #define OARS void (***o)(), void (**a)(), long r, void **s, void **op, void **os
-#define C(Ray, s, op, os) o[Ray][-1](o[-2], &o[Ray][-1], Ray, s, op, os)
-#define D(o, s, op, os) a[-1](o, &a[-1], r, s, op, os)
+#define C(Ray, s, op, os) LOG,o[Ray][-1](o[-2], &o[Ray][-1], Ray, s, op, os)
+#define D(o, s, op, os) LOG,a[-1](o, &a[-1], r, s, op, os)
 #define Short(v) (long)(v) & (long)0xffff
 #define LOG                                                                    \
-  printf("%.4lx %.4lx %.2ld %.4lx %s\n", Short(o), Short(a), r, Short(s),      \
-         __FUNCTION__),                                                        \
-      logn(o, a, r, s, op, os), sleep(1)
+  logn(o, a, r, s, op, os, __FUNCTION__), sleep(1)
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-void logn(OARS);
+void logn(OARS, const char*);
 #define EndRayTemplate(n)                                                      \
   N(r##n, printf("%s %s %ld %ld\n", __FUNCTION__, (char *)op[0], (long)op[1],  \
                  (long)s[0]);)
@@ -47,7 +44,7 @@ N(S,      D(O(o, T(0, cn), T(1, cn, S_),            T(2, cn)), s, op, os);)
 void init();
 int main() {
           init();
-          void (***o)() = O(0, T(r0), T(r1), T(r2), T(r3), T(r4), T(r5), T(r6), T(r7));
+          void (***o)() = O(0, T(r0), T(r1), T(r2));
           void ( **a)() = T(cr, S);
           long r        = 1;
           void **s      = 0;
@@ -72,10 +69,14 @@ void init() {
   NAME(S);
 }
 char*data = "NNSD";
-void logn(OARS) {
+void logn(OARS, const char*name) {
+  printf("%.4lx %.4lx %.2ld %.4lx %.4lx %.4lx %s\n", Short(o), Short(a), r,
+                                                     Short(s), Short(op),
+                                                     Short(os),
+         name);
   if (o)
     for (long n = 0; n < (long)o[-1]; n++) {
-      printf("|%.2ld:", n);
+      printf("%.2ld:", n);
       for (long m = (long)(o[n][0]); m > 0; m--) {
         char *name = names[(long)(o[n][0 - m]) & 0xffff];
         if (name)
@@ -89,5 +90,7 @@ void logn(OARS) {
       }
       printf(" ");
     }
-  printf("\n");
+  long oc = 0;
+  while(o) oc++, o = (void*)o[-2];
+  printf("%ld\n", oc);
 }
