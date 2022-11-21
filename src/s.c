@@ -8,16 +8,17 @@
     { __VA_ARGS__ }                                                            \
   }
 #define OARS void (***o)(), void (**a)(), long r, void **s, void **op, void **os
-#define C(Ray, s, op, os) LOG,o[Ray][-1](o[-2], &o[Ray][-1], Ray, s, op, os)
-#define D(o, s, op, os) LOG,a[-1](o, &a[-1], r, s, op, os)
+#define C(Ray, s, op, os) LOG,o[Ray][-1](o[-2], &o[Ray][-1], Ray, s, op, os), ident_count--
+#define D(o, s, op, os) LOG,a[-1](o, &a[-1], r, s, op, os), ident_count--
 #define Short(v) (long)(v) & (long)0xffff
 #define LOG                                                                    \
-  logn(o, a, r, s, op, os, __FUNCTION__), sleep(1)
+  logn(o, a, r, s, op, os, __FUNCTION__, ident_count++), sleep(1)
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-void logn(OARS, const char*);
+static long ident_count = 0;
+void logn(OARS, const char*, long);
 #define EndRayTemplate(n)                                                      \
   N(r##n, printf("%s %s %ld %ld\n", __FUNCTION__, (char *)op[0], (long)op[1],  \
                  (long)s[0]);)
@@ -31,7 +32,7 @@ N(cn,     long newray = *--a; C(newray, s, op, os);)
 N(term_,  const char *ms = os[0]; const char *in = op[0]; long len = op[1];
           long pos = s[0];
           if (pos < len && in[pos] == ms[0]) C(r, O(s, pos + 1), op, os[-2]);
-          else C(r, s, op, os[-2]);)
+          else C(r-1, s, op, os[-2]);)
 
 N(term,   const char *ms = (void *)*--a;
           D(O(o, T(0, cn), T(1, cn, term_),         T(2, cn)), s, op, O(os, ms));) void S();
@@ -69,8 +70,9 @@ void init() {
   NAME(S);
 }
 char*data = "NNSD";
-void logn(OARS, const char*name) {
-  printf("%.4lx %.4lx %.2ld %.4lx %.4lx %.4lx %s\n", Short(o), Short(a), r,
+void logn(OARS, const char*name, long ident_count) {
+//  for(long i = 0; i < ident_count; i++) printf("  ");
+  printf("%.4lx %.4lx %.2ld %.4lx %.4lx %.4lx %s\t", Short(o), Short(a), r,
                                                      Short(s), Short(op),
                                                      Short(os),
          name);
