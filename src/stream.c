@@ -39,14 +39,14 @@ N(cc1   )(printf("-------> %ld\n", (long)op),
 N(cc2   )(LOG)
 N(c0    )(o[0] = B(o,
                    T(cc0), T(cc1)),
-          C(s, 1, o[0], 1, 0))
+          D(s, o[0], 1, 0))
 N(c1    )(LOG)
 N(c2    )(LOG)
 int main() {
   void (**a)() = T(cr);
   long    r    = 0;
   D(B(V(3, 0),
-    T(p0)),
+      T(p0)),
     B(V(6),
-    T(c0)), 99, 0);
+      T(1, cn, c0)), 99, 0);
 }
