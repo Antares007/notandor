@@ -16,7 +16,7 @@
                               &((void (***)())o)[Ray][-1], Ray, s, op, os))
 #define D(o, s, op, os) (LOG, a[-1](o, &a[-1], r, s, op, os))
 #define Short(v) (long)(v) & (long)0xffff
-#define LOG (void)0//printf("%ld %s\n", r, __FUNCTION__), usleep(100000)
+#define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(100000) // (void)0 //
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -72,27 +72,50 @@ N(parser      )(struct parser_st on = { .inner_o = o, .s = B(&on,
                     T(parser0)), s, op, os))
 struct main_t {void *o,*s;};
 N(main_ps0    )(LOG)
-N(main_ps1    )(struct main_t*on = (void*)o;
-                D(s, on->s, op, os))
+N(main_ps1    )(const void**on = (void*)o;
+                D(s, on[0], op, os))
 N(main_ps2    )(LOG)
-N(handshake   )(struct main_t*on = (void*)o;
-                on->o = s;
-                D(s, on->s, op, os))
+N(main_p0     )(const void**on = (void*)o;
+                on[1] = s;
+                D(s, on[0], op, os))
+N(main_c0     )(const void**on = (void*)o;
+                on[1] = s;
+                D(s, on[0], op, os))
 N(main_cs0    )(LOG)
-N(main_cs1    )(struct main_t*on = (void*)o;
-                D(s, on->s, op, os))
+N(main_cs1    )(const void**on = (void*)o;
+                D(s, on[0], op, os))
 N(main_cs2    )(LOG)
-N(map_p0      )(LOG)
-N(map         )(D(B(o,
+
+N(map_ps0     )(LOG)
+N(map_ps1     )(const void **on = (void*)o;
+                D(on[0],on[2],op,os))
+N(map_ps2     )(LOG)
+N(map_cs0     )(const void **on = (void*)o;
+                D(on[3],on[1],op,os))
+N(map_cs1     )(LOG)
+N(map_cs2     )(LOG)
+N(map_p0      )(const void **on = (void*)o;
+                on[3] = s;
+                D(on[0], on[2], op, os))
+N(map         )(const void *on[] = {
+                o, B(on,
+                     T(map_ps0), T(map_ps1), T(map_ps2)), 
+                   B(on,
+                     T(map_cs0), T(map_cs1), T(map_cs2)), 0};
+                D(B(on,
                     T(map_p0)), s, op, os))
 int main(     ) {
-  struct main_t on  = { .s = B(&on, T(main_ps0), T(main_ps1), T(main_ps2)) };
-  void(***o)()      = B(&on,
-                        T(handshake));
-  void (**a)()      = T(cr);
-  long    r         = 0;
-  struct main_t os  = { .s = B(&os, T(main_cs0), T(main_cs1), T(main_cs2)) };
-  void **s          = B(&os,
-                        T(1, cn, handshake));
+  const void*on[] = {
+                    B(on,
+                      T(main_ps0), T(main_ps1), T(main_ps2)), 0 };
+  void(***o)()    = B(on,
+                      T(main_p0));
+  void (**a)()    = T(cr);
+  long    r       = 0;
+  const void*sn[] = {
+                    B(sn,
+                      T(main_cs0), T(main_cs1), T(main_cs2)), 0 };
+  void **s        = B(sn,
+                      T(1, cn, main_c0));
   D(o, s, 0, 0);
 }
