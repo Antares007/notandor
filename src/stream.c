@@ -6,8 +6,8 @@
 #define Ν(...) { __VA_ARGS__; }}
 #define N(argo) void argo(OARS) { Ν
 #define OARS void (***o)(), void (**a)(), long r, void **s, void **op, void **os
-#define C(Ray, s, op, os) LOG, o[Ray][-1](o[-2], &o[Ray][-1], Ray, s, op, os)
-#define D(o, s, op, os) LOG, a[-1](o, &a[-1], r, s, op, os)
+#define C(o, Ray, s, op, os) (LOG, ((void(***)())o)[Ray][-1](((void(***)())o)[-2], &((void(***)())o)[Ray][-1], Ray, s, op, os))
+#define D(o, s, op, os) (LOG, a[-1](o, &a[-1], r, s, op, os))
 #define Short(v) (long)(v) & (long)0xffff
 #define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(100000)
 #include <assert.h>
@@ -15,39 +15,31 @@
 #include <string.h>
 #include <unistd.h>
 // clang-format off
-N(cr    )(C(r, s, op, os))
-N(cn    )(r = *--a, C(r, s, op, os))
+N(cr    )(C(o, r, s, op, os))
+N(cn    )(r = *--a, C(o, r, s, op, os))
 N(err   )(LOG)
 
 N(pc0   )(LOG)
-N(pc1   )(assert(((long*)o)[0] == 3),
-          assert((long)op < 11),
+N(pc1   )(assert((long)op == 1 || (long)op == 10),
           ((long*)o)[1] += (long)op,
-          D(s, 
-            B(o,
-            T(pc0), T(pc1)), ((long**)o)[1], 0))
+          D(s, o[0], o[1], 0))
 N(pc2   )(LOG)
-N(p0    )(assert(((long*)o)[0] == 3),
-          ((void**)o)[1] = op,
-          D(s, 
-            B(o,
-            T(pc0), T(pc1)), ((void**)o)[1], 0))
+N(p0    )(o[0] = B(o,
+                   T(pc0), T(pc1)),
+          o[1] = (void*)op,
+          D(s, o[0], o[1], 0))
 N(p1    )(LOG)
 N(p2    )(LOG)
 
 N(cc0   )(LOG)
-N(cc1   )(assert(((long*)o)[0] == 6),
-          printf("-------> %ld\n", (long)op);
-          D(s, 
-            B(o,
-            T(cc0), T(cc1)), 10, 0))
+N(cc1   )(printf("-------> %ld\n", (long)op),
+          (long)op == 150
+          ? C(s, 0, 0, 0, 0)
+          : D(s, o[0], 10, 0))
 N(cc2   )(LOG)
-N(c0    )(assert(((long*)o)[0] == 6),
-          assert((long)op == 99),
-          D(B(s,
-            T(1,cn)), 
-            B(o,
-            T(cc0), T(cc1)), 1, 0))
+N(c0    )(o[0] = B(o,
+                   T(cc0), T(cc1)),
+          C(s, 1, o[0], 1, 0))
 N(c1    )(LOG)
 N(c2    )(LOG)
 int main() {
