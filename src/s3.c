@@ -39,38 +39,38 @@ N(pstr    )(void*str=*--a;
             D_(B(o,
                  T(str,pstr_),T(str,pstr_),T(str,pstr_),T(str,pstr_)), s, op, os))
 N(map     )(D(B(B(o[-3],
-                T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
-                T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)),
+                T(osopos),  T("mapP", pstr, osopos),    T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0,putop),    T(c0,putop)),
               B(B(s[-3],
-                T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
-                T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)), op, os))
+                T(osopos),  T("mapC", pstr, osopos),    T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0, putop),   T(c0, putop)), op, os))
 N(putinos )(void *vs = (void*)*--a; D(o,s,op, B(os, vs)))
 N(printos )(printf("aaa\n"), D(o,s,op, os[-3]))
-N(term    )(const char*match=*--a;
+N(term    )(const char*match=*--a;(void)match;
             D(B(B(o[-3],
-                T(osopos),  T("term P", pstr, osopos),    T(osopos),    T(osopos)),
-                T(putop),   T(c0,putop),  T(c0,putop),  T(c0,putop)),
+                T(osopos),  T("termP", pstr, osopos),   T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0,putop),    T(c0,putop)),
               B(B(s[-3],
-                T(osopos),  T("term C", pstr, osopos),   T(osopos),     T(osopos)),
-                T(putop),   T(c0,putop),  T(c0, putop),  T(c0, putop)), op, os))
+                T(osopos),  T("termC", pstr, osopos),   T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0, putop),   T(c0, putop)), op, os))
 N(parse_o1)()
 N(show    )(D(o,s,op,os))
-N(parse   )(const char*input=*--a;
+N(parse   )(const char*input=*--a;(void)input;
             D(B(B(o[-3],
-                T(osopos),  T("parse P", pstr, osopos),          T(osopos),     T(osopos)),
-                T(putop),   T(c0,putop),        T(c0,putop),   T(c0,putop)),
+                T(osopos),  T("parseP", pstr, osopos),  T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0,putop),    T(c0,putop)),
               B(B(s[-3],
-                T(osopos),  T("parse C", pstr, osopos),  T(osopos),     T(osopos)),
-                T(putop),   T(c0,putop),        T(c0, putop),  T(c0, putop)), op, os))
+                T(osopos),  T("parseC", pstr, osopos),  T(osopos),      T(osopos)),
+                T(putop),   T(c0,putop),                T(c0, putop),   T(c0, putop)), op, os))
 int main() {
-  void(**a)() = T(cr, "b", term, "baaa", parse);
+  void(**a)() = T(cr, "baaa", parse, map, "b", term);
   long r = 3;
   D(B(B(B(0,
-          T(soopos),    T("P", pstr, soopos),  T(soopos),  T(soopos)),
-          T(init),      T(cr),      T(cr),      T(cr)),
-          T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)),
+          T(soopos),    T("P", pstr, soopos), T(soopos),    T(soopos)),
+          T(init),      T(cr),                T(cr),        T(cr)),
+          T(putop),     T(c0,putop),          T(c0,putop),  T(c0,putop)),
     B(B(B(0,
-          T(c1,soopos), T("C", pstr, soopos),  T(soopos),  T(soopos)),
-          T(init),      T(cr),      T(cr),      T(cr)),
-          T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)), 0, 0);
+          T(c1,soopos), T("C", pstr, soopos), T(soopos),    T(soopos)),
+          T(init),      T(cr),                T(cr),        T(cr)),
+          T(putop),     T(c0,putop),          T(c0,putop),  T(c0,putop)), 0, 0);
 }
