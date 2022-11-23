@@ -24,24 +24,29 @@ N(c0)(cr(o, a, 0, s, op, os))
 N(c1)(cr(o, a, 1, s, op, os))
 N(c2)(cr(o, a, 2, s, op, os))
 N(c3)(cr(o, a, 3, s, op, os))
-N(o0)(D(s,o,op,os))N(o1)(D(s,o,op,os))N(o2)(LOG)
-N(s0)(D(s,o,op,os))N(s1)(D(s,o,op,os))N(s2)(LOG)
-N(putos)(D(o, s, op, B(os, o, s)))
-N(mapo0)(D(o,s,op,os))N(mapo1)(D(o,s,op,os))N(mapo2)(D(o,s,op,os))
-N(maps0)(D(o,s,op,os))N(maps1)(D(o,s,op,os))N(maps2)(D(o,s,op,os))
-N(main_os )(D(B(0,
-                T(o0), T(o1), T(o2)),
-              B(0,
-                T(c1,s0), T(s1), T(s2)), op, os))
-N(map     )(D(B(o,
-                T(mapo0), T(mapo1), T(mapo2)),
-              B(s,
-                T(maps0), T(maps1), T(maps2)), op, os))
-N(start_os)(void**bo = os[0], **bs = os[1];
-            bo[-3] = o, bs[-3] = s,
-            D(o, s, op, os[-3]))
+N(putos     )(D(o, s, op, B(os, o, s)))
+N(soopos    )(D_(s,o,op,os))
+N(osopos    )(D_(o,s,op,os))
+N(pstr      )(printf("%s\n",(char*)*--a), usleep(125500), D_(o,s,op,os))
+N(start_os  )(void**bo = os[0], **bs = os[1];
+              bo[-3] = o, bs[-3] = s,
+              D(o, s, op, os[-3]))
+N(term      )(const char*ms = *--a;(void)ms;
+              D(B(o,
+                  T(osopos),    T( "7", pstr, osopos), T(osopos)),
+                B(s,
+                  T(osopos),    T("10", pstr, osopos), T(osopos)), op, os))
+N(parse     )(const char*in = *--a;(void)in;
+              D(B(o,
+                  T(osopos),    T( "8", pstr, osopos), T(osopos)),
+                B(s,
+                  T(osopos),    T("11", pstr, osopos), T(osopos)), op, os))
+N(main_os   )(D(B(0,
+                  T(soopos),    T( "9", pstr, soopos), T(soopos)),
+                B(0,
+                  T(c1,soopos), T("12", pstr, soopos), T(soopos)), op, os))
 int main() {
-  void(**a)() = T(start_os, map, putos, main_os);
+  void(**a)() = T(start_os, "b", term, "b", term, "baaa", parse, putos, main_os);
   long   r    = 0;
   D(0, 0, 0, 0);
 }
