@@ -9,12 +9,14 @@
 #define N(argo)                                                                \
   void argo(OARS) {                                                            \
     Ν
-#define OARS void (***o)(), void (**a)(), long r, void **s, void **op, void **os
+#define OARS void **o, void **a, long r, void **s, void **op, void **os
 #define C(o, Ray, s, op, os)                                                   \
   (LOG,                                                                        \
    ((void (***)())o)[Ray][-1](((void (***)())o)[-3],                           \
                               &((void (***)())o)[Ray][-1], Ray, s, op, os))
-#define D(o, s, op, os) (LOG, a[-1](o, &a[-1], r, s, op, os))
+#define D_(o, s, op, os)                                                       \
+  ((void (**)())a)[-1](o, &((void (**)())a)[-1], r, s, op, os)
+#define D(o, s, op, os) (LOG, D_(o, s, op, os))
 #define Short(v) (long)(v) & (long)0xffff
 #define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(125500)
 #include <assert.h>
@@ -22,32 +24,53 @@
 #include <string.h>
 #include <unistd.h>
 // clang-format off
-N(cr)(o[r][-1](o[-3], &o[r][-1], r, s, op, os))
-N(c0)(cr(o,a,0,s,op,os))
-N(c1)(cr(o,a,1,s,op,os))
-N(c2)(cr(o,a,2,s,op,os))
-N(c3)(cr(o,a,3,s,op,os))
+N(cr)(((void (***)())o)[r][-1](o[-3], &((void (***)())o)[r][-1], r, s, op, os))
+N(c0)(cr(o, a, 0, s, op, os))
+N(c1)(cr(o, a, 1, s, op, os))
+N(c2)(cr(o, a, 2, s, op, os))
+N(c3)(cr(o, a, 3, s, op, os))
 N(init    )(o[-3] = op[0],
-            D(o, s, op[-3], os))
-N(putop   )(D(o, s, B(op, o), os))
-N(soopos  )(D(s, o, op, os))
-N(osopos  )(D(o, s, op, os))
+            D_(o, s, op[-3], os))
+N(putop   )(D_(o, s, B(op, o), os))
+N(soopos  )(D_(s, o, op, os))
+N(osopos  )(D_(o, s, op, os))
+N(pstr_   )(const char*str=*--a; printf("%ld %s\n", r, str), usleep(225500), D_(o, s, op, os))
+N(pstr    )(void*str=*--a;
+            D_(B(o,
+                 T(str,pstr_),T(str,pstr_),T(str,pstr_),T(str,pstr_)), s, op, os))
 N(map     )(D(B(B(o[-3],
                 T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
                 T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)),
               B(B(s[-3],
                 T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
                 T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)), op, os))
-N(S       )(LOG)
+N(putinos )(void *vs = (void*)*--a; D(o,s,op, B(os, vs)))
+N(printos )(printf("aaa\n"), D(o,s,op, os[-3]))
+N(term    )(const char*match=*--a;
+            D(B(B(o[-3],
+                T(osopos),  T("term P", pstr, osopos),    T(osopos),    T(osopos)),
+                T(putop),   T(c0,putop),  T(c0,putop),  T(c0,putop)),
+              B(B(s[-3],
+                T(osopos),  T("term C", pstr, osopos),   T(osopos),     T(osopos)),
+                T(putop),   T(c0,putop),  T(c0, putop),  T(c0, putop)), op, os))
+N(parse_o1)()
+N(show    )(D(o,s,op,os))
+N(parse   )(const char*input=*--a;
+            D(B(B(o[-3],
+                T(osopos),  T("parse P", pstr, osopos),          T(osopos),     T(osopos)),
+                T(putop),   T(c0,putop),        T(c0,putop),   T(c0,putop)),
+              B(B(s[-3],
+                T(osopos),  T("parse C", pstr, osopos),  T(osopos),     T(osopos)),
+                T(putop),   T(c0,putop),        T(c0, putop),  T(c0, putop)), op, os))
 int main() {
-  void(**a)() = T(cr, map);
+  void(**a)() = T(cr, "b", term, "baaa", parse);
   long r = 3;
   D(B(B(B(0,
-          T(soopos),    T(soopos),  T(soopos),  T(soopos)),
+          T(soopos),    T("P", pstr, soopos),  T(soopos),  T(soopos)),
           T(init),      T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)),
     B(B(B(0,
-          T(c1,soopos), T(soopos),  T(soopos),  T(soopos)),
+          T(c1,soopos), T("C", pstr, soopos),  T(soopos),  T(soopos)),
           T(init),      T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)), 0, 0);
 }
