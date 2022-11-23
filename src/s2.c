@@ -72,36 +72,28 @@ N(parser      )(struct parser_st on = { .inner_o = o, .s = B(&on,
                     T(parser0)), s, op, os))
 struct main_t {void *o,*s;};
 N(main_ps0    )(LOG)
-N(main_ps1    )(const void**on = (void*)o;
-                D(s, on[0], op, os))
+N(main_ps1    )(D(s, o[0], op, os))
 N(main_ps2    )(LOG)
-N(main_p0     )(const void**on = (void*)o;
-                on[1] = s;
-                D(s, on[0], op, os))
-N(main_c0     )(const void**on = (void*)o;
-                on[1] = s;
-                D(s, on[0], op, os))
+N(main_p0     )(o[1] = (void*)s, D(s, o[0], op, os))
+N(main_c0     )(o[1] = (void*)s, D(s, o[0], op, os))
 N(main_cs0    )(LOG)
-N(main_cs1    )(const void**on = (void*)o;
-                D(s, on[0], op, os))
+N(main_cs1    )(D(s, o[0], op, os))
 N(main_cs2    )(LOG)
 
 N(map_ps0     )(LOG)
-N(map_ps1     )(const void **on = (void*)o;
-                D(on[0],on[2],op,os))
+N(map_ps1     )(D(o[0], o[3], op, os))
 N(map_ps2     )(LOG)
-N(map_cs0     )(const void **on = (void*)o;
-                D(on[3],on[1],op,os))
-N(map_cs1     )(LOG)
+N(map_cs0     )(o[0] = (void*)s,
+                D(o[1], o[2], op, os))
+N(map_cs1     )(D(o[1], o[2], op, os))
 N(map_cs2     )(LOG)
-N(map_p0      )(const void **on = (void*)o;
-                on[3] = s;
-                D(on[0], on[2], op, os))
-N(map         )(const void *on[] = {
-                o, B(on,
-                     T(map_ps0), T(map_ps1), T(map_ps2)), 
-                   B(on,
-                     T(map_cs0), T(map_cs1), T(map_cs2)), 0};
+N(map_p0      )(o[1] = (void*)s,
+                D(o[0], o[3], op, os))
+N(map         )(const void *on[] = { o, 0,
+                B(on,
+                  T(map_ps0), T(map_ps1), T(map_ps2)),
+                B(on,
+                  T(map_cs0), T(map_cs1), T(map_cs2))};
                 D(B(on,
                     T(map_p0)), s, op, os))
 int main(     ) {
@@ -110,7 +102,7 @@ int main(     ) {
                       T(main_ps0), T(main_ps1), T(main_ps2)), 0 };
   void(***o)()    = B(on,
                       T(main_p0));
-  void (**a)()    = T(cr);
+  void (**a)()    = T(cr, map);
   long    r       = 0;
   const void*sn[] = {
                     B(sn,
