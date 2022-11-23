@@ -34,19 +34,20 @@ N(soopos  )(D(s, o, op, os))
 N(osopos  )(D(o, s, op, os))
 N(map     )(D(B(B(o[-3],
                 T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
-                T(putop), T(c0,putop),T(c0,putop),T(c0,putop)),
+                T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)),
               B(B(s[-3],
                 T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
-                T(putop), T(c0,putop),T(c0,putop),T(c0,putop)), op, os))
+                T(putop), T(c0, putop),   T(c0, putop),   T(c0, putop)), op, os))
+N(S       )(LOG)
 int main() {
   void(**a)() = T(cr, map);
   long r = 3;
   D(B(B(B(0,
           T(soopos),    T(soopos),  T(soopos),  T(soopos)),
-          T(init),   T(cr),      T(cr),      T(cr)),
+          T(init),      T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)),
     B(B(B(0,
           T(c1,soopos), T(soopos),  T(soopos),  T(soopos)),
-          T(init),   T(cr),      T(cr),      T(cr)),
+          T(init),      T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)), 0, 0);
 }
