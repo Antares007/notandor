@@ -2,7 +2,7 @@
 #define V(...) ((const void *[]){__VA_ARGS__})
 #define T(...)                                                                 \
   ((void *)&V(cr, __VA_ARGS__, Nargs(__VA_ARGS__) + 1)[Nargs(__VA_ARGS__) + 1])
-#define B(o, ...) ((void *)&V(o, Nargs(__VA_ARGS__), __VA_ARGS__)[2])
+#define B(o, ...) ((void *)&V(o, 0, Nargs(__VA_ARGS__), __VA_ARGS__)[3])
 #define Ν(...)                                                                 \
   { __VA_ARGS__; }                                                             \
   }
@@ -12,7 +12,7 @@
 #define OARS void (***o)(), void (**a)(), long r, void **s, void **op, void **os
 #define C(o, Ray, s, op, os)                                                   \
   (LOG,                                                                        \
-   ((void (***)())o)[Ray][-1](((void (***)())o)[-2],                           \
+   ((void (***)())o)[Ray][-1](((void (***)())o)[-3],                           \
                               &((void (***)())o)[Ray][-1], Ray, s, op, os))
 #define D(o, s, op, os) (LOG, a[-1](o, &a[-1], r, s, op, os))
 #define Short(v) (long)(v) & (long)0xffff
@@ -22,37 +22,31 @@
 #include <string.h>
 #include <unistd.h>
 // clang-format off
-N(cr)(o[r][-1](o[-2], &o[r][-1], r, s, op, os))
+N(cr)(o[r][-1](o[-3], &o[r][-1], r, s, op, os))
 N(c0)(cr(o,a,0,s,op,os))
 N(c1)(cr(o,a,1,s,op,os))
 N(c2)(cr(o,a,2,s,op,os))
 N(c3)(cr(o,a,3,s,op,os))
-N(c4)(cr(o,a,4,s,op,os))
-N(c5)(cr(o,a,5,s,op,os))
-N(c6)(cr(o,a,6,s,op,os))
-N(c7)(cr(o,a,7,s,op,os))
-N(cn)(r = *--a, cr(o,a,r,s,op,os))
-N(init    )(o[-2] = op[0],
-            D(o, s, op[-2], os))
+N(init    )(o[-3] = op[0],
+            D(o, s, op[-3], os))
 N(putop   )(D(o, s, B(op, o), os))
 N(soopos  )(D(s, o, op, os))
 N(osopos  )(D(o, s, op, os))
-N(show    )(printf("\n\n\n"),D(o,s,op,os))
-N(map     )(D(B(B(o[-2],
-                T(osopos),T(osopos),  T(osopos),  T(osopos)),
+N(map     )(D(B(B(o[-3],
+                T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
                 T(putop), T(c0,putop),T(c0,putop),T(c0,putop)),
-              B(B(s[-2],
-                T(osopos),T(show),  T(osopos),  T(osopos)),
+              B(B(s[-3],
+                T(osopos),T(c2, osopos),  T(c3, osopos),  T(c1, osopos)),
                 T(putop), T(c0,putop),T(c0,putop),T(c0,putop)), op, os))
 int main() {
   void(**a)() = T(cr, map);
   long r = 3;
   D(B(B(B(0,
           T(soopos),    T(soopos),  T(soopos),  T(soopos)),
-          T(init),      T(cr),      T(cr),      T(cr)),
+          T(init),   T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)),
     B(B(B(0,
           T(c1,soopos), T(soopos),  T(soopos),  T(soopos)),
-          T(init),      T(cr),      T(cr),      T(cr)),
+          T(init),   T(cr),      T(cr),      T(cr)),
           T(putop),     T(c0,putop),T(c0,putop),T(c0,putop)), 0, 0);
 }
