@@ -22,26 +22,27 @@
 #include <string.h>
 #include <unistd.h>
 // clang-format off
-N(cr)(C(o, r, s, op, os))
-N(c0)(C(o, 0, s, op, os))
-N(c1)(C(o, 1, s, op, os))
-N(c2)(C(o, 2, s, op, os))
-N(c3)(C(o, 3, s, op, os))
-N(c4)(C(o, 4, s, op, os))
-N(c5)(C(o, 5, s, op, os))
-N(c6)(C(o, 6, s, op, os))
-N(c7)(C(o, 7, s, op, os))
-N(cn)(r = *--a, C(o, r, s, op, os))
+N(cr)(o[r][-1](o[-2], &o[r][-1], r, s, op, os))
+N(c0)(cr(o,a,0,s,op,os))
+N(c1)(cr(o,a,1,s,op,os))
+N(c2)(cr(o,a,2,s,op,os))
+N(c3)(cr(o,a,3,s,op,os))
+N(c4)(cr(o,a,4,s,op,os))
+N(c5)(cr(o,a,5,s,op,os))
+N(c6)(cr(o,a,6,s,op,os))
+N(c7)(cr(o,a,7,s,op,os))
+N(cn)(r = *--a, cr(o,a,r,s,op,os))
 N(init    )(o[-2] = op[0],
             D(o, s, op[-2], os))
 N(putop   )(D(o, s, B(op, o), os))
 N(soopos  )(D(s, o, op, os))
 N(osopos  )(D(o, s, op, os))
+N(show    )(printf("\n\n\n"),D(o,s,op,os))
 N(map     )(D(B(B(o[-2],
                 T(osopos),T(osopos),  T(osopos),  T(osopos)),
                 T(putop), T(c0,putop),T(c0,putop),T(c0,putop)),
               B(B(s[-2],
-                T(osopos),T(osopos),  T(osopos),  T(osopos)),
+                T(osopos),T(show),  T(osopos),  T(osopos)),
                 T(putop), T(c0,putop),T(c0,putop),T(c0,putop)), op, os))
 int main() {
   void(**a)() = T(cr, map);
