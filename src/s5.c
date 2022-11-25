@@ -10,21 +10,34 @@ typedef void (*fun_t)();
 #define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(220000)
 #include <stdio.h>
 #include <unistd.h>
+void ps(oars) { puts((void *)*--a), D(o, s, op, os); }
 void cr(oars) { LOG, o[r][-1](o[-3], o[r] - 1, r, s, op, os); }
 void c0(oars) { LOG, o[0][-1](o[-3], o[0] - 1, 0, s, op, os); }
 void c1(oars) { LOG, o[1][-1](o[-3], o[1] - 1, 1, s, op, os); }
-void pos(oars) { D(((void***)op)[0][-3] = o, ((void***)os)[0][-3] = s, op, os); }
+void pop(oars) {
+  D(((void ***)op)[0][-3] = o, s, op, os);
+}
+void pos(oars) {
+  D(((void ***)os)[0][-3] = o, s, op, os);
+}
 void ob(oars) {
-  D(B(o, T(c0, pos), T(c0, pos), T(c0, pos), T(c0, pos)),
+  D(B(o, T(c0, pop), T(c0, pop), T(c0, pop), T(c0, pop)),
     B(s, T(c0, pos), T(c0, pos), T(c0, pos), T(c0, pos)), op, os);
 }
-void so(oars) { D(s, o, op, os); }
+void soo0(oars) { D(s, o, op, os); }
+void soo1(oars) { D(s, o, op, os); }
+void soo2(oars) { D(s, o, op, os); }
+void soo3(oars) { D(s, o, op, os); }
+void sos0(oars) { D(s, o, op, os); }
+void sos1(oars) { D(s, o, op, os); }
+void sos2(oars) { D(s, o, op, os); }
+void sos3(oars) { D(s, o, op, os); }
 void o(oars) {
-  o = B(0, T(so), T(so), T(so), T(so));
+  o = B(0, T(soo0), T(soo1), T(soo2), T(soo3));
   D(o, s, B(op, o), os);
 }
 void s(oars) {
-  s = B(0, T(c1, so), T(so), T(so), T(so));
+  s = B(0, T(c1, sos0), T(sos1), T(sos2), T(sos3));
   D(o, s, op, B(os, s));
 }
 int main() {
