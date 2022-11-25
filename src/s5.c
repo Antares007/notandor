@@ -1,12 +1,11 @@
-#define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
-#define V(...) ((const void *[]){__VA_ARGS__})
-#define T(...)                                                                 \
-  ((void *)&V(cr, __VA_ARGS__, Nargs(__VA_ARGS__) + 1)[Nargs(__VA_ARGS__) + 1])
-#define B(o, ...) ((void *)&V(o, 0, Nargs(__VA_ARGS__), __VA_ARGS__)[3])
+// clang-format off
+#define Nargs(...)      (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
+#define V(...)          ((const void *[]){__VA_ARGS__})
+#define T(...)          ((void *)&V(cr, __VA_ARGS__, Nargs(__VA_ARGS__) + 1)[Nargs(__VA_ARGS__) + 1])
+#define B(o, ...)       ((void *)&V(o, 0, Nargs(__VA_ARGS__), __VA_ARGS__)[3])
 #define D(o, s, op, os) LOG, a[-1](o, a - 1, r, s, op, os)
-#define oars                                                                   \
-  void (***o)(), void (**a)(), long r, void (***s)(), void **op, void **os
-#define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(220000)
+#define oars            void (***o)(), void (**a)(), long r, void (***s)(), void **op, void **os
+#define LOG             printf("%ld %s\n", r, __FUNCTION__), usleep(220000)
 #include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -18,22 +17,14 @@ void c1(oars) { cr(o, a, 1, s, op, os); }
 void soos(oars) { D(os[0], op[0], os, op); }
 void osop(oars) { D(o, s, op, os); }
 void o(oars) {
-  D(B("producer", T("hi o", ps, soos), T("send next", ps, soos), T(soos),
-      T(soos)),
-    s, op, os);
+  D(B("producer", T("hi o", ps, soos), T("send next", ps, soos), T(soos), T(soos)), s, op, os);
 }
 void s(oars) {
-  D(o,
-    B("consumer", T(c1, "hello s", ps, soos), T("take it", ps, soos), T(soos),
-      T(soos)),
-    op, os);
+  D(o, B("consumer", T(c1, "hello s", ps, soos), T("take it", ps, soos), T(soos), T(soos)), op, os);
 }
 void m(oars) {
-  D(B(o, T("map p0", ps, osop), T("map p1", ps, osop), T("map p2", ps, osop),
-      T("map p3", ps, osop)),
-    B(s, T("map c0", ps, osop), T("map c1", ps, osop), T("map c2", ps, osop),
-      T("map c3", ps, osop)),
-    op, os);
+  D(B(o, T("map p0", ps, osop), T("map p1", ps, osop), T("map p2", ps, osop), T("map p3", ps, osop)),
+    B(s, T("map c0", ps, osop), T("map c1", ps, osop), T("map c2", ps, osop), T("map c3", ps, osop)), op, os);
 }
 int main() {
   void (**a)() = T(bo, m, o, s);
