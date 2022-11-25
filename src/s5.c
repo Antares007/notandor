@@ -7,25 +7,32 @@
 #define oars                                                                   \
   void (***o)(), void (**a)(), long r, void (***s)(), void **op, void **os
 #define LOG printf("%ld %s\n", r, __FUNCTION__), usleep(220000)
+#include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
 void ps(oars) { puts((void *)*--a), D(o, s, op, os); }
 void cr(oars) { LOG, o[r][-1](o[-3], o[r] - 1, r, s, B(op, o), B(os, s)); }
 void c0(oars) { cr(o, a, 0, s, op, os); }
 void c1(oars) { cr(o, a, 1, s, op, os); }
-void so(oars) { D(os[0], op[0], os, op); }
+void soos(oars) { printf("%s\n", (char*)o); D(os[0], op[0], os, op); }
+void osop(oars) {                           D(o, s, op, os); }
 void o(oars) {
-  o = B(0, T("hi o", ps, so), T("send next", ps, so), T(so), T(so));
+  o = B("producer", T("hi o", ps, soos), T("send next", ps, soos), T(soos), T(soos));
   D(o, s, op, os);
 }
 void s(oars) {
-  s = B(0, T(c1, "hello s", ps, so), T("take it", ps, so), T(so), T(so));
+  s = B("consumer", T(c1, "hello s", ps, soos), T("take it", ps, soos), T(soos), T(soos));
   D(o, s, op, os);
 }
+void m(oars) {
+  D(B(o, T("map p0", ps, osop), T("map p1", ps, osop), T("map p2", ps, osop), T("map p3", ps, osop)),
+    B(s, T("map c0", ps, osop), T("map c1", ps, osop), T("map c2", ps, osop), T("map c3", ps, osop)),
+    op, os);
+}
 int main() {
-  void (**a)() = T(cr, o, s);
+  void (**a)() = T(cr, m, o, s);
   long r = 0;
-  D(0, 0, 0, 0);
+  D(1, 1, 0, 0);
 }
 void mama(oars) { D(B(0, T(0), T(0), T(0)), s, op, os); }
 // რა არის დინება?
