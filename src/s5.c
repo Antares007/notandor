@@ -11,7 +11,8 @@
 #include <stdio.h>
 #include <unistd.h>
 void ps(oars) { puts((void *)*--a), D(o, s, op, os); }
-void cr(oars) { LOG, o[r][-1](o[-3], o[r] - 1, r, s, B(op, o), B(os, s)); }
+void cr(oars) { LOG, o[r][-1](o[-3], o[r] - 1, r, s, op, os); }
+void bo(oars) { LOG, o[r][-1](o[-3], o[r] - 1, r, s, B(op, o), B(os, s)); }
 void c0(oars) { cr(o, a, 0, s, op, os); }
 void c1(oars) { cr(o, a, 1, s, op, os); }
 void soos(oars) { printf("%s\n", (char*)o); D(os[0], op[0], os, op); }
@@ -30,7 +31,7 @@ void m(oars) {
     op, os);
 }
 int main() {
-  void (**a)() = T(cr, m, o, s);
+  void (**a)() = T(bo, m, o, s);
   long r = 0;
   D(1, 1, 0, 0);
 }
