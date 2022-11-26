@@ -17,8 +17,24 @@ void c1   (oars) { cr(o, a, 1, s, op, os); }
 void c2   (oars) { cr(o, a, 2, s, op, os); }
 void soos (oars) { D(os[0], op[0], os, op); }
 void osop (oars) { D(o, s, op, os); }
-void o    (oars) { D(B(o, T("o0", ps, soos), T("o1", ps, soos), T("o2", ps, soos), T("o3", ps, soos)), s, op, os); }
-void s    (oars) { D(o, B(s, T(c1, "s0", ps, soos), T("s1", ps, soos), T("s2", ps, soos), T("s3", ps, soos)), op, os); }
+void o    (oars) {
+  D(B(o,
+      T("o0", ps, soos), T("o1", ps, soos), T("o2", ps, soos), T("o3", ps, soos)), s, op, os); }
+void s    (oars) {
+  D(o,
+    B(0,
+      T(c1, "s0", ps, soos), T("s1", ps, soos), T("s2", ps, soos), T("s3", ps, soos)), op, B(os, s)); }
+long cout=0;
+void bstop(oars) {
+  if(cout++>3)
+    r = 0, op = op[-3], D(s, o, os, op);
+  else
+    D(s,o,os,op);
+}
+void b    (oars) {
+  D(o,
+    B(0,
+      T(c1, "b0", ps, soos), T("b1", ps, bstop), T("b2", ps, soos), T("b3", ps, soos)), op, B(os, s)); }
 void m    (oars) {
   D(B(o, T("map p0", ps, osop), T("map p1", ps, osop), T("map p2", ps, osop), T("map p3", ps, osop)),
     B(s, T("map c0", ps, osop), T("map c1", ps, osop), T("map c2", ps, osop), T("map c3", ps, osop)), op, os);
@@ -39,7 +55,7 @@ void S    (oars) {
     B(s, T(c1, soos),T(S_),T(soos)), op, os);
 }
 int main() {
-  void (**a)() = T(bo, o, s, s);
+  void (**a)() = T(bo, o, b, s);
   long r = 0;
   D(1, 0, 0, 0);
 }
