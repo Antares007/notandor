@@ -4,7 +4,7 @@
 #define T(...)          ((void *)&V(cr, __VA_ARGS__, Nargs(__VA_ARGS__) + 1)[Nargs(__VA_ARGS__) + 1])
 #define B(o, ...)       ((void *)&V(o, 0, Nargs(__VA_ARGS__), __VA_ARGS__)[3])
 #define D(o, s, op, os) a[-1](o, a - 1, r, s, op, os)
-#define oars            void (***o)(), void (**a)(), long r, void (***s)(), void **op, void **os
+#define oars            void (***o)(), void (**a)(), long r, void *s, void **op, void **os
 #define LOG             printf("%ld %s\n", r, __FUNCTION__), usleep(777777)
 #include <assert.h>
 #include <stdio.h>
@@ -22,6 +22,21 @@ void s    (oars) { D(o, B(s, T(c1, "s0", ps, soos), T("s1", ps, soos), T("s2", p
 void m    (oars) {
   D(B(o, T("map p0", ps, osop), T("map p1", ps, osop), T("map p2", ps, osop), T("map p3", ps, osop)),
     B(s, T("map c0", ps, osop), T("map c1", ps, osop), T("map c2", ps, osop), T("map c3", ps, osop)), op, os);
+}
+void term (oars) { 
+  D(o,
+    B(s, T(c1, soos),T(soos),T(soos)), op, os);
+}
+void S    (oars);
+void S_   (oars) { // take it called by producer with input
+  D(o,
+    B(s, T(c0),T(bo,    "a", term),T(soos)), op, os);
+  D(o,
+    B(s, T(c0),T(bo, S, "a", term),T(soos)), op, os);
+}
+void S    (oars) {
+  D(o,
+    B(s, T(c1, soos),T(S_),T(soos)), op, os);
 }
 int main() {
   void (**a)() = T(bo, o, s, s);
