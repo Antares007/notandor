@@ -9,68 +9,52 @@
 #include <stdio.h>
 #include <unistd.h>
 #define LOG                                                                    \
-  printf("%ld %ld %s\t%ld\n", a, r, __FUNCTION__, (long)data), usleep(100000)
+  printf("%ld %ld %s\t%ld %s\n", a, r, __FUNCTION__, (long)data, (char*)data), usleep(100000)
 
-void end(obart) { printf("%.3lo %p %ld\n", (long)t[-1], o, (long)data); }
+void end(obart) { printf("%.3lo %p %ld %s\n", (long)t[-1], o, (long)data, (char*)data); }
 void cr(obart) { o[a][r][-1](o[2], b, a, r, o[a][r] - 1, data); }
 
 void ps(obart) { puts((char *)*--t), t[-1](o, b, a, r, t - 1, data); }
-
-void term0(obart) { LOG; }
-void term1(obart) {
-  LOG;
-  o[0][3][-1](o[2], o, 0, 3, o[0][1] - 1, data);
-}
-void term2(obart) { LOG; }
-void term3(obart) {
-  LOG, b[0][1][-1](b[2], b, 0, 1, b[0][1] - 1, (char *)*--t);
-}
-void term(obart) {
-  char *ms = (void *)*--t;
-  LOG, t[-1](B(B(T(cr), T(cr), T(cr), T(cr)),
-               B(T(term0), T(term1), T(term2), T(ms, term3)), o),
-             b, a, r, t - 1, data);
-}
-
 #define D(o, t) ((void (**)())t)[-1](o, b, a, r, ((void **)t) - 1);
 #define C(o, a, r, d) assert(!t[-1]), o[a][r][-1](o[2], o, a, r, o[a][r] - 1, (void *)d)
 void ob(obart) { LOG, C(o, 1, 0, data); }
+
+void term00(obart) { LOG; 
+  char *ms = (char *)*--t;
+  if (data[0] == ms[0])
+    C(o, 1, 1, data + 1),
+    C(o, 1, 3, data + 1);
+  else
+    C(o, 1, 2, data);
+}
+void term01(obart) { LOG; }
+void term02(obart) { LOG; }
+void term03(obart) { LOG; }
+void term(obart) {
+  char *ms = (void *)*--t;
+  LOG, t[-1](B(B(T(ms, term00), T(term01), T(term02), T(term03)),
+               B(T(cr), T(cr), T(cr), T(cr)), o), b, a, r, t - 1, data);
+}
 
 // "b" term "a" term parse
 void S(obart);
 void S0(obart) { LOG; }
 void S1(obart) { LOG; }
 void S2(obart) { LOG; }
-
-void S3(obart) {
-  LOG;
-  void (**t0)() = T(ob, "b", term);
-  t0[-1](o, 0, a, r, t0 - 1, data);
-  // void (**t1)() = T(ob, S, "a", term);
-  // t1[-1](o, 0, a, r, t1 - 1, data);
-}
+void S3(obart) { LOG; }
 void S(obart) {
-  LOG, t[-1](B(B(T(cr), T(cr), T(cr), T(cr)), B(T(S0), T(S1), T(S2), T(S3)), o),
-             b, a, r, t - 1, data);
+  LOG, D(B(B(T(cr), T(cr), T(cr), T(cr)),
+           B(T(S0), T(S1), T(S2), T(S3)), o), t);
 }
-void parse0(obart) { LOG; }
-void parse1(obart) {
-  LOG;
-  long *pos = (long *)*--t;
-  char *in = (void *)*--t;
-  if (data[0] == in[*pos])
-    *pos = *pos + 1, b[1][1][-1](b[2], b, 1, 1, b[1][1] - 1, data);
-  else
-    b[1][0][-1](b[2], b, 1, 0, b[1][0] - 1, data);
-}
-void parse2(obart) { LOG; }
-void parse3(obart) { LOG, b[1][3][-1](b[2], b, 1, 3, b[1][3] - 1, data); }
+void parse10(obart) { LOG; C(b, 0, 0, data); }
+void parse11(obart) { LOG; }
+void parse12(obart) { LOG; }
+void parse13(obart) { LOG; C(b, 0, 0, data); }
 void parse(obart) {
   char *in = (void *)*--t;
-  long pos = 0;
-  LOG, t[-1](B(B(T(parse0), T(in, &pos, parse1), T(parse2), T(parse3)),
-               B(T(cr), T(cr), T(cr), T(cr)), o),
-             b, a, r, t - 1, data);
+  LOG, t[-1](B(B(T(cr), T(cr), T(cr), T(cr)),
+               B(T(parse10), T(parse11), T(parse12), T(parse13)), o),
+             b, a, r, t - 1, in);
 }
 void one00(obart) { LOG, C(o, 1, 1, 1), C(o, 1, 3, 0); }
 void one(obart) {
@@ -101,10 +85,9 @@ void seven(obart) {
       B(T(cr),                                          T(cr), T(cr), T(cr)), o),
     t);
 }
-
 int main() {
-  //  void (**t)() = T(ob, S, "baaa", parse);
-  void (**t)() = T(ob, seven, one, seven, add);
+  void (**t)() = T(ob, "b", term, "a", term, "baaa", parse);
+  // void (**t)() = T(ob, seven, one, seven, add);
   t[-1](B(B(T(000, end), T(001, end), T(002, end), T(003, end)),
           B(T(010, end), T(011, end), T(012, end), T(013, end)), 9),
         0, 0, 1, t - 1, 0);
