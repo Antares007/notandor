@@ -33,7 +33,7 @@ void term(obart) {
 }
 
 #define D(o, t) ((void (**)())t)[-1](o, b, a, r, ((void **)t) - 1);
-#define C(o, a, r, d) o[a][r][-1](o[2], o, a, r, o[a][r] - 1, (void *)d)
+#define C(o, a, r, d) assert(!t[-1]), o[a][r][-1](o[2], o, a, r, o[a][r] - 1, (void *)d)
 void ob(obart) { LOG, C(o, 1, 0, data); }
 
 // "b" term "a" term parse
@@ -72,10 +72,6 @@ void parse(obart) {
                B(T(cr), T(cr), T(cr), T(cr)), o),
              b, a, r, t - 1, data);
 }
-// დაიწყე ერთით და ყოველ ერთ წუთში დაუმატე ერთი და დაბეჭდე.
-// მამამ შვილს სახლი აუშენა.
-// აუშენა მამამ შვილს სახლი.
-// აუშენა სახლი შვილს მამამ.
 void one00(obart) { LOG, C(o, 1, 1, 1), C(o, 1, 3, 0); }
 void one(obart) {
   LOG, D(B(B(T(one00),  T(cr), T(cr), T(cr)),
