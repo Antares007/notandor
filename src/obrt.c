@@ -1,95 +1,90 @@
-#define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
-#define D(o, t)                                                                \
-  LOG(r, data), (((void (**)())t)[-1](o, b, r, ((void **)t) - 1, data))
-#define B(...) ((void *)(void *[]){__VA_ARGS__})
-#define T(...)                                                                 \
-  ((void *)&((const void *[]){0, __VA_ARGS__,                                  \
-                              Nargs(__VA_ARGS__)})[Nargs(0, __VA_ARGS__)])
-#define C(o, r, data)                                                          \
-  assert(!t[-1]), LOG(r, data), o[r][-1](o[8], o, r, o[r] - 1, (void *)data)
-#define obrt void (***o)(), void (***b)(), long r, void (**t)(), char *data
-#define LOG(r, data)                                                           \
-  printf("%ld %s\t%s\n", (long)r, __FUNCTION__, (char *)data), usleep(100000)
-
-#include <assert.h>
+#include "obrt.h"
+#define LOG printf("%ld %s %s\n", (long)r, s, __FUNCTION__), usleep(100000)
 #include <stdio.h>
 #include <unistd.h>
 
-void end(obrt) { printf("%.3lo %p %ld\n", (long)t[-1], o, (long)data); }
-void cr(obrt) { o[r][-1](o[8], b, r, o[r] - 1, data); }
-
-void ps(obrt) { puts((char *)*--t), t[-1](o, b, r, t - 1, data); }
-void ob(obrt) { C(o, 4, data); }
-void term00(obrt) {
-  char *ms = (char *)*--t;
-  puts(ms);
-  if (data[0] == ms[0])
-    C(o, 5, data + 1), C(o, 7, data + 1);
-  else
-    C(o, 6, data);
+void cr(obrt, void *p1, void *p2, void *p3, void *p4) {
+  C(o, b, r, p1, p2, p3, p4); // o[r][-1](o[8], b, r, o[r] - 1, p1, p2, p3, p4);
 }
-void term(obrt) {
+static void *Tcr = T(cr);
+void ob(obrt, void *p1, void *p2, void *p3, void *p4) {
+  C(o, o, 4, p1, p2, p3, p4); // o[4][-1](o[8], b, 4, o[4] - 1, p1, p2, p3, p4);
+}
+void term0(obrt, char *s) {
+  LOG;
+  char *ms = (char *)*--t;
+  if (s[0] == ms[0])
+    C(b, b, 5, s + 1), C(o, o, 7, s + 1);
+  else
+    C(b, b, 6, s);
+}
+void term(obrt, char *s) {
   char *ms = (void *)*--t;
-  D(B(T(ms, term00), T(cr, "term01", ps), T(cr, "term02", ps),
-      T(cr, "term03", ps), //
-      T(cr, "term10", ps), T(cr, "term11", ps), T(cr, "term12", ps),
-      T(cr, "term13", ps), o),
-    t);
+  D(B(T(ms, term0), Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, o), t, s);
 }
 // "b" term "a" term parse
-void S(obrt);
-void S00(obrt) {
-  D(o, T(ob, "b", term));
-  D(o, T(ob, S, "a", term));
+void S(obrt, char *);
+void reduce(obrt, char *);
+void S0(obrt, char *s) {
+  LOG;
+  t = T(ob, "b", term, reduce), t[-1](o, b, r, t - 1, s);
+  printf(">>> ");
+  LOG;
+  t = T(ob, S, "a", term, reduce), t[-1](o, b, r, t - 1, s);
 }
-void S(obrt) {
-  D(B(T(S00), T(cr, "S01", ps), T(cr, "S02", ps), T(cr, "S03", ps), //
-      T(cr, "S10", ps), T(cr, "S11", ps), T(cr, "S12", ps), T(cr, "S13", ps),
-      o),
-    t);
+void S(obrt, char *s) {
+  D(B(T(S0), Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, o), t, s);
 }
-void parse10(obrt) { C(b, 0, data); }
-void parse11(obrt) {}
-void parse12(obrt) {}
-void parse13(obrt) { C(b, 0, data); }
-void parse(obrt) {
-  data = (void *)*--t;
-  D(B(T(cr), T(cr), T(cr), T(cr), //
-      T(parse10), T(parse11), T(parse12), T(parse13), o),
-    t);
+
+void reduce7(obrt, char *s) {
+  LOG;
+  C(b, b, 0, s);
 }
-void one00(obrt) { C(o, 5, 1), C(o, 7, 0); }
-void one(obrt) {
-  D(B(T(one00), T(cr), T(cr), T(cr), //
-      T(cr), T(cr), T(cr), T(cr), o),
-    t);
+void reduce6(obrt, char *s) {
+  LOG;
+  C(b, b, 0, s);
 }
-void add00(obrt) {
-  long *sum = (long *)*--t;
-  C(o, 5, *sum), C(o, 7, 0);
+void reduce5(obrt, char *s) { LOG; }
+void reduce0(obrt, char *s) {
+  LOG;
+  C(b, b, 0, s);
 }
-void add11(obrt) {
-  long *sum = (long *)*--t;
-  *sum = *sum + (long)data;
+
+void reduce40(obrt, char *s) { LOG; }
+void reduce4(obrt, char *s) {
+  LOG;
+  D(B(T(reduce40), Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, Tcr, o), t, s);
 }
-void add10(obrt) { C(b, 0, 0); }
-void add13(obrt) { C(b, 0, 0); }
-void add(obrt) {
-  long sum = 0;
-  D(B(T(&sum, add00), T(cr), T(cr), T(cr), //
-      T(add10), T(&sum, add11), T(cr), T(add13), o),
-    t);
+void reduce(obrt, char *s) {
+  D(B(T(reduce0), Tcr, Tcr, Tcr, //
+      T(ob, reduce4), T(reduce5), T(reduce6), T(reduce7), o),
+    t, s);
 }
-void seven(obrt) {
-  D(B(T(ob, one, one, one, one, one, one, one, add), T(cr), T(cr), T(cr), //
-      T(cr), T(cr), T(cr), T(cr), o),
-    t);
+
+void parse4(obrt, char *s) {
+  LOG;
+  C(b, b, 0, s);
 }
+void parse5(obrt, char *s) { LOG; }
+void parse6(obrt, char *s) { LOG; }
+void parse7(obrt, char *s) {
+  LOG;
+  C(b, b, 0, s);
+}
+void parse(obrt, char *s) {
+  D(B(Tcr, Tcr, Tcr, Tcr, //
+      T(parse4), T(parse5), T(parse6), T(parse7), o),
+    t, s);
+}
+void sink(obrt, void *p1, void *p2, void *p3, void *p4) {
+  void *ray = *--t;
+  D(B(T(000, ray), T(001, ray), T(002, ray), T(003, ray), T(004, ray),
+      T(005, ray), T(006, ray), T(007, ray), o),
+    t, p1, p2, p3, p4);
+}
+void end(obrt, char *s) { printf("%.3lo %s\n", (long)t[-1], s); }
 int main() {
-  void (**t)() = T(ob, S, "baaa", parse);
-  long b = 0, r = 0, data = 0;
-  // void (**t)() = T(ob, seven, one, seven, add);
-  D(B(T(000, end), T(001, end), T(002, end), T(003, end), //
-      T(010, end), T(011, end), T(012, end), T(013, end), 0),
-    t);
+  long o, b, r = o = b = 0;
+  void (**t)() = T(ob, S, parse, end, sink);
+  D(o, t, "baaa");
 }
