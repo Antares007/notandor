@@ -17,7 +17,10 @@ void logger(obrt, rest) {
   D(O(Tlogger_ray, Tlogger_ray, Tlogger_ray, Tlogger_ray, Tlogger_ray,
       Tlogger_ray, Tlogger_ray, Tlogger_ray, o), t, frwd);
 }
-void continues();
+void continues(obrt, rest) {
+  t = (void *)*t[-1];
+  D(o, t, frwd);
+}
 void wrap_logger(obrt, rest) {
   char *str = (void *)*--t;
   void *word_to_wrap = (void *)*--t;
