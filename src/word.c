@@ -56,10 +56,11 @@ void zero(obrt, char *s) {
   printf("%.2ld %c b>%s<o \n", r, isEnd ? 'T' : 'F', s);
   usleep(200000);
 }
+void zer0(obrt, rest) { puts(__FUNCTION__); }
 int main() {
   long b = 0, r = 1;
   void (**t)() = T(mb, S);
   void *T0 = T(zero);
-  void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0);
+  void *o = O(T(zer0), T0, T0, T0, T0, T0, T0, T0, 0);
   D(o, t, "baa.");
 }
