@@ -16,25 +16,28 @@
 #include <unistd.h>
 void cr(obrt, rest) { o[r][-1](o[8], b, r, o[r] - 1, frwd); }
 void mb(obrt, rest) { t[-1](o, o, r, t - 1, frwd); }
-void dot_if_match(obrt, char *s, long d) {
+void dot_if_match(obrt, char *s, long l, long p, long d) {
   char *m = (char *)*--t;
-  if (m[0] == s[0])
-    D(o, t, s + 1, d);
+  if (p < l && m[0] == s[p])
+    D(o, t, s, l, p + 1, d);
 }
-void ε(obrt, rest) {}
-void propeller(obrt, char *s, long d) {
+void ε() {}
+void propeller(obrt, char *s, long l, long p, long d) {
   if (d < 0)
     return;
   for (r = 0; r < 8; r++) {
-    D(o, t, s, d - 1);
+    D(o, t, s, l, p, d - 1);
   }
 }
+void update_memo(obrt, char *s, long d) {}
 #define V(ar, T1, T2, T3, T4, T5, T6, T7)                                      \
-  void ar(obrt, char *s, long d) {                                             \
+  void ar(obrt, char *s, long l, long p, long d) {                             \
     void *Tpro = T(propeller);                                                 \
+    void *Tmem = T(cr);                                                        \
     D(O(Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro,                        \
-        O(T1, T2, T3, T4, T5, T6, T7, T(ε), o, ar)),                           \
-      t, s, d - 1);                                                            \
+        O(T1, T2, T3, T4, T5, T6, T7, T(ε),                                    \
+          O(Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, o), ar)),          \
+      t, s, l, p, d - 1);                                                      \
   }
 V(α, T("a", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(β, T("b", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
@@ -47,8 +50,8 @@ V(mul, T("*", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(oprn, T("(", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(cprn, T(")", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(E, T(α), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E), T(ε), T(ε), T(ε))
-void zero(obrt, char *s, long d) {
-  printf("%ld %ld >%s< \n", r, d, s);
+void zero(obrt, char *s, long l, long p, long d) {
+  printf("%ld %ld >%s< \n", r, d, s + p);
   usleep(10000);
 }
 int main() {
@@ -56,5 +59,5 @@ int main() {
   void *T0 = T(zero);
   void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0);
   void (**t)() = T(mb, E);
-  D(o, t, "(a+a)*a", 40);
+  D(o, t, "(a+a)*a", 7, 0, 40);
 }
