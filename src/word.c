@@ -16,51 +16,45 @@
 #include <unistd.h>
 void cr(obrt, rest) { o[r][-1](o[8], b, r, o[r] - 1, frwd); }
 void mb(obrt, rest) { t[-1](o, o, r, t - 1, frwd); }
-void dot_if_match(obrt, char *s) {
+void dot_if_match(obrt, char *s, long d) {
   char *m = (char *)*--t;
   if (m[0] == s[0])
-    D(o, t, s + 1);
+    D(o, t, s + 1, d);
 }
 void ε(obrt, rest) {}
-void propeller(obrt, char *s) {
-  char *name = (char *)*--t;
-  for (long i = 1; i < 8; i++)
-    if (o[i][-1] == ε)
-      continue;
-    else {
-      void **p = (void *)o;
-      while (p)
-        printf(" "), p = p[8];
-      printf("%s_%ld. %s\n", name, i, s), usleep(100000),
-          t[-1](o, b, i, t - 1, s);
-    }
+void propeller(obrt, char *s, long d) {
+  if (d < 0)
+    return;
+  for (r = 0; r < 8; r++) {
+    D(o, t, s, d - 1);
+  }
 }
-//    puts(__FUNCTION__), usleep(100000);
-#define V(ar, ...)                                                             \
-  void ar(obrt, rest) {                                                        \
-    void **p = (void *)o;                                                      \
-    while (p)                                                                  \
-      printf(" "), p = p[8];                                                   \
-    printf("%s\n", #ar);                                                       \
-    void *Tcr = T(cr);                                                         \
-    void *Tmbpro = T(mb, #ar, propeller);                                      \
-    D(O(Tcr, Tmbpro, Tmbpro, Tmbpro, Tmbpro, Tmbpro, Tmbpro, Tmbpro,           \
-        O(Tcr, __VA_ARGS__, o)),                                               \
-      t, frwd);                                                                \
+#define V(ar, T1, T2, T3, T4, T5, T6, T7)                                      \
+  void ar(obrt, char *s, long d) {                                             \
+    void *Tpro = T(propeller);                                                 \
+    D(O(Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro,                        \
+        O(T1, T2, T3, T4, T5, T6, T7, T(ε), o, ar)),                           \
+      t, s, d - 1);                                                            \
   }
 V(α, T("a", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(β, T("b", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(S, T(β), T(S, α), T(ε), T(ε), T(ε), T(ε), T(ε))
-void zero(obrt, char *s) {
-  long isEnd = (long)b[8] == (long)o;
-  printf("%.2ld %c b>%s<o \n", r, isEnd ? 'T' : 'F', s);
-  usleep(200000);
+V(αβ, T(α), T(β), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(S, T(β), T(S, αβ), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(σ, T("a", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(sS, T(σ, sS, sS), T(cr), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(plus, T("+", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(mul, T("*", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(oprn, T("(", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(cprn, T(")", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(E, T(α), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E), T(ε), T(ε), T(ε))
+void zero(obrt, char *s, long d) {
+  printf("%ld %ld >%s< \n", r, d, s);
+  usleep(10000);
 }
-void zer0(obrt, rest) { puts(__FUNCTION__); }
 int main() {
   long b = 0, r = 1;
-  void (**t)() = T(mb, S);
   void *T0 = T(zero);
-  void *o = O(T(zer0), T0, T0, T0, T0, T0, T0, T0, 0);
-  D(o, t, "baa.");
+  void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0);
+  void (**t)() = T(mb, E);
+  D(o, t, "(a+a)*a", 40);
 }
