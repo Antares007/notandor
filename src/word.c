@@ -25,18 +25,14 @@ void ε() {}
 void propeller(obrt, char *s, long l, long p, long d) {
   if (d < 0)
     return;
-  for (r = 0; r < 8; r++) {
-    D(o, t, s, l, p, d - 1);
-  }
+  for (r = 0; r < 8; r++)
+    cr(o, b, r, t, s, l, p, d - 1);
 }
-void update_memo(obrt, char *s, long d) {}
 #define V(ar, T1, T2, T3, T4, T5, T6, T7)                                      \
   void ar(obrt, char *s, long l, long p, long d) {                             \
     void *Tpro = T(propeller);                                                 \
-    void *Tmem = T(cr);                                                        \
     D(O(Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro,                        \
-        O(T1, T2, T3, T4, T5, T6, T7, T(ε),                                    \
-          O(Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, Tmem, o), ar)),          \
+        O(T1, T2, T3, T4, T5, T6, T7, T(ε), o, ar)),                           \
       t, s, l, p, d - 1);                                                      \
   }
 V(α, T("a", dot_if_match), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
@@ -55,9 +51,8 @@ void zero(obrt, char *s, long l, long p, long d) {
   usleep(10000);
 }
 int main() {
-  long b = 0, r = 1;
-  void *T0 = T(zero);
-  void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0);
-  void (**t)() = T(mb, E);
-  D(o, t, "(a+a)*a", 7, 0, 40);
+  void *T0 = T(zero), *Tε = T(ε);
+  propeller(O(T(E), Tε, Tε, Tε, Tε, Tε, Tε, Tε,
+              O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0)),
+            0, 0, 0, "(a+a)*a", 7, 0, 40);
 }
