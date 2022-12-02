@@ -1,12 +1,13 @@
 #define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
-#define D(o, t, ...)                                                           \
-  (((void (**)())(t))[-1](o, b, r, ((void **)(t)) - 1, __VA_ARGS__))
+#define D(o, t, ...) t[-1](o, b, r, t - 1, __VA_ARGS__)
 #define O(r0, r1, r2, r3, r4, r5, r6, r7, o, b)                                \
   ((void *)(const void *[]){r0, r1, r2, r3, r4, r5, r6, r7, o, b})
 #define T(...)                                                                 \
   ((void *)&((const void *[]){                                                 \
       cr, __VA_ARGS__, Nargs(cr, __VA_ARGS__)})[Nargs(cr, __VA_ARGS__)])
-#define obrt void (***o)(), void (***b)(), long r, void (**t)()
+typedef void (*w_t)(void *, void *, void *, void *, void *, void *, void *,
+                      void *);
+#define obrt w_t **o, w_t **b, long r, w_t *t
 
 #define rest void *p1, void *p2, void *p3, void *p4
 #define frwd p1, p2, p3, p4
@@ -48,10 +49,6 @@ V(mul, T("*", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(oprn, T("(", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(cprn, T(")", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(E, T(α), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E), T(ε), T(ε), T(ε))
-void zero(obrt, char *s, long l, long p, long d) {
-  printf("%ld %ld %s %ld/%ld\n", r, d, s, l, p);
-  usleep(10000);
-}
 // s ::= np vp | s pp
 // np ::= noun | det noun | np pp
 // pp ::= prep np
@@ -60,7 +57,6 @@ void zero(obrt, char *s, long l, long p, long d) {
 // noun ::= ’i’ | ’m’ | ’p’ | ’b’
 // verb ::= ’s’
 // prep ::= ’n’ | ’w’
-
 V(prep, T("n", dim), T("w", dim), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(verb, T("s", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(noun, T("i", dim), T("m", dim), T("p", dim), T("b", dim), T(ε), T(ε), T(ε))
@@ -71,10 +67,20 @@ V(vp, T(verb, np), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(pp, T(prep, np), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(s, T(np, vp), T(s, pp), T(ε), T(ε), T(ε), T(ε), T(ε))
 #include <string.h>
+void zero(obrt, char *s, long l, long p, long d) {
+  printf("%ld %ld %s %ld/%ld\n", r, d, s, l, p);
+  usleep(10000);
+}
 int main() {
-  void *T0 = T(zero), *Tε = T(ε);
+  void *T0 = T(zero); //, *Tε = T(ε);
   void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0);
   char *str = "isamntpwab.";
-  propeller(O(T(s, dot), Tε, Tε, Tε, Tε, Tε, Tε, Tε, o, 0), 0, 0, 0, str,
-            strlen(str), 0, 50);
+  w_t *t = T(s, dot);
+  //////////////////  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 50);
+  //  long b = o, r = 0;
+  // D(o, t, str, strlen(str), 0, 50);
+  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 50);
+  // cr(o, 0, r, t, str, strlen(str), 0, 50);
+  // propeller(O(T(s, dot), Tε, Tε, Tε, Tε, Tε, Tε, Tε, o, 0), 0, 0, 0, str,
+  //           strlen(str), 0, 50);
 }
