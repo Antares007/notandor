@@ -5,33 +5,33 @@
   ((void *)&((const void *[]){                                                 \
       cr, __VA_ARGS__, Nargs(cr, __VA_ARGS__)})[Nargs(cr, __VA_ARGS__)])
 typedef void (*w_t)(void *, void *, void *, void *, void *, void *, void *, void *);
-#define obrt w_t **o, w_t **b, long r, w_t *t
+#define obrtd w_t **o, w_t **b, long r, w_t *t, long d
 
-#define rest void *p1, void *p2, void *p3, void *p4
-#define frwd p1, p2, p3, p4
+#define rest void *p1, void *p2, void *p3
+#define frwd p1, p2, p3
 #define FUN __FUNCTION__
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-void cr(obrt, rest) { o[r][-1](o[4], b, r, o[r] - 1, frwd); }
-void mb(obrt, rest) { t[-1](o, o, r, t - 1, frwd); }
-void dim(obrt, char *s, long l, long p, long d) {
+void cr(obrtd, rest) { o[r][-1](o[4], b, r, o[r] - 1, d, frwd); }
+void mb(obrtd, rest) { t[-1](o, o, r, t - 1, d, frwd); }
+void dim(obrtd, char *s, long l, long p) {
   char *m = (char *)*--t;
   if (p < l && m[0] == s[p])
-    D(o, t, s, l, p + 1, d);
+    D(o, t, d, s, l, p + 1);
 }
 void ε() {}
-void propeller(obrt, char *s, long l, long p, long d) {
+void propeller(obrtd, char *s, long l, long p) {
   if (d < (l - p) + 5)
     for (r = 0; r < 4; r++)
-      D(o, t, s, l, p, d - 1);
+      D(o, t, d - 1, s, l, p);
 }
 #define V(ar, T0, T1, T2, T3)                                                  \
-  void ar(obrt, char *s, long l, long p, long d) {                             \
+  void ar(obrtd, char *s, long l, long p) {                             \
     void *Tpro = T(propeller);                                                 \
     o = O(Tpro, Tpro, Tpro, Tpro, O(T0, T1, T2, T3, o, "."), #ar);             \
-    D(o, t, s, l, p, d + 1);                                                   \
+    D(o, t, d + 1, s, l, p);                                                   \
   }
 V(dot, T(".", dim), T(ε), T(ε), T(ε))
 
@@ -67,7 +67,7 @@ V(vp, T(verb, np), T(ε), T(ε), T(ε))
 V(pp, T(prep, np), T(ε), T(ε), T(ε))
 V(s, T(np, vp), T(s, pp), T(ε), T(ε))
 #include <string.h>
-void zero(obrt, char *s, long l, long p, long d) {
+void zero(obrtd, char *s, long l, long p) {
   printf("%ld %ld %s %ld/%ld\n", r, d, s, l, p);
   usleep(10000);
 }
@@ -82,5 +82,5 @@ int main() {
   w_t *t = T(sS);
   // char *str = "(a+a)*a*(a+a).";
   // w_t *t = T(E, dot);
-  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 0);
+  t[-1](o, 0, 0, t - 1, 0, str, strlen(str), 0);
 }
