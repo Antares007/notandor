@@ -6,7 +6,7 @@
   ((void *)&((const void *[]){                                                 \
       cr, __VA_ARGS__, Nargs(cr, __VA_ARGS__)})[Nargs(cr, __VA_ARGS__)])
 typedef void (*w_t)(void *, void *, void *, void *, void *, void *, void *,
-                      void *);
+                    void *);
 #define obrt w_t **o, w_t **b, long r, w_t *t
 
 #define rest void *p1, void *p2, void *p3, void *p4
@@ -25,30 +25,33 @@ void dim(obrt, char *s, long l, long p, long d) {
 }
 void ε() {}
 void propeller(obrt, char *s, long l, long p, long d) {
-  if (d < 0)
-    return;
-  for (r = 0; r < 8; r++)
-    cr(o, b, r, t, s, l, p, d - 1);
+  if (d < (l - p) + 5)
+    for (r = 0; r < 8; r++)
+      D(o, t, s, l, p, d - 1);
 }
 #define V(ar, T1, T2, T3, T4, T5, T6, T7)                                      \
   void ar(obrt, char *s, long l, long p, long d) {                             \
     void *Tpro = T(propeller);                                                 \
-    o = O(Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro,                      \
-          O(T1, T2, T3, T4, T5, T6, T7, T(ε), o, b), b);                       \
-    D(o, t, s, l, p, d - 1);                                                   \
+    o = O(Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, Tpro, T(ε),                      \
+          O(T1, T2, T3, T4, T5, T6, T7, T(ε), o, "."), #ar);                   \
+    D(o, t, s, l, p, d + 1);                                                   \
   }
-V(dot, T(".", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(α, T("a", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(β, T("b", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(αβ, T(α), T(β), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(S, T(β), T(S, αβ), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(σ, T("a", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(sS, T(σ, sS, sS), T(cr), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(plus, T("+", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(mul, T("*", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(dot,  T(".", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+
+V(α,    T("a", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(β,    T("b", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(χ,    T("x", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(αβ,   T(α),         T(β),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(S,    T(β),         T(S, α),  T(S, β),  T(S, χ),  T(ε), T(ε), T(ε))
+
+V(σ,    T("s", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(sS,   T(σ, sS, sS), T(cr),    T(ε),     T(ε),     T(ε), T(ε), T(ε))
+
+V(plus, T("+", dim),  T(ε),     T(ε),     T(ε),     T(ε), T(ε), T(ε))
+V(mul,  T("*", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(oprn, T("(", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
 V(cprn, T(")", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(E, T(α), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E), T(ε), T(ε), T(ε))
+V(E,    T(α), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E), T(ε), T(ε), T(ε))
 // s ::= np vp | s pp
 // np ::= noun | det noun | np pp
 // pp ::= prep np
@@ -73,14 +76,17 @@ void zero(obrt, char *s, long l, long p, long d) {
 }
 int main() {
   void *T0 = T(zero); //, *Tε = T(ε);
-  void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, 0);
-  char *str = "isamntpwab.";
-  w_t *t = T(s, dot);
-  //////////////////  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 50);
-  //  long b = o, r = 0;
-  // D(o, t, str, strlen(str), 0, 50);
-  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 50);
-  // cr(o, 0, r, t, str, strlen(str), 0, 50);
-  // propeller(O(T(s, dot), Tε, Tε, Tε, Tε, Tε, Tε, Tε, o, 0), 0, 0, 0, str,
-  //           strlen(str), 0, 50);
+  void *o = O(T0, T0, T0, T0, T0, T0, T0, T0, 0, "zero");
+  //char *str = "isamntpwab.";
+  //w_t *t = T(s, dot);
+
+  // char *str = "bababx.";
+  // w_t *t = T(S,dot);
+
+  char *str = "ssss";
+  w_t *t = T(sS);
+
+  // char *str = "(a+a)*a*(a+a).";
+  // w_t *t = T(E, dot);
+  t[-1](o, 0, 0, t - 1, str, strlen(str), 0, 0);
 }
