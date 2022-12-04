@@ -28,40 +28,41 @@ void propeller(obrtd, char *s, long l, long p) {
       D(O(T(cr), T(cr), T(cr), T(cr), o), t, d - 1, s, l, p);
 }
 // clang-format off
-#define V(ar, T0, R0, T1, R1, T2, R2, T3, R3)                                                  \
+void term(obrtd, rest) {
+  void *str = *--t;
+  D(O(T(propeller), T(propeller), T(propeller), T(propeller),
+      O(T(str, dim),  T(ε),         T(ε),         T(ε), o)), t, d + 1, frwd);
+}
+#define V(ar, T0, T1, T2, T3)                                                  \
   void ar(obrtd, char *s, long l, long p) {                                    \
     void *Tpro = T(propeller);                                                 \
     o = O(Tpro, Tpro, Tpro, Tpro,                                              \
-          O(T0,   T1,   T2,   T3,  o));                                         \
+          O(T0,   T1,   T2,   T3,  o));                                        \
     D(o, t, d + 1, s, l, p);                                                   \
   }
 void *Trid=0,*Trcat=0;
-V(dot,  T(".", dim),  T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(dot,  T(".", dim),  T(ε), T(ε), T(ε))
 
-V(plus, T("+", dim),  T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(mul,  T("*", dim),  T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(oprn, T("(", dim),  T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(cprn, T(")", dim),  T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
+V(plus, T("+", dim),  T(ε), T(ε), T(ε))
+V(mul,  T("*", dim),  T(ε), T(ε), T(ε))
+V(oprn, T("(", dim),  T(ε), T(ε), T(ε))
+V(cprn, T(")", dim),  T(ε), T(ε), T(ε))
 void *ratoi;
-V(Nat,  T("0", dim), T(ratoi),
-        T("1", dim), T(ratoi),
-        T("2", dim), T(ratoi),
-        T("3", dim), T(ratoi))
-V(E,    T(Nat),             T(ε),
-        T(oprn, E, cprn),   T(ε),
-        T(E, mul, E),       T(ε),
-        T(E, plus, E),      T(ε));
+V(Nat,  T("0", dim),
+        T("1", dim),
+        T("2", dim),
+        T("3", dim))
+V(E,    T(Nat),         
+        T(oprn, E, cprn),
+        T(E, mul, E),   
+        T(E, plus, E));
 // o b r t s
-V(α,  T("a", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(β,  T("b", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(χ,  T("x", dim), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε), T(ε))
-V(S,  T(β),     Trid, 
-      T(S, α),  Trcat,
-      T(S, β),  Trcat,
-      T(S, χ),  Trcat)
+V(S,  T("b", term),
+      T(S, "a", term),
+      T(S, "b", term),
+      T(S, "x", term))
 
-// V(σ, T("s", dim), T(ε), T(ε), T(ε))
-// V(sS, T(σ, sS, sS), T(cr), T(ε), T(ε))
+V(sS, T("s", term, sS, sS), T(cr), T(ε), T(ε))
 // 
 // s ::= np vp | s pp
 // np ::= noun | det noun | np pp
@@ -92,9 +93,9 @@ int main() {
   // w_t *t = T(s, dot);
   // char *str = "bababx.";
   // w_t *t = T(S,dot);
-  // char *str = "ssss";
-  // w_t *t = T(sS);
-  char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
-  w_t *t = T(E, dot);
+  char *str = "ss";
+  w_t *t = T(sS);
+  //char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
+  //w_t *t = T(E, dot);
   t[-1](o, 0, 0, t - 1, 0, str, strlen(str), 0);
 }
