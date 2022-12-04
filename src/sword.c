@@ -1,35 +1,63 @@
-#define O(...) 0
-#define T(...) 0
-#define oars                                                                   \
-  void (***o)(), void (***a)(), void (***r)(), void (***s)(), void (**t)()
+#define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
+#define O(r0, r1, r2, r3, o) ((void *)(const void *[]){r0, r1, r2, r3, o})
+#define T(...)                                                                 \
+  ((void *)&A(propeller, 0, revise_brain, __VA_ARGS__, use_brain,              \
+              Nargs(__VA_ARGS__) + 4)[Nargs(__VA_ARGS__) + 4])
+#define A(...) ((void *[]){__VA_ARGS__})
 
-void if_match_dot(oars) {
-  char *m = (char*)*--t;
+typedef void (*w_t)(void *, void *, void *, void *);
+#define btos w_t **b, w_t *t, w_t **o, void **s
+#include <assert.h>
+void revise_brain(btos) {
+  assert(t[-1] == 0);
+  t[-1] = (void *)o;
+  t[-2](b, t - 2, o, s);
 }
-void aterm(oars) {
-  o = O(T("a", if_match_dot), T(1),T(2),T(3), o, a, r, s); 
-  a = O(T(aa),                T(1),T(2),T(3), o, a, r, s);
-  t[-1](o, a, r, s, t - 1);
+void use_brain(btos) {
+  assert((void *)t[0] == use_brain);
+  long l = (long)t[1]-1;
+  assert((void *)t[-l] == propeller);
+  w_t on = t[1 - l];
+  if (on) t[-l](b, t - l, on, s);
+  else    t[-1](b, t - 1, o,  s);
 }
-void sword(     oars) {}
-void proppeller(oars) {
-  for (long i = 0; i < 4; i++) {
-    o[i][-1](o[4], o[5], o[6], o[7], o[i] - 1);
-    a[i][-1](a[4], a[5], a[6], a[7], a[i] - 1);
-    r[i][-1](r[4], r[5], r[6], r[7], r[i] - 1);
-    s[i][-1](s[4], s[5], s[6], s[7], s[i] - 1);
-  }
+#include <stdio.h>
+void cr(btos) {
+    o[i][-1](b, o[i] - 1, o[4], s);
 }
-void ond(oars) {
+void propeller(btos) {
+  for (long i = 0; i < 4; i++)
+    printf("%p %ld\n", t, i),o[i][-1](b, o[i] - 1, o[4], s);
+}
+void ε() {}
+void *Tε = T(ε);
 
+void dim(btos) {
+  char c = ((char *)*--t)[0];
+  char *in = s[0];
+  long len = s[1];
+  long pos = s[2];
+  if (pos < len && c == in[pos])
+    t[-1](b, t - 1, o, A(in, len, pos + 1));
 }
+void term(btos) {
+  void *str = *--t;
+  t[-1](b, t - 1, O(T(str, dim), Tε, Tε, Tε, o), s);
+}
+void S(btos) {
+  t[-1](b, t - 1, O(T("b", term), T(S, "a", term), T(ε), T(ε), o), s);
+}
+void print(btos){
+  printf("aa\n");
+  t[-1](b, t-1, o, s);
+}
+void test(btos) {
+  t[-1](b, t-1, O(T(print), Tε, Tε, Tε, o), s);
+}
+void end(btos) { printf("end %ld\n", (long)s[2]); }
 int main() {
-  void*o = O(T(ond), T(ond), T(ond), T(ond), 0, 0, 0, 0);
-  void*a = O(T(and), T(and), T(and), T(and), 0, 0, 0, 0);
-  void*r = O(T(rnd), T(rnd), T(rnd), T(rnd), 0, 0, 0, 0);
-  void*s = O(T(snd), T(snd), T(snd), T(snd), 0, 0, 0, 0);
-
-  proppeller(o, a, r, s, 0);
+  w_t*t = T("b", term);
+  t[-1](0, t-1, O(T(end), T(end), T(end), T(end), 0), A("baaa", 4, 0));
 }
 
 //    XXXXX

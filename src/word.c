@@ -16,7 +16,6 @@ typedef void (*w_t)(void *, void *, void *, void *, void *, void *, void *,
 #include <stdlib.h>
 #include <unistd.h>
 void cr(obrtd, rest) { o[r][-1](o[4], b, r, o[r] - 1, d, frwd); }
-void mb(obrtd, rest) { t[-1](o, o, r, t - 1, d, frwd); }
 void dim(obrtd, char *s, long l, long p) {
   char *m = (char *)*--t;
   if (p < l && m[0] == s[p])
@@ -33,7 +32,7 @@ void propeller(obrtd, char *s, long l, long p) {
   void ar(obrtd, char *s, long l, long p) {                                    \
     void *Tpro = T(propeller);                                                 \
     o = O(Tpro, Tpro, Tpro, Tpro,                                              \
-          O(T0,   T1,   T2,   T3, o));                                         \
+          O(T0,   T1,   T2,   T3,  o));                                         \
     D(o, t, d + 1, s, l, p);                                                   \
   }
 void *Trid=0,*Trcat=0;
