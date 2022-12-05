@@ -57,7 +57,7 @@ void term(obrtds) {
   void *Tc0 = T(c0, check_depth);
   D(O(Tc0, Tc0, Tc0, Tc0, //
       O(Term, 0, 0, 0,    //
-        O(Tbak, Tbak, Tbak, Tbak, o))),
+        O(Tbak, 0, 0, 0, o))),
     t, d + 1, s);
 }
 #define V(ar, T0, T1, T2, T3)                                                  \
@@ -81,9 +81,7 @@ V(E,                          //
   T("(", term, E, ")", term), //
   T(E, "*", term, E),         //
   T(E, "+", term, E));
-// o b r t s
 V(S, T("b", term), T(S, "a", term), T(S, "b", term), T(S, "x", term))
-
 V(sS, T("s", term, sS, sS), T(cr), T(ε), T(ε))
 //
 // s ::= np vp | s pp
