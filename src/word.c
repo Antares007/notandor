@@ -69,15 +69,18 @@ void term(obrtds) {
     D(o, t, d + 1, s);                                                         \
   }
 void *Trid = 0, *Trcat = 0;
-V(dot, T(".", dim), T(ε), T(ε), T(ε))
-
-V(plus, T("+", dim), T(ε), T(ε), T(ε))
-V(mul, T("*", dim), T(ε), T(ε), T(ε))
-V(oprn, T("(", dim), T(ε), T(ε), T(ε))
-V(cprn, T(")", dim), T(ε), T(ε), T(ε))
+void ps(obrtds) { t = (void *)t[-1], D(o, t, d, s); }
+void dot(obrtds) {
+  t = T(t, ps, ".", term);
+  D(o, t, d, s);
+}
 void *ratoi;
 V(Nat, T("0", dim), T("1", dim), T("2", dim), T("3", dim))
-V(E, T(Nat), T(oprn, E, cprn), T(E, mul, E), T(E, plus, E));
+V(E,                          //
+  T(Nat),                     //
+  T("(", term, E, ")", term), //
+  T(E, "*", term, E),         //
+  T(E, "+", term, E));
 // o b r t s
 V(S, T("b", term), T(S, "a", term), T(S, "b", term), T(S, "x", term))
 
