@@ -17,6 +17,10 @@ typedef void (*w_t)(void *, void *, void *, void *, void *, void *);
 #include <unistd.h>
 void cr(obrtds) { o[r][-1](o[4], b, r, o[r] - 1, d, s); }
 void c0(obrtds) { cr(o, b, 0, t, d, s); }
+
+void ε() {}
+void *Thol = T(ε);
+
 void dim(obrtds) {
   char *in = s[0];
   long len = s[1];
@@ -25,7 +29,6 @@ void dim(obrtds) {
   if (pos < len && str[0] == in[pos])
     D(o, t, d, A(in, len, pos + 1));
 }
-void ε() {}
 void propeller(obrtds) {
   for (r = 0; r < 4; r++)
     D(o, t, d, s);
@@ -49,15 +52,17 @@ void br(obrtds) {
 }
 void term(obrtds) {
   void *str = *--t;
-  void *Tbr = T(str, br);
-  o = O(T(propeller, check_depth), T(propeller, check_depth),
-        T(propeller, check_depth), T(propeller, check_depth),
-        O(T(str, dim), T(ε), T(ε), T(ε), O(Tbr, Tbr, Tbr, Tbr, o)));
-  D(o, t, d + 1, s);
+  void *Term = T(str, dim);
+  void *Tbak = T(str, br);
+  void *Tc0 = T(c0, check_depth);
+  D(O(Tc0, Tc0, Tc0, Tc0, //
+      O(Term, 0, 0, 0,    //
+        O(Tbak, Tbak, Tbak, Tbak, o))),
+    t, d + 1, s);
 }
 #define V(ar, T0, T1, T2, T3)                                                  \
   void ar(obrtds) {                                                            \
-    void *Tpro = T(propeller, check_depth);                                                 \
+    void *Tpro = T(propeller, check_depth);                                    \
     void *Tbr = T(#ar, br);                                                    \
     o = O(Tpro, Tpro, Tpro, Tpro,                                              \
           O(Tbr, Tbr, Tbr, Tbr, O(T0, T1, T2, T3, o)));                        \
