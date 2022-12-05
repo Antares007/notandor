@@ -16,6 +16,7 @@ typedef void (*w_t)(void *, void *, void *, void *, void *, void *);
 #include <stdlib.h>
 #include <unistd.h>
 void cr(obrtds) { o[r][-1](o[4], b, r, o[r] - 1, d, s); }
+void c0(obrtds) { cr(o, b, 0, t, d, s); }
 void dim(obrtds) {
   char *in = s[0];
   long len = s[1];
@@ -26,18 +27,22 @@ void dim(obrtds) {
 }
 void ε() {}
 void propeller(obrtds) {
+  for (r = 0; r < 4; r++)
+    D(o, t, d, s);
+}
+void check_depth(obrtds) {
   long len = s[1];
   long pos = s[2];
   if (d < (len - pos) + 5)
-    for (r = 0; r < 4; r++)
-      D(O(T(cr), T(cr), T(cr), T(cr), o), t, d - 1, s);
+    D(o, t, d - 1, s);
 }
 void print_o_name(obrtds) {
   printf("%s\n", (char *)*--t);
   D(o, t, d, s);
 }
 void br(obrtds) {
-  b = O(T(propeller), T(propeller), T(propeller), T(propeller),
+  b = O(T(propeller, check_depth), T(propeller, check_depth),
+        T(propeller, check_depth), T(propeller, check_depth),
         O(T(ε), T(ε), T(ε), T(ε), b));
   b[4][r] = T(*--t, print_o_name);
   D(o, t, d, s);
@@ -45,13 +50,14 @@ void br(obrtds) {
 void term(obrtds) {
   void *str = *--t;
   void *Tbr = T(str, br);
-  o = O(T(propeller), T(propeller), T(propeller), T(propeller),
+  o = O(T(propeller, check_depth), T(propeller, check_depth),
+        T(propeller, check_depth), T(propeller, check_depth),
         O(T(str, dim), T(ε), T(ε), T(ε), O(Tbr, Tbr, Tbr, Tbr, o)));
   D(o, t, d + 1, s);
 }
 #define V(ar, T0, T1, T2, T3)                                                  \
   void ar(obrtds) {                                                            \
-    void *Tpro = T(propeller);                                                 \
+    void *Tpro = T(propeller, check_depth);                                                 \
     void *Tbr = T(#ar, br);                                                    \
     o = O(Tpro, Tpro, Tpro, Tpro,                                              \
           O(Tbr, Tbr, Tbr, Tbr, O(T0, T1, T2, T3, o)));                        \
@@ -106,8 +112,8 @@ int main() {
   void *b = O(T1, T1, T1, T1, 1);
   // char *str = "isamntpwab.";
   // w_t *t = T(s, dot);
-  // char *str = "babaax.";
-  // w_t *t = T(S, dot);
+  char *str = "babaax.";
+  w_t *t = T(S, dot);
   // char *str = "ss";
   // w_t *t = T(sS);
   // char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
