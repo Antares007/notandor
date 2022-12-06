@@ -47,21 +47,22 @@ N(match) {
   if (pos < len && str[0] == in[pos])
     t[a - 1].c(o, b, a - 1, r, t, O(s, in, (void *)len, (void *)(pos + 1)));
 }
-N(operator_o) {
-  t[a - 1].c(O(T("+", match), T("-", match), T("*", match), T("/", match), o),
-             b, a - 1, r, t, s);
-}
 N(wrap) {
   s_t *To = t[--a].s;
   s_t *Tb = t[--a].s;
   t[a - 1].c(O(Tb, Tb, Tb, Tb, O(To, To, To, To, o)), b, a - 1, r, t, s);
 }
-N(operator) {
-  s_t *Tp = T(propeller, operator_o);
+void word(obarts, void *w) {
+  s_t *Tp = T(propeller, w);
   t[a - 1].c(O(T(Tp, T(cr0), wrap), T(Tp, T(cr1), wrap), T(Tp, T(cr2), wrap),
                T(Tp, T(cr3), wrap), o),
              b, a - 1, r, t, s);
 }
+N(operator_o) {
+  t[a - 1].c(O(T("+", match), T("-", match), T("*", match), T("/", match), o),
+             b, a - 1, r, t, s);
+}
+N(operator) { word(o, b, a, r, t, s, operator_o); }
 
 #include <stdio.h>
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
