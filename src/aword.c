@@ -58,18 +58,47 @@ void word(obarts, void *w) {
                T(Tp, T(cr3), wrap), o),
              b, a - 1, r, t, s);
 }
+#include <stdio.h>
+#include <string.h>
+N(dig47_o) {
+  t[a - 1].c(O(T("4", match), T("5", match), T("6", match), T("7", match), o),
+             b, a - 1, r, t, s);
+}
+N(dig47) { word(o, b, a, r, t, s, dig47_o); }
+N(dig03_o) {
+  t[a - 1].c(O(T("0", match), T("1", match), T("2", match), T("3", match), o),
+             b, a - 1, r, t, s);
+}
+N(dig03) { word(o, b, a, r, t, s, dig03_o); }
+N(Nat_o) {
+  t[a - 1].c(O(T(dig03), T(dig47), T("8", match), T("9", match), o),
+             b, a - 1, r, t, s);
+}
+N(Nat) {
+  word(o, b, a, r, t, s, Nat_o);
+}
+N(ε) {}
+N(Nats);
+N(Nats_o) {
+  t[a - 1].c(O(T(Nat), T(Nats, Nat), T(ε), T(ε), o),
+             b, a - 1, r, t, s);
+}
+N(Nats) {
+  word(o, b, a, r, t, s, Nats_o);
+}
+
 N(operator_o) {
   t[a - 1].c(O(T("+", match), T("-", match), T("*", match), T("/", match), o),
              b, a - 1, r, t, s);
 }
 N(operator) { word(o, b, a, r, t, s, operator_o); }
 
-#include <stdio.h>
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
 int main() {
-  s_t *t = T(operator, operator, operator, operator);
+  s_t *t = T(Nats);
+  char*str = "0987654321";
   t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
                    O(T(end_b), T(end_b), T(end_b), T(end_b), 0), //
-                   t[-1].q - 1, 1, t, O(0, "*+/-", (void *)4, (void *)0));
+                   t[-1].q - 1, 1, t, O(0, str, (void *)strlen(str), (void *)0));
 }
