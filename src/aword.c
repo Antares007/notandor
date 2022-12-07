@@ -52,11 +52,10 @@ N(propeller) {
   for (r = 0; r < 4; r++)
     D(o);
 }
-N(wrap) {
-  s_t *Tcrn = t[--a].s;
-  s_t *Tpropeller_wordcore = t[--a].s;
-  D(O(Tpropeller_wordcore, Tpropeller_wordcore, Tpropeller_wordcore,
-      Tpropeller_wordcore, O(Tcrn, Tcrn, Tcrn, Tcrn, o)));
+N(wrap_1x1) {
+  s_t *Tb = t[--a].s;
+  s_t *Ta = t[--a].s;
+  D(O(Ta, Ta, Ta, Ta, O(Tb, Tb, Tb, Tb, o)));
 }
 N(match) {
   const char *in = s[1].cs;
@@ -71,9 +70,10 @@ N(dig03_o) {
 }
 N(dig) {
   s_t *Tpropellerdig03_o = T(propeller, dig03_o);
-  D(O(T(Tpropellerdig03_o, T(cr0), wrap), T(Tpropellerdig03_o, T(cr1), wrap),
-      T(Tpropellerdig03_o, T(cr2), wrap), T(Tpropellerdig03_o, T(cr3), wrap),
-      o));
+  D(O(T(Tpropellerdig03_o, T(cr0), wrap_1x1),
+      T(Tpropellerdig03_o, T(cr1), wrap_1x1),
+      T(Tpropellerdig03_o, T(cr2), wrap_1x1),
+      T(Tpropellerdig03_o, T(cr3), wrap_1x1), o));
 }
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
