@@ -42,10 +42,10 @@ N(bo) {
   w_t last_word = text[advance].c;
   last_word(father, b, advance, r, text, s);
 }
-N(cr0) { r=0,D(o); }
-N(cr1) { r=1,D(o); }
-N(cr2) { r=2,D(o); }
-N(cr3) { r=3,D(o); }
+N(cr0) { r = 0, D(o); }
+N(cr1) { r = 1, D(o); }
+N(cr2) { r = 2, D(o); }
+N(cr3) { r = 3, D(o); }
 
 N(dot) { D(o); }
 N(propeller) {
@@ -78,11 +78,11 @@ N(dig03_o) {
   D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
 }
 N(dig) {
-  s_t*Tpropellerdig03_o = T(propeller, dig03_o);
-  D(O(T(Tpropellerdig03_o, T(cr0), wrap),
-      T(Tpropellerdig03_o, T(cr1), wrap),
-      T(Tpropellerdig03_o, T(cr2), wrap),
-      T(Tpropellerdig03_o, T(cr3), wrap), o)); }
+  s_t *Tpropellerdig03_o = T(propeller, dig03_o);
+  D(O(T(Tpropellerdig03_o, T(cr0), wrap), T(Tpropellerdig03_o, T(cr1), wrap),
+      T(Tpropellerdig03_o, T(cr2), wrap), T(Tpropellerdig03_o, T(cr3), wrap),
+      o));
+}
 
 N(dig47_o) {
   D(O(T("4", match), T("5", match), T("6", match), T("7", match), o));
