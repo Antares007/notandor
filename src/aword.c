@@ -33,6 +33,7 @@ void logn(obarts, const char *name) {
 }
 // memoization what and when
 // we need to remove cycle from propeller and find perfect cycle!
+// mamam shvils sakhli aushena
 N(bo) {
   assert(a == 0);
   s_t *text = o[r].s;
@@ -46,7 +47,6 @@ N(cr0) { r = 0, D(o); }
 N(cr1) { r = 1, D(o); }
 N(cr2) { r = 2, D(o); }
 N(cr3) { r = 3, D(o); }
-
 N(dot) { D(o); }
 N(propeller) {
   for (r = 0; r < 4; r++)
@@ -57,14 +57,6 @@ N(wrap) {
   s_t *Tpropeller_wordcore = t[--a].s;
   D(O(Tpropeller_wordcore, Tpropeller_wordcore, Tpropeller_wordcore,
       Tpropeller_wordcore, O(Tcrn, Tcrn, Tcrn, Tcrn, o)));
-}
-// mamam shvils sakhli aushena
-void word(obarts, void *wordcore) {
-  s_t *Tpropeller_wordcore = T(propeller, wordcore);
-  D(O(T(Tpropeller_wordcore, T(cr0), wrap), //
-      T(Tpropeller_wordcore, T(cr1), wrap), //
-      T(Tpropeller_wordcore, T(cr2), wrap), //
-      T(Tpropeller_wordcore, T(cr3), wrap), o));
 }
 N(match) {
   const char *in = s[1].cs;
@@ -83,36 +75,10 @@ N(dig) {
       T(Tpropellerdig03_o, T(cr2), wrap), T(Tpropellerdig03_o, T(cr3), wrap),
       o));
 }
-
-N(dig47_o) {
-  D(O(T("4", match), T("5", match), T("6", match), T("7", match), o));
-}
-N(dig47) { word(o, b, a, r, t, s, dig47_o); }
-N(dig03) { word(o, b, a, r, t, s, dig03_o); }
-N(Nat_o) { D(O(T(dig03), T(dig47), T("8", match), T("9", match), o)); }
-N(Nat) { word(o, b, a, r, t, s, Nat_o); }
-N(ε) {}
-N(Nats);
-N(Nats_o) { D(O(T(Nat), T(Nats, Nat), T(ε), T(ε), o)); }
-N(Nats) { word(o, b, a, r, t, s, Nats_o); }
-
-N(operator_o) {
-  D(O(T("+", match), T("-", match), T("*", match), T("/", match), o));
-}
-N(operator) { word(o, b, a, r, t, s, operator_o); }
-N(E);
-N(E_o) { D(O(T(E, operator, E), T(Nats), T(ε), T(ε), o)); }
-N(E) { word(o, b, a, r, t, s, E_o); }
-
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
-N(ps) {
-  t = t[--a].s;
-  a = t[-1].q;
-  D(o);
-}
 int main() {
-  s_t *t = T(T(dig), ps);
+  s_t *t = T(dig);
   char *str = "2987654321";
   t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
                    O(T(end_b), T(end_b), T(end_b), T(end_b), 0), //
