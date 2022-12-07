@@ -29,7 +29,7 @@ void logn(obarts, const char *name) {
   printf("%ld ", r);
   for (s_t *p = o; p; p = p[4].s)
     printf("  ");
-  printf("%s %ld\n", name, s[3].q), usleep(10000);
+  printf("%s %ld\n", name, s[3].q), usleep(1000000);
 }
 // memoize what and when?
 // we need to remove cycle from propeller and find perfect cycle!
@@ -65,6 +65,8 @@ N(match) {
   const char *str = t[--a].cs;
   if (pos < len && str[0] == in[pos])
     s = O(s, in, (void *)len, (void *)(pos + 1)), D(o);
+  else
+    D(o);
 }
 N(dig03_o) {
   D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
@@ -78,28 +80,32 @@ N(dig) {
 }
 #define W(a, b) T(a, b, wrap_1x1)
 N(dign_o) {
-  D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
+  o = O(T("0", match), T("1", match), T("2", match), T("3", match), o);
+  D(o);
+}
+N(lend) {
+//  printf(">%ld\n", s[3].q);
+  bo(b, b, 0, (r + 1) % 4, 0, s);
+}
+void perfect_loop() {
+  s_t *o = O(T("0", match), T("1", match), T("2", match), T("3", match),
+             O(T(lend), T(lend), T(lend), T(lend), 0));
+  s_t *s = O(0, "333", (void *)3, (void *)0);
+  bo(o, o, 0, 0, 0, s);
 }
 N(dign) {
-  s_t *Tb = T(dig03_o);
+  s_t *Tb = T(propeller, dig03_o);
   s_t *T0 = T(cr0);
   s_t *T1 = T(cr1);
   s_t *T2 = T(cr2);
   s_t *T3 = T(cr3);
-  // 0 1 2 3
-  // 1 2 3 0
-  // 2 3 0 1
-  // 3 0 1 2
-  D(O( //
-      W(T0, W(Tb, T1)),
-      W(T0, Tb),
-      W(T0, Tb),
-      W(T0, Tb),
-      o));
+  D(O(W(Tb, T0), W(Tb, T1), W(Tb, T2), W(Tb, T3), o));
 }
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
 int main() {
+  perfect_loop();
+  return 9;
   s_t *t = T(dign, dign, dign);
   char *str = "012";
   t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
