@@ -26,9 +26,10 @@ typedef void (*w_t)(obarts);
 #include <string.h>
 #include <unistd.h>
 void logn(obarts, const char *name) {
+  printf("%ld ", r);
   for (s_t *p = o; p; p = p[4].s)
     printf("  ");
-  printf("%ld%s %ld\n", r, name, s[3].q), usleep(10000);
+  printf("%s %ld\n", name, s[3].q), usleep(10000);
 }
 // memoization what and when
 // we need to remove cycle from propeller and find perfect cycle!
@@ -41,10 +42,10 @@ N(bo) {
   w_t last_word = text[advance].c;
   last_word(father, b, advance, r, text, s);
 }
-N(cr0) { D(o); }
-N(cr1) { D(o); }
-N(cr2) { D(o); }
-N(cr3) { D(o); }
+N(cr0) { r=0,D(o); }
+N(cr1) { r=1,D(o); }
+N(cr2) { r=2,D(o); }
+N(cr3) { r=3,D(o); }
 
 N(dot) { D(o); }
 N(propeller) {
@@ -73,13 +74,20 @@ N(match) {
   if (pos < len && str[0] == in[pos])
     s = O(s, in, (void *)len, (void *)(pos + 1)), D(o);
 }
+N(dig03_o) {
+  D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
+}
+N(dig) {
+  s_t*Tpropellerdig03_o = T(propeller, dig03_o);
+  D(O(T(Tpropellerdig03_o, T(cr0), wrap),
+      T(Tpropellerdig03_o, T(cr1), wrap),
+      T(Tpropellerdig03_o, T(cr2), wrap),
+      T(Tpropellerdig03_o, T(cr3), wrap), o)); }
+
 N(dig47_o) {
   D(O(T("4", match), T("5", match), T("6", match), T("7", match), o));
 }
 N(dig47) { word(o, b, a, r, t, s, dig47_o); }
-N(dig03_o) {
-  D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
-}
 N(dig03) { word(o, b, a, r, t, s, dig03_o); }
 N(Nat_o) { D(O(T(dig03), T(dig47), T("8", match), T("9", match), o)); }
 N(Nat) { word(o, b, a, r, t, s, Nat_o); }
@@ -98,11 +106,16 @@ N(E) { word(o, b, a, r, t, s, E_o); }
 
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
+N(ps) {
+  t = t[--a].s;
+  a = t[-1].q;
+  D(o);
+}
 int main() {
-  s_t *t = T(Nat);
-  char *str = "0987654321";
+  s_t *t = T(T(dig), ps);
+  char *str = "2987654321";
   t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
                    O(T(end_b), T(end_b), T(end_b), T(end_b), 0), //
-                   t[-1].q - 1, 1, t,
+                   t[-1].q - 1, 2, t,
                    O(0, str, (void *)strlen(str), (void *)0));
 }
