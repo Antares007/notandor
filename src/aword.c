@@ -31,9 +31,10 @@ void logn(obarts, const char *name) {
     printf("  ");
   printf("%s %ld\n", name, s[3].q), usleep(10000);
 }
-// memoization what and when
+// memoize what and when?
 // we need to remove cycle from propeller and find perfect cycle!
 // mamam shvils sakhli aushena
+// how perfect cycle can be defined? c: void y(long x) { y((x + 1) % 8); }
 N(bo) {
   assert(a == 0);
   s_t *text = o[r].s;
@@ -75,13 +76,34 @@ N(dig) {
       T(Tpropellerdig03_o, T(cr2), wrap_1x1),
       T(Tpropellerdig03_o, T(cr3), wrap_1x1), o));
 }
+#define W(a, b) T(a, b, wrap_1x1)
+N(dign_o) {
+  D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
+}
+N(dign) {
+  s_t *Tb = T(dig03_o);
+  s_t *T0 = T(cr0);
+  s_t *T1 = T(cr1);
+  s_t *T2 = T(cr2);
+  s_t *T3 = T(cr3);
+  // 0 1 2 3
+  // 1 2 3 0
+  // 2 3 0 1
+  // 3 0 1 2
+  D(O( //
+      W(T0, W(Tb, T1)),
+      W(T0, Tb),
+      W(T0, Tb),
+      W(T0, Tb),
+      o));
+}
 N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
 N(end_b) { printf("end_b\n"); }
 int main() {
-  s_t *t = T(dig);
-  char *str = "2987654321";
+  s_t *t = T(dign, dign, dign);
+  char *str = "012";
   t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
                    O(T(end_b), T(end_b), T(end_b), T(end_b), 0), //
-                   t[-1].q - 1, 2, t,
+                   t[-1].q - 1, 1, t,
                    O(0, str, (void *)strlen(str), (void *)0));
 }
