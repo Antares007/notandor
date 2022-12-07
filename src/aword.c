@@ -29,7 +29,7 @@ void logn(obarts, const char *name) {
   printf("%ld ", r);
   for (s_t *p = o; p; p = p[4].s)
     printf("  ");
-  printf("%s %ld\n", name, s[3].q), usleep(1000000);
+  printf("%s %ld\n", name, s[3].q), usleep(100000);
 }
 // memoize what and when?
 // we need to remove cycle from propeller and find perfect cycle!
@@ -63,41 +63,26 @@ N(match) {
   long len = s[2].q;
   long pos = s[3].q;
   const char *str = t[--a].cs;
-  if (pos < len && str[0] == in[pos]) s = O(s, in, (void *)len, (void *)(pos + 1)), D(o);
-  else D(o);
-}
-N(dig03_o) {
-  D(O(T("0", match), T("1", match), T("2", match), T("3", match), o));
-}
-N(dig) {
-  s_t *Tpropellerdig03_o = T(propeller, dig03_o);
-  D(O(T(Tpropellerdig03_o, T(cr0), wrap_1x1),
-      T(Tpropellerdig03_o, T(cr1), wrap_1x1),
-      T(Tpropellerdig03_o, T(cr2), wrap_1x1),
-      T(Tpropellerdig03_o, T(cr3), wrap_1x1), o));
+  if (pos < len && str[0] == in[pos])
+    s = O(s, in, (void *)len, (void *)(pos + 1)), D(o);
+  else
+    D(o);
 }
 #define W(a, b) T(a, b, wrap_1x1)
-N(A0){D(O(T(),T(),T(),T(),o));}N(B0){D(O(T(),T(),T(),T(),o));}N(C0){D(O(T(),T(),T(),T(),o));}N(D0){D(O(T(),T(),T(),T(),o));}
-N(A1){D(O(T(),T(),T(),T(),o));}N(B1){D(O(T(),T(),T(),T(),o));}N(C1){D(O(T(),T(),T(),T(),o));}N(D1){D(O(T(),T(),T(),T(),o));}
-N(A2){D(O(T(),T(),T(),T(),o));}N(B2){D(O(T(),T(),T(),T(),o));}N(C2){D(O(T(),T(),T(),T(),o));}N(D2){D(O(T(),T(),T(),T(),o));}
-                                        N(show){D(O(T(A0),T(B0),T(C0),T(D0),
-                                                  O(T(A1),T(B1),T(C1),T(D1),
-                                                  O(T(A2),T(B2),T(C2),T(D2),
-                                                               o))));}
 N(dign_o) {
-  o = O(T("0", match),  T("1", match),  T("2", match),  T("3", match),
-           O(T(),            T(),            T(),            T(),
-                             o));
+  b = o = O(T("0", match), T("1", match), T("2", match), T("3", match),
+            O(T(), T(), T(), T(), o));
   D(o);
 }
 N(lend) {
-//  printf(">%ld\n", s[3].q);
+  //  printf(">%ld\n", s[3].q);
   bo(b, b, 0, (r + 1) % 4, 0, s);
 }
 void perfect_loop() {
   s_t *o = O(T("0", match), T("1", match),  T("2", match),  T("3", match),
            O(T(),           T(),            T(),            T(),
-           O(T(lend),       T(lend),        T(lend),        T(lend), 0)));
+           O(T(lend),       T(lend),        T(lend),        T(lend),
+                                      0)));
   s_t *s = O(0, "333", (void *)3, (void *)0);
   bo(o, o, 0, 0, 0, s);
 }
