@@ -1,7 +1,7 @@
 #define Nargs(...) (sizeof((const void *[]){__VA_ARGS__}) / sizeof(void *))
 #define ToString(a) #a,
 #define T(...)                                                                 \
-  ((s_t *)&(const void *[]){(void *)Nargs(bo, __VA_ARGS__), bo, __VA_ARGS__}[1])
+  ((s_t *)&(const void *[]){(void *)Nargs(__VA_ARGS__), __VA_ARGS__}[1])
 #define O(...) ((s_t *)(const void *[]){__VA_ARGS__})
 
 #define D(o)                                                                   \
@@ -68,10 +68,10 @@ N(match) {
   else
     D(o);
 }
-#define W(a, b) T(a, b, wrap_1x1)
+#define W(a, b) T(bo, a, b, wrap_1x1)
 N(dign_o) {
-  b = o = O(T("0", match), T("1", match), T("2", match), T("3", match),
-            O(T(), T(), T(), T(), o));
+  b = o = O(T(bo, "0", match), T(bo, "1", match), T(bo, "2", match),
+            T(bo, "3", match), O(T(bo), T(bo), T(bo), T(bo), o));
   D(o);
 }
 N(lend) {
@@ -79,10 +79,10 @@ N(lend) {
   bo(b, b, 0, (r + 1) % 4, 0, s);
 }
 void perfect_loop() {
-  s_t *o = O(T("0", match), T("1", match),  T("2", match),  T("3", match),
-           O(T(),           T(),            T(),            T(),
-           O(T(lend),       T(lend),        T(lend),        T(lend),
-                                      0)));
+  s_t *o = O(T(bo, "0", match), T(bo, "1", match), T(bo, "2", match),
+             T(bo, "3", match),
+             O(T(bo), T(bo), T(bo), T(bo),
+               O(T(bo, lend), T(bo, lend), T(bo, lend), T(bo, lend), 0)));
   s_t *s = O(0, "333", (void *)3, (void *)0);
   bo(o, o, 0, 0, 0, s);
 }
@@ -91,10 +91,10 @@ N(end_b) { printf("end_b\n"); }
 int main() {
   perfect_loop();
   return 9;
-  s_t *t = T();
+  s_t *t = T(bo);
   char *str = "012";
-  t[t[-1].q - 1].c(O(T(end_o), T(end_o), T(end_o), T(end_o), 0), //
-                   O(T(end_b), T(end_b), T(end_b), T(end_b), 0), //
-                   t[-1].q - 1, 1, t,
-                   O(0, str, (void *)strlen(str), (void *)0));
+  t[t[-1].q - 1].c(
+      O(T(bo, end_o), T(bo, end_o), T(bo, end_o), T(bo, end_o), 0), //
+      O(T(bo, end_b), T(bo, end_b), T(bo, end_b), T(bo, end_b), 0), //
+      t[-1].q - 1, 1, t, O(0, str, (void *)strlen(str), (void *)0));
 }
