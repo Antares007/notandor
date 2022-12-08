@@ -105,26 +105,26 @@ void one(obrtds) {
   printf("one\n");
   usleep(10000);
 }
+
+V(sS, T("s", term, sS, sS), T(ε),
+      T(cr), T(ε),
+      T(ε), T(ε), T(ε), T(ε))
 int main() {
   void *T0 = T(zero);
   void *T1 = T(one);
   void *o = O(T0, T0, T0, T0, 0);
   void *b = O(T1, T1, T1, T1, 0);
-  char *str = "(1+2)+3.";
-  dot(o, b, 0, T(E), 0, A(0, str, strlen(str), 0));
+  //char *str = "(1+2)+3.";
+  //dot(o, b, 0, T(E), 0, A(0, str, strlen(str), 0));
+  char *str = "ss";
+  sS(o, b, 0, T(cr), 0, A(0, str, strlen(str), 0));
 }
 // char *str = "isamntpwab.";
 // w_t *t = T(s, dot);
-// char *str = "babaax.";
-// dot(o, b, 0, T(S), 0, A(str, strlen(str), 0));
-// char *str = "ss";
-// w_t *t = T(sS);
 // char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
 // char *str = "(1+2)+3.";
 // w_t *t = T(E, dot);
 // t[-1](o, b, 0, t - 1, 0, A(str, strlen(str), 0));
-// V(S, T("b", term), T(S, "a", term), T(S, "b", term), T(S, "x", term))
-// V(sS, T("s", term, sS, sS), T(cr), T(ε), T(ε))
 //
 // s ::= np vp | s pp
 // np ::= noun | det noun | np pp
