@@ -66,13 +66,14 @@ N(sS      ) { D(B(T(prop),              T(),    T(),  T(),
                 B(T("s", term, sS, sS), T(bo),  T(ε), T(ε),
                 B(T(),                  T(),    T(),  T(), o))));
 }
-N(yin) {D(o);}
-N(yan) {D(o);}
+N(yin     ) { D(o); }
+N(yan     ) { D(o); }
+N(ob      ) { bo(o, b, a, (r + 2) % 4, t, s); }
 int main( ) {
   s_t *t = T(bo);
   long a = t[-1].q;
-  s_t *b =  B(T(bo, yin), T(bo, yin), T(bo, yin), T(bo, yin),
-            B(T(bo, yan), T(bo, yan), T(bo, yan), T(bo, yan), 0));
+  s_t *b = B(T(ob, yin), T(ob, yin), T(ob, yin), T(ob, yin),
+           B(T(ob, yan), T(ob, yan), T(ob, yan), T(ob, yan), 0));
   b[4].o[4].o = b;
   s_t *o = b;
   long r = 0;
