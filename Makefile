@@ -1,7 +1,7 @@
 CC|=clang
 CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector -Wno-int-conversion
 
-src/word.out: src/word.c src/logger.o
+src/word.out: src/word.c
 	${CC}    $^ -o $@ ${CFLAGS}
 	
 src/gui.out: src/gui.c
