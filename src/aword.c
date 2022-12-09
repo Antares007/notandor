@@ -2,7 +2,7 @@
 #define ToString(a) #a,
 #define T(...)                                                                 \
   ((s_t *)&(const void *[]){(void *)Nargs(__VA_ARGS__), __VA_ARGS__}[1])
-#define O(...) ((s_t *)(const void *[]){__VA_ARGS__})
+#define B(...) ((s_t *)(const void *[]){__VA_ARGS__})
 
 #define D_(o) t[a - 1].c(o, b, a - 1, r, t, s)
 #define D(o) logn(o, b, a, r, t, s, __FUNCTION__), D_(o)
@@ -11,7 +11,7 @@
   struct s_t *o, struct s_t *b, long a, long r, struct s_t *t, struct s_t *s
 typedef struct s_t {
   union {
-    struct s_t *s;
+    struct s_t *o;
     signed long q;
     void *v;
     const char *cs;
@@ -27,20 +27,16 @@ typedef void (*w_t)(obarts);
 #include <unistd.h>
 void logn(obarts, const char *name) {
   printf("%ld ", r);
-  for (s_t *p = o; p; p = p[4].s)
-    printf("  ");
+//  for (s_t *p = o; p; p = p[4].o)
+//    printf("  ");
   printf("%s\n", name), usleep(1000000);
 }
-// memoize what and when?
-// we need to remove cycle from propeller and find perfect cycle!
-// mamam shvils sakhli aushena
-// how perfect cycle can be defined? c: void y(long x) { y((x + 1) % 8); }
 N(bo) {
   assert(a == 0);
-  s_t *text = o[r].s;
+  s_t *text = o[r].o;
   long len = text[-1].q;
   long advance = len - 1;
-  s_t *father = o[4].s;
+  s_t *father = o[4].o;
   w_t last_word = text[advance].c;
   last_word(father, b, advance, r, text, s);
 }
@@ -48,55 +44,38 @@ N(cr0) { r = 0, D(o); }
 N(cr1) { r = 1, D(o); }
 N(cr2) { r = 2, D(o); }
 N(cr3) { r = 3, D(o); }
-N(dot) { D(o); }
-N(propeller) {
-  for (r = 0; r < 4; r++)
-    D(o);
-}
-N(wrap_1x1) {
-  s_t *Tb = t[--a].s;
-  s_t *Ta = t[--a].s;
-  D(O(Ta, Ta, Ta, Ta, O(Tb, Tb, Tb, Tb, o)));
-}
 N(match) {
   const char *in = s[1].cs;
   long len = s[2].q;
   long pos = s[3].q;
   const char *str = t[--a].cs;
   if (pos < len && str[0] == in[pos])
-    s = O(s, in, (void *)len, (void *)(pos + 1)), D(o);
+    s = B(s, in, (void *)len, (void *)(pos + 1)), D(o);
   else
     D(o);
 }
-#define W(a, b) T(bo, a, b, wrap_1x1)
-N(dign_o) {
-  D(O(T(bo, "0", match), T(bo, "1", match), T(bo, "2", match),
-      T(bo, "3", match), o));
-}
+N(ε       ) {   }
 
-N(rec) { D(b); }
-N(the_word) {
-  if (o[5].c == the_word)
-    D_(o);
-  else
-    D_(O(T(bo), T(bo), T(bo), T(bo), o, the_word));
+N(term0   ) { D(o); }
+N(term1   ) { D(o); }
+N(term2   ) { D(o); }
+N(term3   ) { D(o); }
+N(term    ) { D(B(T(term0), T(term1), T(term2), T(term3), o)); }
+N(prop    ) {}
+N(sS      ) { D(B(T(prop),              T(),    T(),  T(),
+                B(T("s", term, sS, sS), T(bo),  T(ε), T(ε),
+                B(T(),                  T(),    T(),  T(), o))));
 }
-void perfect_loop() {
-  s_t *o = O(
-      T(bo, the_word), T(bo, the_word), T(bo, the_word), T(bo, the_word),
-      O(T(bo, rec, cr1), T(bo, rec, cr2), T(bo, rec, cr3), T(bo, rec, cr0), 0));
-  bo(o, o, 0, 0, 0, 0);
-}
-
-N(end_o) { printf("end_o %ld %s %ld %ld\n", r, s[1].cs, s[2].q, s[3].q); }
-N(end_b) { printf("end_b\n"); }
-int main() {
-  perfect_loop();
-  return 9;
+N(yin) {D(o);}
+N(yan) {D(o);}
+int main( ) {
   s_t *t = T(bo);
-  char *str = "012";
-  t[t[-1].q - 1].c(
-      O(T(bo, end_o), T(bo, end_o), T(bo, end_o), T(bo, end_o), 0), //
-      O(T(bo, end_b), T(bo, end_b), T(bo, end_b), T(bo, end_b), 0), //
-      t[-1].q - 1, 1, t, O(0, str, (void *)strlen(str), (void *)0));
+  long a = t[-1].q;
+  s_t *b =  B(T(bo, yin), T(bo, yin), T(bo, yin), T(bo, yin),
+            B(T(bo, yan), T(bo, yan), T(bo, yan), T(bo, yan), 0));
+  b[4].o[4].o = b;
+  s_t *o = b;
+  long r = 0;
+  s_t *s = 0;
+  D(o);
 }
