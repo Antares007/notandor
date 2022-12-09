@@ -47,3 +47,17 @@ int main() {
           else
             printf("%ld\n", buflen);
 }
+/*
+ Where we will put epoll_wait call?
+ How we read data in loop until EAGAIN or in
+ pull call from consumer steam?
+ obrant
+ epoll_wait will check if there is data to read
+ and will return answer. if we dont read all data
+ until EAGIN epoll wait will never tell us that
+ there is still data to read.
+ we can think about epoll_wait call like so.
+ imagine we have some device like keyboard,
+ and for that device we have intterupt set up.
+ so on interrupt we need to read all data from device. 
+*/ 

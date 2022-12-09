@@ -1,4 +1,4 @@
-#include "taborns.h"
+#include "obrants.h"
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,12 +6,12 @@
 #undef D
 // taborns
 #define D(o)                                                                   \
-  logn(t, a, b, o, r, n, s, __FUNCTION__), t[a - 1].c(t, a - 1, b, o, r, n, s)
-void logn(taborns, const char *name) {
+  logn(o, b, r, a, n, t, s, __FUNCTION__), t[a - 1].c(o, b, r, a - 1, n, t, s)
+void logn(obrants, const char *name) {
   printf("%ld ", n);
   for (s_t *p = o; p; p = p[4].o)
     printf("  ");
-  printf("%s\n", name), usleep(1000000);
+  printf("%s\n", name), usleep(100000);
 }
 N(bo) {
   assert(a == 0);
@@ -20,7 +20,7 @@ N(bo) {
   long advance = len - 1;
   s_t *father = o[4].o;
   w_t last_word = text[advance].c;
-  last_word(text, advance, b, father, r, n, s);
+  last_word(father, b, r, advance, n, text, s);
 }
 N(ci0) { n = 0, D(o); }
 N(ci1) { n = 1, D(o); }
@@ -48,9 +48,10 @@ N(sS) {
   D(B(T(prop), T(), T(), T(),
       B(T("s", term, sS, sS), T(bo), T(ε), T(ε), B(T(), T(), T(), T(), o))));
 }
-N(yin) { D(r); }
-N(yan) { D(b); }
-N(ob) { bo(t, a, b, o, r, n, s); }
+N(yin2) { D(r); }
+N(yin ) { D(B(T(bo, yin2), T(bo, yin2), T(bo, yin2), T(bo, yin2), b)); }
+N(yan ) { D(b); }
+N(ob  ) { bo(o, b, r, a, n, t, s); }
 int main() {
   s_t *t = T(bo);
   long a = t[-1].q;
