@@ -10,7 +10,7 @@ N(bo) {
   assert(a == 0);
   t = o[r].o;
   a = t[-1].q;
-  //D(o[s + 4].o); // === 
+  // D(o[s + 4].o); // ===
   t[a - 1].c(t, a - 1, r, o[s + 4].o, s);
 }
 N(dot) {
@@ -20,7 +20,7 @@ N(dot) {
 }
 N(propeller) {
   for (s = 0; s < 4; s++)
-    D(o);
+    t[a - 1].c(t, a - 1, r, o, s); // D(o);
 }
 N(cr) { r = t[--a].q, D(o); }
 N(cs) { s = t[--a].q, D(o); }
@@ -55,15 +55,12 @@ N(one) {
 }
 // clang-format on
 N(sumo) { D(B(T(bo), T(bo), T(bo), T(bo), o, o, o, o)); }
-N(land) { LOG; }
-void show() {
-  dot(T(bo, one), 0, 0, //
-      B(T(bo, land),                          //
-        T(bo, land),                          //
-        T(bo, land),                          //
-        T(bo, land), 3, 2, 1, 0),
-      0); //
+N(land) {}
+N(growland) {
+  taros *Tland = T(bo, land);
+  D(B(Tland, Tland, Tland, Tland, o, o, o, o));
 }
+void show() { dot(T(bo, one, one, growland), 0, 0, 0, 0); }
 #undef N
 #define N(argos)                                                               \
   void argos(struct word_t *t, long a, long r, struct pith_t *o, long s)
@@ -107,6 +104,5 @@ N(tt) {
 
   in georgian language, sentence can be divided in four parts.
   subject, primary object, secondary object and listener.
-
 */
 int main() { show(); }
