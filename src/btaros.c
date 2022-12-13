@@ -4,7 +4,7 @@
 #include <unistd.h>
 #ifndef NDEBUG
 #undef LOGD
-#define LOGD printf("%ld/%ld %s\n", s, r, __FUNCTION__), usleep(100000)
+#define LOGD printf("%ld/%ld %s\n", s, r, __FUNCTION__), usleep(10000)
 #undef LOGT
 #define LOGT printf("T")
 #endif
@@ -24,19 +24,36 @@ N(one0    ) { D(o); }
 N(one1    ) { D(o); }
 N(one2    ) { D(o); }
 N(one3    ) { D(o); }
-N(one     ) { 
-  D(B(T(bo, one0),T(bo, one1),T(bo, one2),T(bo, one3),o,o,o,o)); }
+N(one     ) { D(B(  T(bo),        T(bo),        T(bo),        T(bo),
+                  B(T(bo,"A0",ps),T(bo,"A1",ps),T(bo,"A2",ps),T(bo,"A3",ps), o, o, o, o),
+                  B(T(bo,"B0",ps),T(bo,"B1",ps),T(bo,"B2",ps),T(bo,"B3",ps), o, o, o, o),
+                  B(T(bo,"C0",ps),T(bo,"C1",ps),T(bo,"C2",ps),T(bo,"C3",ps), o, o, o, o),
+                  B(T(bo,"D0",ps),T(bo,"D1",ps),T(bo,"D2",ps),T(bo,"D3",ps), o, o, o, o)
+                  )); }
 N(sumo    ) { D(o); }
-N(dot0    ) { s=(s+1)%4,D(b); }
-N(dot1    ) { D(b); }
-N(dot2    ) { D(b); }
-N(dot3    ) { D(b); }
+N(and     ) { D(o); }
+N(dot0    ) { D(o); } N(dot1    ) { D(o); } N(dot2    ) { D(o); } N(dot3    ) { D(o); }
+N(dotS0   ) { s++,D(b); }
+N(dotS1   ) { s++,D(b); }
+N(dotS2   ) { s++,D(b); }
+N(dotS3   ) { LOGD; }
 N(dot     ) {
-  D(B(T(bo, dot0), T(bo, dot1), T(bo, dot2), T(bo, dot3), o, o, o, o));
+  //D(B(0, 0, 0, 0,
+  //    b, b, b, b));
+  D(B(  T(bo,dot0), T(bo,dot1), T(bo,dot2), T(bo,dot3),
+      B(T(bo,dotS0),T(bo,dotS0),T(bo,dotS0),T(bo,dotS0), o,o,o,o),
+      B(T(bo,dotS1),T(bo,dotS1),T(bo,dotS1),T(bo,dotS1), o,o,o,o),
+      B(T(bo,dotS2),T(bo,dotS2),T(bo,dotS2),T(bo,dotS2), o,o,o,o),
+      B(T(bo,dotS3),T(bo,dotS3),T(bo,dotS3),T(bo,dotS3), o,o,o,o)
+      ));
 }
+// ushenebs mama shvils sakhls da mze icinis.
+// epoll-s mivkvet da gavaketot taros-i
+// kerki kani membrana
 void show() {
-  taros *t = T(bo, mb, one);
-  dot(0, t, t[-1].q, 0, 0, 0);
+  taros *t = T(bo, mb, one, dot);
+  long a = t[-1].q;
+  t[a-1].c(0, t, a-1, 0, 0, 0);
 }
 // clang-format on
 #undef N
@@ -72,3 +89,11 @@ N(tt) {
              s);
 }
 int main() { show(); }
+/*
+* can perform previously impossible tasks
+* achieve unprecedented levels of performance
+* implementing, and improving a massive-scale distributed,
+  machine learning, system,
+* writing bug-free machine learning code,
+* building the science behind the algorithms employed
+*/
