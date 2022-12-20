@@ -4,7 +4,7 @@
       "adapter": "CodeLLDB",
       "configuration": {
         "request": "launch",
-        "program": "src/aword.out",
+        "program": "src/aaa.out",
         "args": ["src/a_stdio.arsi"],
         "cwd": "${workspaceRoot}",
         "environment": [  ],
