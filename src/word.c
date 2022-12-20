@@ -114,10 +114,10 @@ int main() {
   void *T1 = T(one);
   void *o = O(T0, T0, T0, T0, 0);
   void *b = O(T1, T1, T1, T1, 0);
-  char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
-  dot(o, b, 0, T(E), 0, A(0, str, strlen(str), 0));
-  //char *str = "sss.";
-  //dot(o, b, 0, T(cr, sS), 0, A(0, str, strlen(str), 0));
+  //char *str = "(1+(1+(1+(1+2)*2+1)*2+1)*2+1)*2+1.";
+  //dot(o, b, 0, T(E), 0, A(0, str, strlen(str), 0));
+  char *str = "sss.";
+  dot(o, b, 0, T(cr, sS), 0, A(0, str, strlen(str), 0));
 }
 // char *str = "isamntpwab.";
 // w_t *t = T(s, dot);

@@ -39,6 +39,7 @@ N(propeller) {
                              },
                          .o = s});
 }
+// S -> b term 
 N(S) {
   t[a - 1].c(t, a - 1, r,
              &(pith_t){{
