@@ -34,6 +34,10 @@ N(cr) {
   a = t[-1].q;
   t[a - 1].c(b, o[4].o, t, a - 1, r, s);
 }
+N(ps) {
+  printf("%s\n", (char *)t[--a].v), usleep(100000);
+  t[a - 1].c(b, o, t, a - 1, r, s);
+}
 // mamam shvils sakhli aushena
 // aushena mamam shvils sakhli
 // sakhli aushena mamam shvils
@@ -55,19 +59,16 @@ N(b1) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
 N(b2) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
 N(b3) { LOGD; }
 
-N(cro0) {  D(o); }
-N(cro1) {  D(o); }
-N(cro2) {  D(o); }
-N(cro3) {  D(o); }
-
-N(crb0) {  D(o); }
-N(crb1) {  D(o); }
-N(crb2) {  D(o); }
-N(crb3) {  D(o); }
-
 N(sword) {
-  b = B(T(cr, crb0), T(cr, crb1), T(cr, crb2), T(cr, crb3), b, 0);
-  o = B(T(cr, cro0), T(cr, cro1), T(cr, cro2), T(cr, cro3), o, 0);
+  b = B(T(cr, "sb0", ps), T(cr, "sb1", ps), T(cr, "sb2", ps), T(cr, "sb3", ps), b, 0);
+  o = B(T(cr, "so0", ps), T(cr, "so1", ps), T(cr, "so2", ps), T(cr, "so3", ps), o, 0);
+  b[5].o = o;
+  o[5].o = b;
+  D(o);
+}
+N(tword) {
+  b = B(T(cr, "tb0", ps), T(cr, "tb1", ps), T(cr, "tb2", ps), T(cr, "tb3", ps), b, 0);
+  o = B(T(cr, "to0", ps), T(cr, "to1", ps), T(cr, "to2", ps), T(cr, "to3", ps), o, 0);
   b[5].o = o;
   o[5].o = b;
   D(o);
@@ -77,7 +78,7 @@ int main() {
   s_t *o = B(T(o0), T(o1), T(o2), T(o3), 0, 0);
   b[5].o = o;
   o[5].o = b;
-  s_t *t = T(cr, sword);
+  s_t *t = T(cr, tword, sword);
   long a = t[-1].q;
   long r = 0;
   long s = 0;
