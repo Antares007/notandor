@@ -1,15 +1,14 @@
 #define Nargs(...)                                                             \
   (sizeof((const void *[]){__VA_ARGS__}) / sizeof(const void *))
-#define LOGD (void)0
-#define LOGT (void)0
-#define D(_o_) o = (_o_), a--, LOGD, t[a].c(t, a, r, o, s, d)
 #define B(...) T(__VA_ARGS__)
+#define LOGT (void)0
 #define T(...)                                                                 \
   (LOGT, (s_t *)&(void *[]){(void *)Nargs(__VA_ARGS__), __VA_ARGS__}[1])
-
-#define N(argos)                                                               \
-  void argos(struct s_t *t, long a, long r, struct s_t *o, long s,             \
-             const char *d)
+#define BOtars                                                                 \
+  struct s_t *b, struct s_t *o, struct s_t *t, long a, long r, long s
+#define N(argos) void argos(BOtars)
+#define LOGD (void)0
+#define D(_o_) LOGD, t[a - 1].c(b, o, t, a - 1, r, s)
 typedef struct s_t {
   union {
     long q;
@@ -24,60 +23,64 @@ typedef struct s_t {
 
 #ifndef NDEBUG
 #undef LOGD
-#define LOGD                                                                   \
-  printf("%ld %ld %s %s\n", a, r, __FUNCTION__, (char *)d), usleep(100000)
+#define LOGD printf("%ld %ld %ld %s\n", a, r, s, __FUNCTION__), usleep(100000)
 #undef LOGT
 #define LOGT printf("T")
 #endif
 
-N(ps) {
-  printf("%s\n", (char *)t[--a].v), usleep(500000);
-  t[a - 1].c(t, a - 1, r, o, s, d);
-}
 N(cr) {
-  assert(0 == a);
+  assert(a == 0);
   t = o[r].o;
   a = t[-1].q;
-  // B(T(), T(), T(), T(), o[4 + (s + 1) % 2].o);
-  t[a - 1].c(t, a - 1, r, o[4 + s].o, s, d);
+  t[a - 1].c(b, o[4].o, t, a - 1, r, s);
 }
-N(ε) {}
-N(propeller0) {
-  for (r = 0; r < 4; r++)
-    cr(t, a, r, o, s, d);
+// mamam shvils sakhli aushena
+// aushena mamam shvils sakhli
+// sakhli aushena mamam shvils
+// shvils aushena mamam sakhli
+// erts daumate erti da gaamravle orze.
+// τ α ρ ο σ δ ι
+N(mamam) {}
+N(shvils) {}
+N(sakhli) {}
+N(aushena) {}
+
+N(o0) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
+N(o1) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
+N(o2) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
+N(o3) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
+
+N(b0) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
+N(b1) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
+N(b2) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
+N(b3) { LOGD; }
+
+N(cro0) {  D(o); }
+N(cro1) {  D(o); }
+N(cro2) {  D(o); }
+N(cro3) {  D(o); }
+
+N(crb0) {  D(o); }
+N(crb1) {  D(o); }
+N(crb2) {  D(o); }
+N(crb3) {  D(o); }
+
+N(sword) {
+  b = B(T(cr, crb0), T(cr, crb1), T(cr, crb2), T(cr, crb3), b, 0);
+  o = B(T(cr, cro0), T(cr, cro1), T(cr, cro2), T(cr, cro3), o, 0);
+  b[5].o = o;
+  o[5].o = b;
+  D(o);
 }
-N(match) {
-  const char *m = t[--a].v;
-  if (*d == *m)
-    cr(t, a, r, o, s, d + 1);
-}
-void term(struct s_t *t, long a, long r, struct s_t *o, long s, const char *d) {
-  char *str = t[--a].v;
-  s_t *Tpro = T(propeller0), *Tε = T(ε);
-  D(B(Tpro, Tpro, Tpro, Tpro, B(T(str, match), Tε, Tε, Tε, o)));
-}
-void term4(struct s_t *t, long a, long r, struct s_t *o, long s,
-           const char *d) {
-  char *str0 = t[--a].v;
-  char *str1 = t[--a].v;
-  char *str2 = t[--a].v;
-  char *str3 = t[--a].v;
-  s_t *Tpro = T(propeller0);
-  D(B(Tpro, Tpro, Tpro, Tpro,
-      B(T(str0, match), T(str1, match), T(str2, match), T(str3, match), o)));
-}
-N(Sa) {
-  D(B(T(propeller0), T(propeller0), T(propeller0), T(propeller0),
-      B(T(cr, "b", term), T(cr, Sa, "a", term), T(ε), T(ε), o)));
-}
-N(land) { LOGD; }
 int main() {
-  s_t *t = T(cr, Sa);
+  s_t *b = B(T(b0), T(b1), T(b2), T(b3), 0, 0);
+  s_t *o = B(T(o0), T(o1), T(o2), T(o3), 0, 0);
+  b[5].o = o;
+  o[5].o = b;
+  s_t *t = T(cr, sword);
   long a = t[-1].q;
-  long r = 1;
-  s_t *o = B(T(land), T(land), T(land), T(land), 0);
-  s_t *s = 0;
-  char *d = "baaa";
+  long r = 0;
+  long s = 0;
   D(o);
 }
 /*

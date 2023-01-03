@@ -28,4 +28,30 @@ It will use stack and return semantics.
 | | | |
       | | | |   | | | |   | | | |   | | | |
             |         |   |         |
-How and what to rotate?
+How and what (streams) to rotate?
+in georgian rotation is essential for the words.
+we need to rotate core of the word.
+georgian verbs defines structure of the sentence. 
+== mamam shvils sakhli aushena. ==
+== aushena mamam shvils sakhli. ==
+== sakhli aushena mamam shvils. ==
+== shvils sakhli aushena mamam. ==
+mamam  aushena
+shvils aushena
+sakhli aushena
+
+mamam.aushena(shvils, sakhli)
+aushena(mamam, shvils, sakhli)
+
+        shvils  ____  ____  cccc  ____
+        sakhli  ____  bbbb  ____  ____
+        shvils  ____  ____  cccc  ____
+                sakhli  ____  bbbb  ____  ____
+                mamam   aaaa  ____  ____  ____
+                aushena ____  ____  ____  ____
+                .                             
+        mamam   aaaa  ____  ____  ____
+        aushena ____  ____  ____  ____
+        .       
+stream
+stream is tuple of (operation, opened_event, closed_event)
