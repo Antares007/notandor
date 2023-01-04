@@ -5,10 +5,10 @@
 #define T(...)                                                                 \
   (LOGT, (s_t *)&(void *[]){(void *)Nargs(__VA_ARGS__), __VA_ARGS__}[1])
 #define BOtars                                                                 \
-  struct s_t *b, struct s_t *o, struct s_t *t, long a, long r, long s
+  struct s_t *b, struct s_t *o, struct s_t *t, long a, long r//, long s
 #define N(argos) void argos(BOtars)
 #define LOGD (void)0
-#define D(_o_) LOGD, t[a - 1].c(b, o, t, a - 1, r, s)
+#define D(_o_) LOGD, t[a - 1].c(b, o, t, a - 1, r)
 typedef struct s_t {
   union {
     long q;
@@ -23,7 +23,7 @@ typedef struct s_t {
 
 #ifndef NDEBUG
 #undef LOGD
-#define LOGD printf("%ld %ld %ld %s\n", a, r, s, __FUNCTION__), usleep(100000)
+#define LOGD printf("%ld %ld %s\n", a, r, __FUNCTION__), usleep(100000)
 #undef LOGT
 #define LOGT printf("T")
 #endif
@@ -32,11 +32,11 @@ N(cr) {
   assert(a == 0);
   t = o[r].o;
   a = t[-1].q;
-  t[a - 1].c(b, o[4].o, t, a - 1, r, s);
+  t[a - 1].c(b, o[4].o, t, a - 1, r);
 }
 N(ps) {
   printf("%s\n", (char *)t[--a].v), usleep(100000);
-  t[a - 1].c(b, o, t, a - 1, r, s);
+  t[a - 1].c(b, o, t, a - 1, r);
 }
 // mamam shvils sakhli aushena
 // aushena mamam shvils sakhli
@@ -49,39 +49,48 @@ N(shvils) {}
 N(sakhli) {}
 N(aushena) {}
 
-N(o0) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
-N(o1) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
-N(o2) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
-N(o3) { LOGD, cr(b[5].o, b, t, a, r + 0, !s); }
+N(o0) { LOGD, cr(b[5].o, b, t, a, r + 0); }
+N(o1) { LOGD, cr(b[5].o, b, t, a, r + 0); }
+N(o2) { LOGD, cr(b[5].o, b, t, a, r + 0); }
+N(o3) { LOGD, cr(b[5].o, b, t, a, r + 0); }
 
-N(b0) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
-N(b1) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
-N(b2) { LOGD, cr(b[5].o, b, t, a, r + 1, !s); }
-N(b3) { LOGD; }
-
-N(sword) {
-  b = B(T(cr, "sb0", ps), T(cr, "sb1", ps), T(cr, "sb2", ps), T(cr, "sb3", ps), b, 0);
-  o = B(T(cr, "so0", ps), T(cr, "so1", ps), T(cr, "so2", ps), T(cr, "so3", ps), o, 0);
+N(b0) { LOGD, cr(b[5].o, b, t, a, r + 1); }
+N(b1) { LOGD, cr(b[5].o, b, t, a, r + 1); }
+N(b2) { LOGD, cr(b[5].o, b, t, a, r + 1); }
+N(b3) {
+  LOGD;
+  if (o)
+    cr(o[5].o, o, t, a, 0);
+}
+N(dot) {
+  b = B(T(b0), T(b1), T(b2), T(b3), b, 0);
+  o = B(T(o0), T(o1), T(o2), T(o3), o, 0);
   b[5].o = o;
   o[5].o = b;
   D(o);
 }
-N(tword) {
-  b = B(T(cr, "tb0", ps), T(cr, "tb1", ps), T(cr, "tb2", ps), T(cr, "tb3", ps), b, 0);
-  o = B(T(cr, "to0", ps), T(cr, "to1", ps), T(cr, "to2", ps), T(cr, "to3", ps), o, 0);
+N(sw) {
+  b = B(T(cr, "s_b0", ps), T(cr, "s_b1", ps), T(cr, "s_b2", ps), T(cr, "s_b3", ps),
+        b, 0);
+  o = B(T(cr, "s_o0", ps), T(cr, "s_o1", ps), T(cr, "s_o2", ps), T(cr, "s_o3", ps),
+        o, 0);
+  b[5].o = o, o[5].o = b, D(o);
+}
+N(tw) {
+  b = B(T(cr, "t_b0", ps), T(cr, "t_b1", ps), T(cr, "t_b2", ps), T(cr, "t_b3", ps),
+        b, 0);
+  o = B(T(cr, "t_o0", ps), T(cr, "t_o1", ps), T(cr, "t_o2", ps), T(cr, "t_o3", ps),
+        o, 0);
   b[5].o = o;
   o[5].o = b;
   D(o);
 }
 int main() {
-  s_t *b = B(T(b0), T(b1), T(b2), T(b3), 0, 0);
-  s_t *o = B(T(o0), T(o1), T(o2), T(o3), 0, 0);
-  b[5].o = o;
-  o[5].o = b;
-  s_t *t = T(cr, tword, sword);
+  s_t *b = 0;
+  s_t *o = 0;
+  s_t *t = T(cr, tw, dot, sw, dot);
   long a = t[-1].q;
   long r = 0;
-  long s = 0;
   D(o);
 }
 /*
