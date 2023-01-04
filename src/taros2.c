@@ -5,7 +5,7 @@
 #define T(...)                                                                 \
   (LOGT, (s_t *)&(void *[]){(void *)Nargs(__VA_ARGS__), __VA_ARGS__}[1])
 #define BOtars                                                                 \
-  struct s_t *b, struct s_t *o, struct s_t *t, long a, long r//, long s
+  struct s_t *b, struct s_t *o, struct s_t *t, long a, long r //, long s
 #define N(argos) void argos(BOtars)
 #define LOGD (void)0
 #define D(_o_) LOGD, t[a - 1].c(b, o, t, a - 1, r)
@@ -49,45 +49,38 @@ N(shvils) {}
 N(sakhli) {}
 N(aushena) {}
 
-N(o0) { LOGD, cr(b[5].o, b, t, a, r + 0); }
-N(o1) { LOGD, cr(b[5].o, b, t, a, r + 0); }
-N(o2) { LOGD, cr(b[5].o, b, t, a, r + 0); }
-N(o3) { LOGD, cr(b[5].o, b, t, a, r + 0); }
-
-N(b0) { LOGD, cr(b[5].o, b, t, a, r + 1); }
-N(b1) { LOGD, cr(b[5].o, b, t, a, r + 1); }
-N(b2) { LOGD, cr(b[5].o, b, t, a, r + 1); }
-N(b3) {
-  LOGD;
-  if (o)
-    cr(o[5].o, o, t, a, 0);
-}
+N(swap_ob) { LOGD, t[a - 1].c(b[5].o, b, t, a - 1, r); }
+N(next_ray) { t[a - 1].c(b, o, t, a - 1, (r + 1) % 4); }
 N(dot) {
-  b = B(T(b0), T(b1), T(b2), T(b3), b, 0);
-  o = B(T(o0), T(o1), T(o2), T(o3), o, 0);
+  void *Tcr_next_ray_swap_ob = T(cr, next_ray, swap_ob);
+  void *Tcr_swap_ob = T(cr, swap_ob);
+  b = B(Tcr_next_ray_swap_ob, Tcr_next_ray_swap_ob, Tcr_next_ray_swap_ob,
+        Tcr_next_ray_swap_ob, b, 0);
+  o = B(Tcr_swap_ob, Tcr_swap_ob, Tcr_swap_ob, Tcr_swap_ob, o, 0);
   b[5].o = o;
   o[5].o = b;
   D(o);
 }
 N(sw) {
-  b = B(T(cr, "s_b0", ps), T(cr, "s_b1", ps), T(cr, "s_b2", ps), T(cr, "s_b3", ps),
-        b, 0);
-  o = B(T(cr, "s_o0", ps), T(cr, "s_o1", ps), T(cr, "s_o2", ps), T(cr, "s_o3", ps),
-        o, 0);
+  b = B(T(cr, "s_b0", ps), T(cr, "s_b1", ps), T(cr, "s_b2", ps),
+        T(cr, "s_b3", ps), b, 0);
+  o = B(T(cr, "s_o0", ps), T(cr, "s_o1", ps), T(cr, "s_o2", ps),
+        T(cr, "s_o3", ps), o, 0);
   b[5].o = o, o[5].o = b, D(o);
 }
 N(tw) {
-  b = B(T(cr, "t_b0", ps), T(cr, "t_b1", ps), T(cr, "t_b2", ps), T(cr, "t_b3", ps),
-        b, 0);
-  o = B(T(cr, "t_o0", ps), T(cr, "t_o1", ps), T(cr, "t_o2", ps), T(cr, "t_o3", ps),
-        o, 0);
+  b = B(T(cr, "t_b0", ps), T(cr, "t_b1", ps), T(cr, "t_b2", ps),
+        T(cr, "t_b3", ps), b, 0);
+  o = B(T(cr, "t_o0", ps), T(cr, "t_o1", ps), T(cr, "t_o2", ps),
+        T(cr, "t_o3", ps), o, 0);
   b[5].o = o;
   o[5].o = b;
   D(o);
 }
+N(land) { LOGD; }
 int main() {
-  s_t *b = 0;
-  s_t *o = 0;
+  s_t *b = B(T(land), T(land), T(land), T(land), 0, 0);
+  s_t *o = B(T(land), T(land), T(land), T(land), 0, 0);
   s_t *t = T(cr, tw, dot, sw, dot);
   long a = t[-1].q;
   long r = 0;
