@@ -79,8 +79,8 @@ N(tw) {
 }
 N(land) { LOGD; }
 int main() {
-  s_t *b = B(T(land), T(land), T(land), T(land), 0, 0);
-  s_t *o = B(T(land), T(land), T(land), T(land), 0, 0);
+  s_t *b = 0;
+  s_t *o = 0;
   s_t *t = T(cr, tw, dot, sw, dot);
   long a = t[-1].q;
   long r = 0;
