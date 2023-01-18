@@ -108,14 +108,15 @@ int main() {
   D(o);
 }
 /*
-lets start defining protocall.
-* can perform previously impossible tasks
-we have awesome protocall how to define executable sentences
-and the words. now we shall implement its distributed version
-and we will:
-* achieve unprecedented levels of performance
-* implementing, and improving a massive-scale distributed,
-  machine learning, system,
-* writing bug-free machine learning code,
-* building the science behind the algorithms employed
+Let's start defining protocol.
+
+* Can perform previously impossible tasks
+We have an awesome protocol for creating executable
+sentences and the words. Now we shall implement its
+distributed version and we will:
+* Achieve unprecedented levels of performance
+* Implementing and improving a massive-scale distributed,
+  machine learning system
+* Writing bug-free machine learning code
+* Building the science behind the algorithms employed.
 */

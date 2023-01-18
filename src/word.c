@@ -98,7 +98,6 @@ V(E,                            //
 void zero(obrtds) {
   printf("r:%ld d:%ld \"%s\" %ld/%ld\n", r, d, (char *)s[1], (long)s[2],
          (long)s[3]);
-  //  cr(b, 0, 0, 0, 0, s);
   usleep(10000);
 }
 void one(obrtds) {
