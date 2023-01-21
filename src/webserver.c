@@ -95,7 +95,7 @@ void handle_post_request(int sock, char *resource) {
   send_response(sock, "200 OK", "Data received");
 }
 
-int main(int argc, char *argv[]) {
+int main_without_threading(int argc, char *argv[]) {
   int sockfd, newsockfd, portno;
   socklen_t clilen;
   char buffer[256];
@@ -148,3 +148,75 @@ int main(int argc, char *argv[]) {
   close(sockfd);
   return 0;
 }
+
+// Here's an example of how you could modify the code to handle multiple
+// connections using threads:
+#include <pthread.h>
+void *connection_handler(void *socket_desc) {
+  // Get the socket descriptor
+  int sock = *(int *)socket_desc;
+
+  // Read the incoming HTTP request
+  char buffer[256];
+  bzero(buffer, 256);
+  int n = read(sock, buffer, 255);
+  if (n < 0) {
+    error("ERROR reading from socket");
+  }
+
+  // Parse the incoming HTTP request
+  char method[8], resource[255];
+  sscanf(buffer, "%s %s", method, resource);
+
+  // Handle the request based on the HTTP method
+  if (strcmp(method, "GET") == 0) {
+    handle_get_request(sock, resource);
+  } else if (strcmp(method, "POST") == 0) {
+    handle_post_request(sock, resource);
+  } else {
+    // Invalid method, return an error
+    send_response(sock, "405 Method Not Allowed", "Invalid method");
+  }
+
+  // Close the socket and exit the thread
+  close(sock);
+  pthread_exit(NULL);
+}
+int main_with_threading(int argc, char *argv[]) {
+  int sockfd, newsockfd, portno;
+  socklen_t clilen;
+  struct sockaddr_in serv_addr, cli_addr;
+
+  if (argc < 2) {
+    fprintf(stderr, "ERROR, no port provided\n");
+    exit(1);
+  }
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd < 0)
+    error("ERROR opening socket");
+  bzero((char *)&serv_addr, sizeof(serv_addr));
+  portno = atoi(argv[1]);
+  serv_addr.sin_family = AF_INET;
+  serv_addr.sin_addr.s_addr = INADDR_ANY;
+  serv_addr.sin_port = htons(portno);
+  if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
+    error("ERROR on binding");
+  listen(sockfd, 5);
+  clilen = sizeof(cli_addr);
+  while (1) {
+    newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, &clilen);
+    if (newsockfd < 0) {
+      error("ERROR on accept");
+    }
+    // Create a new thread to handle the connection
+    pthread_t thread_id;
+    int *new_sock = malloc(1);
+    *new_sock = newsockfd;
+    if (pthread_create(&thread_id, NULL, connection_handler, (void *)new_sock) <
+        0) {
+      error("could not create thread");
+    }
+  }
+}
+
+int main(int argc, char *argv[]) { main_with_threading(argc, argv); }
