@@ -48,47 +48,32 @@ int main() {
             printf("%ld\n", buflen);
 }
 /*
- Where we will put epoll_wait call?
- How we read data in loop until EAGAIN or in
- pull call from consumer steam?
 
+Where should we place the call to epoll_wait? How do we read data in a loop
+until EAGAIN or in a pull call from the consumer stream?
 
- epoll_wait will check if there is data to read
- and will return answer. if we dont read all data
- until EAGIN epoll wait will never tell us that
- there is still data to read.
- we can think about epoll_wait call like so.
- imagine we have some device like keyboard,
- and for that device we have intterupt handler.
- so in intterupt handler we need to read all data
- from device and store some other place for consumer.
- and if data flows much fuster then we can consume it, then we need to
- somehow backpressure device so it may slow down sending data.
- if not than we can store data in memory or throw it away when 
- there is no more free space to store data.
- for keyboard we can signall user with sound as backpressure.
- saying "hey bro stop typing so fast."
+The epoll_wait function checks if there is data to read and returns an answer.
+If we don't read all of the data until EAGAIN, the epoll_wait function will
+never tell us that there is still data to read. We can think of the epoll_wait
+call as an interrupt handler for a device, such as a keyboard. In the interrupt
+handler, we need to read all of the data from the device and store it in a
+separate location for the consumer. If the data is flowing too quickly for us to
+consume it, we need to apply backpressure to the device to slow down the data
+transmission. If there is no more space to store the data, we may need to
+discard it. For a keyboard, we can signal the user with a sound as backpressure,
+telling them to "stop typing so fast."
 
- but wait, lets analize out thinking. wtf is backpressure?
+To analyze our thinking, what is backpressure? In normal human-to-human
+communication, we can identify moments when the listener may say "stop talking
+too fast" or acknowledge with some reaction to request more data. Today, we need
+to do something measurable and have a plan. Here are some tasks to consider:
 
- in normal adamkind to adamkind communication we can identify moment
- when person who listening may say in return to stop takling too fast.
- or in some intervals he may aknowleging with some reaction
- to request more data.
+Write a program to calculate mathematical expressions. The program should
+consume input from stdin, parse expressions and calculate them incrementally.
+Write a program that listens to stdin and parses text, then performs actions
+accordingly. The goal is to make the program as efficient as possible.
 
- Today we need to do something some thing that we can meassure and
- be proud as obrant so we did some mesurable thing.
- we need to have plan. we need to have todos.
- please take yout time and write down some todos and arrange them
- and do first one but do it today plz. we love you.
- * Write program to calculate mathematical expressions.
-    programm must consume stdin, parse expressions and calculate
-    them incrementally.
- * Write program which can listen to stdin and parse text.
-   and do things acordingly.
-   in other words execute incomming text.
-   we need to do it as efficient as it can be done.
-   example:    
+   example:
     1+2*3<CR>
     7
     *7<CR>
@@ -97,4 +82,4 @@ int main() {
     48
    example:
     open window by 800x600. draw line from 0, 0 to 100, 100.
- */ 
+ */
