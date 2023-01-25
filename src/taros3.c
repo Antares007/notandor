@@ -61,15 +61,18 @@ we need to dream in colors. execution 4waves
 how to thread execution in tree brances?
 what is a lifetime of a tree branch?
 rotation? what we are rotating?
-             +--TTT--+
-             |\  |  /|
-             | +TTT+ |
-             T T\|/T T
-             T-T-+-T-T
-             T T/|\T T
-             | +TTT+ |
-             |/  |  \|
-             +--TTT--+
+            +-----TTT-----+
+            | +---TTT---+ |
+            | |         | |
+            | | +-TTT-+ | |
+            T T T     T T T
+            T T T  +  T T T
+            T T T     T T T
+            | | +-TTT-+ | |
+            | |         | |
+            | +---TTT---+ |
+            +-----TTT-----+
+
 void bark(*text, advance, ray_number, **pith, side) {
   text[advance-1].c(text,
                     advance-1,
