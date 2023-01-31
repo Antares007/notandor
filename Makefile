@@ -4,6 +4,8 @@ OBJCOPY=objcopy
 
 src/nn.out: src/nn.c
 	${CC}    $^ -o $@ ${CFLAGS} -lm
+src/nn_xor.out: src/nn_xor.c
+	${CC}    $^ -o $@ ${CFLAGS} -lm
 
 src/word.out: src/word.c
 	${CC}    $^ -o $@ ${CFLAGS}
