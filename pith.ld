@@ -1,10 +1,10 @@
 SECTIONS
 {
   .text : {
-    *(.text.red)
-    *(.text.blue)
-    *(.text.yellow)
-    *(.text.white)
+    *(.text.red);     . = ALIGN(0x10);
+    *(.text.blue);    . = ALIGN(0x10);
+    *(.text.yellow);  . = ALIGN(0x10);
+    *(.text.white);   . = ALIGN(0x10);
     *(.text)
   }
   .data ALIGN(0x10) : {
@@ -14,7 +14,7 @@ SECTIONS
     *(.rodata.*)
     *(.bss)
   }
-  .text.tail ALIGN(0x10) : {
-    *(.text.tail)
+  .text.pith ALIGN(0x10) : {
+    *(.text.pith)
   }
 }

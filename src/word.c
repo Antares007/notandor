@@ -5,7 +5,8 @@
 #define T(...)                                                                 \
   ((void *)&((const void *[]){                                                 \
       cr, __VA_ARGS__, Nargs(cr, __VA_ARGS__)})[Nargs(cr, __VA_ARGS__)])
-typedef void (*w_t)(void *, void *, void *, void *, void *, void *);
+typedef void (*w_t)(void *, void *, void *,
+                    void *, void *, void *);
 #define obrtds w_t **o, w_t **b, long r, w_t *t, long d, void **s
 
 #define rest void *p1, void *p2, void *p3
@@ -63,7 +64,7 @@ void term(obrtds) {
     void *Tpro = T(propeller, check_depth);                                    \
     o = O(Tpro,          Tpro,       Tpro,          Tpro,                      \
           O(T(R0, br), T(R1, br), T(R2, br), T(R3, br),                        \
-            O(T0,          T1,     T2,           T3,                           \
+            O(T0,        T1,        T2,        T3,                             \
                                o)));                                           \
     t[-1](o, b, r, t - 1, d + 1, s);                                           \
   }
