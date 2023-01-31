@@ -2,6 +2,9 @@ CC|=clang
 CFLAGS+=-std=gnu99 -Wall -Wno-multichar -fno-stack-clash-protection -fno-stack-protector -Wno-int-conversion
 OBJCOPY=objcopy
 
+src/nn.out: src/nn.c
+	${CC}    $^ -o $@ ${CFLAGS} -lm
+
 src/word.out: src/word.c
 	${CC}    $^ -o $@ ${CFLAGS}
 	
