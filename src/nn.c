@@ -1,3 +1,19 @@
+/*
+  In this example, we define a simple feedforward neural network with 2 inputs,
+  3 hidden nodes, and 1 output. The neural_network function implements the
+  forward pass of the network, which computes the outputs given the inputs and
+  the weights. The weights are stored in arrays weights_1 and weights_2. The
+  sigmoid function computes the sigmoid activation function, which is used to
+  non-linearly transform the input signals. The dot_product function computes
+  the dot product of two arrays.
+
+  This is a simple example to illustrate the basic concepts of neural networks.
+  In practice, neural networks can be much more complex and may include multiple
+  hidden layers, different activation functions, and other features. Training a
+  neural network to perform a specific task typically involves adjusting the
+  weights to minimize the error between the predicted outputs and the desired
+  outputs.
+*/
 #include <math.h>
 #include <stdio.h>
 
